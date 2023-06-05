@@ -16,7 +16,7 @@ jobs:
     - name: 'SET-UP REQUIRED DOTNET PLATFORM'
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: '3.1.x'
+        dotnet-version: '6.0.x'
     - name: 'RUN'
       uses: github/ossar-action@v1
       id: ossar
