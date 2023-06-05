@@ -1,6 +1,7 @@
 from autograd import elementwise_grad
+import numpy as np
 
-from neural_network.parameters import *
+from NEURAL_NETWORKS.PARAMETERS import *
 
 np.random.seed(9999)  # SET SEED FOR REPRODUCIBILITY OF RESULTS
 

@@ -5,7 +5,7 @@ from collections import defaultdict
 import numpy as np
 from tqdm import tqdm
 
-from neural_network.batch_iterator import BATCH_ITERATOR
+from NEURAL_NETWORKS.BATCH_ITERATOR import BATCH_ITERATOR
 
 class OPTIMIZER(object):
     """BASE CLASS FOR OPTIMIZERS"""

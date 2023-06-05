@@ -1,7 +1,7 @@
 import numpy as np
 
-from neural_network.layers import LAYER, PARAM_MIXIN, PHASE_MIXIN
-from neural_network.parameters import PARAMETER
+from NEURAL_NETWORKS.layers import LAYER, PARAM_MIXIN, PHASE_MIXIN
+from NEURAL_NETWORKS.PARAMETERS import PARAMETER
 
 class BATCH_NORMALIZATION(LAYER, PARAM_MIXIN, PHASE_MIXIN):
     """BATCH NORMALIZATION LAYER
