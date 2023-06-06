@@ -32,11 +32,15 @@
 				"[python]": {
 					"editor.defaultFormatter": "ms-python.autopep8"
 				},
-				"python.formatting.provider": "autopep8"
+				"python.formatting.provider": "none",
+				"editor.wordWrap": "on"
 			},
 			"extensions": [
 				"ms-python.python",
-				"ms-python.vscode-pylance"
+				"ms-python.vscode-pylance",
+				"ms-python.pylint",
+				"VisualStudioExptTeam.intellicode-api-usage-examples",
+				"VisualStudioExptTeam.vscodeintellicode"
 			]
 		}
 	}
