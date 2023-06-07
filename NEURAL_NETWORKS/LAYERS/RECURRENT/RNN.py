@@ -1,10 +1,10 @@
 from autograd import elementwise_grad
 import numpy as np
 
-from NEURAL_NETWORKS.ACTIVATIONS import *
-from NEURAL_NETWORKS.INITIALIZATIONS import *
-from NEURAL_NETWORKS.layers import LAYER, PARAM_MIXIN
-from NEURAL_NETWORKS.PARAMETERS import PARAMETER
+from ...ACTIVATIONS import TANH
+from ...INITIALIZATIONS import ORTHOGONAL
+from ..BASIC import LAYER, PARAM_MIXIN
+from ...PARAMETERS import PARAMETER
 
 
 class RNN(LAYER, PARAM_MIXIN):
@@ -103,7 +103,7 @@ class RNN(LAYER, PARAM_MIXIN):
         """
         assert self.H_PREV is not None, "SETUP() MUST BE CALLED BEFORE FORWARD_PASS()"
         self.LAST_INPUT = X  # SAVE LAST INPUT
-        N_SAMPLES, N_TIMESTEPS, INPUT_SHAPE = X.shape  # GET INPUT SHAPE
+        N_SAMPLES, N_TIMESTEPS, _ = X.shape  # GET INPUT SHAPE
         # INITIALIZE STATES
         STATES = np.zeros((N_SAMPLES, N_TIMESTEPS + 1, self.HIDDEN_DIM))
         # SET LAST STATE TO PREVIOUS HIDDEN STATE
@@ -181,3 +181,14 @@ class RNN(LAYER, PARAM_MIXIN):
             return X_SHAPE[0], X_SHAPE[1], self.HIDDEN_DIM
         else:  # RETURN OUTPUT SHAPE
             return X_SHAPE[0], self.HIDDEN_DIM  # RETURN OUTPUT SHAPE
+
+    @property
+    def PARAMETERS(self):
+        """GET PARAMETERS
+
+        RETURNS
+        -------
+        LIST
+            PARAMETERS
+        """
+        return super().PARAMETERS()  # RETURN PARAMETERS

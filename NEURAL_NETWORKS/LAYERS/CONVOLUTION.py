@@ -1,7 +1,7 @@
 import numpy as np
 
-from NEURAL_NETWORKS.layers import LAYER, PARAM_MIXIN
-from NEURAL_NETWORKS.PARAMETERS import PARAMETER
+from .BASIC import LAYER, PARAM_MIXIN
+from ..PARAMETERS import PARAMETER
 
 
 class CONVOLUTION(LAYER, PARAM_MIXIN):
@@ -62,6 +62,11 @@ class CONVOLUTION(LAYER, PARAM_MIXIN):
         self.FILTER_SHAPE = FILTER_SHAPE  # SET FILTER SHAPE
         self.N_FILTERS = N_FILTERS  # SET NUMBER OF FILTERS
         self.__PARAMETERS__ = PARAMETERS  # SET PARAMETERS
+        self.HEIGHT = None  # INITIALIZE HEIGHT
+        self.WIDTH = None  # INITIALIZE WIDTH
+        self.LAST_INPUT = None  # INITIALIZE LAST INPUT
+        self.COL = None  # INITIALIZE COL
+        self.COL_W = None  # INITIALIZE COL_W
 
     def SETUP(self, X_SHAPE):
         """SETUP PARAMETERS FOR THE LAYER.
@@ -96,7 +101,7 @@ class CONVOLUTION(LAYER, PARAM_MIXIN):
         NUMPY ARRAY
             OUTPUT OF THE LAYER
         """
-        N_IMAGES, N_CHANNELS, HEIGHT, WIDTH = self.SHAPE(
+        N_IMAGES, _, HEIGHT, WIDTH = self.SHAPE(
             X.SHAPE)  # GET SHAPE OF THE INPUT
         self.LAST_INPUT = X  # SAVE INPUT FOR BACKWARD PASS
         # GET COLUMN FROM THE INPUT
@@ -151,6 +156,17 @@ class CONVOLUTION(LAYER, PARAM_MIXIN):
             self.HEIGHT, self.WIDTH, self.FILTER_SHAPE, self.STRIDE, self.PADDING)  # GET SHAPE OF THE OUTPUT
         # RETURN SHAPE OF THE OUTPUT
         return X_SHAPE[0], self.N_FILTERS, HEIGHT, WIDTH
+    
+    @property
+    def PARAMETERS(self):
+        """RETURNS PARAMETERS OF THE LAYER.
+
+        RETURNS
+        -------
+        PARAMETERS
+            PARAMETERS OF THE LAYER
+        """
+        return self.__PARAMETERS__ # RETURN PARAMETERS
 
 
 class MAX_POOLING(LAYER):
@@ -191,6 +207,8 @@ class MAX_POOLING(LAYER):
         self.POOL_SHAPE = POOL_SHAPE  # SET POOL SHAPE
         self.STRIDE = STRIDE  # SET STRIDE
         self.PADDING = PADDING  # SET PADDING
+        self.LAST_INPUT = None  # INITIALIZE LAST INPUT
+        self.ARG_MAX = None  # INITIALIZE ARG MAX
 
     def FORWARD_PASS(self, X):
         """RETURNS OUTPUT OF THE LAYER.
@@ -279,6 +297,24 @@ class FLATTEN(LAYER):
     SHAPE(X_SHAPE)
         RETURNS SHAPE OF THE OUTPUT
     """
+
+    def __init__(self):
+        """INITIALIZE FLATTEN LAYER.
+
+        PARAMETERS
+        ----------
+        NONE
+
+        ATTRIBUTES
+        ----------
+        LAST_INPUT_SHAPE : TUPLE(INT, INT, INT, INT)
+            SHAPE OF THE INPUT
+
+        RETURNS
+        -------
+        NONE
+        """
+        self.LAST_INPUT_SHAPE = None # INITIALIZE LAST INPUT SHAPE
 
     def FORWARD_PASS(self, X):
         """RETURNS OUTPUT OF THE LAYER.
@@ -458,7 +494,7 @@ def POOLING_SHAPE(POOL_SHAPE, IMAGE_SHAPE, STRIDE):
     TUPLE(INT, INT)
         OUTPUT SHAPE
     """
-    N_IMAGES, N_CHANNELS, HEIGHT, WIDTH = IMAGE_SHAPE  # GET SHAPE OF THE INPUT
+    _, _, HEIGHT, WIDTH = IMAGE_SHAPE  # GET SHAPE OF THE INPUT
     HEIGHT = (HEIGHT - POOL_SHAPE[0]) / \
         float(STRIDE[0]) + 1  # CALCULATE HEIGHT
     WIDTH = (WIDTH - POOL_SHAPE[1]) / float(STRIDE[1]) + 1  # CALCULATE WIDTH

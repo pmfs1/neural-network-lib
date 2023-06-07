@@ -1,10 +1,10 @@
 from autograd import elementwise_grad
 import numpy as np
 
-from NEURAL_NETWORKS.ACTIVATIONS import *
-from NEURAL_NETWORKS.INITIALIZATIONS import *
-from NEURAL_NETWORKS.layers import LAYER, PARAM_MIXIN
-from NEURAL_NETWORKS.PARAMETERS import PARAMETER
+from ...ACTIVATIONS import TANH, SIGMOID
+from ...INITIALIZATIONS import ORTHOGONAL
+from ..BASIC import LAYER, PARAM_MIXIN
+from ...PARAMETERS import PARAMETER
 
 
 class LSTM(LAYER, PARAM_MIXIN):
@@ -68,6 +68,8 @@ class LSTM(LAYER, PARAM_MIXIN):
         self.INPUT_DIM = None  # INPUT DIMENSION
         self.W = None  # INPUT WEIGHTS
         self.U = None  # HIDDEN WEIGHTS
+        self.O_PREV = None  # PREVIOUS OUTPUT
+        self.H_PREV = None  # PREVIOUS HIDDEN STATE
 
     def SETUP(self, X_SHAPE):
         """SETUP PARAMETERS
@@ -135,7 +137,7 @@ class LSTM(LAYER, PARAM_MIXIN):
         assert self.W is not None, "SETUP HAS NOT BEEN CALLED"  # ENSURE SETUP HAS BEEN CALLED
         # ENSURE SETUP HAS BEEN CALLED
         assert self.U is not None, "SETUP HAS NOT BEEN CALLED"
-        N_SAMPLES, N_TIMESTEPS, INPUT_SHAPE = X.shape  # GET INPUT SHAPE
+        N_SAMPLES, N_TIMESTEPS, _ = X.shape  # GET INPUT SHAPE
         P = self.__PARAMETERS__  # PARAMETERS
         self.LAST_INPUT = X  # LAST INPUT
         self.STATES = np.zeros(
@@ -267,3 +269,14 @@ class LSTM(LAYER, PARAM_MIXIN):
             return X_SHAPE[0], X_SHAPE[1], self.HIDDEN_DIM  # RETURN 3D TENSOR
         else:  # IF NOT RETURN SEQUENCES
             return X_SHAPE[0], self.HIDDEN_DIM  # RETURN 2D TENSOR
+
+    @property
+    def PARAMETERS(self):
+        """PARAMETERS
+
+        RETURNS
+        -------
+        LIST
+            LIST OF PARAMETERS
+        """
+        return self.__PARAMETERS__.PARAMETERS # RETURN PARAMETERS
