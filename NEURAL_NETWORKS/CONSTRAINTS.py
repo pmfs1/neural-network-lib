@@ -5,24 +5,25 @@ class CONSTRAINT(object):
 
     def CLIP(self, P):
         """CLIP WEIGHTS
-        
+
         PARAMETERS
         ----------
         P : ARRAY
             WEIGHTS
-            
+
         RETURNS
         -------
         RETURN CLIPPED WEIGHTS
         """
         return P  # RETURN UNCHANGED WEIGHTS
 
+
 class MAX_NORM(object):
     """MAX NORM CONSTRAINT"""
 
     def __init__(self, M=2, AXIS=0):
         """INITIALIZE MAX NORM CONSTRAINT
-        
+
         PARAMETERS
         ----------
         M : FLOAT
@@ -40,7 +41,7 @@ class MAX_NORM(object):
         ----------
         P : ARRAY
             WEIGHTS
-        
+
         RETURNS
         -------
         RETURN CLIPPED WEIGHTS
@@ -49,6 +50,7 @@ class MAX_NORM(object):
         DESIRED = np.clip(NORMS, 0, self.M)  # CLIP NORMS
         P = P * (DESIRED / (10e-8 + NORMS))  # SCALE WEIGHTS
         return P  # RETURN CLIPPED WEIGHTS
+
 
 class NON_NEG(object):
     """NON NEGATIVITY CONSTRAINT"""
@@ -60,13 +62,14 @@ class NON_NEG(object):
         ----------
         P : ARRAY
             WEIGHTS
-        
+
         RETURNS
         -------
         RETURN CLIPPED WEIGHTS
         """
         P[P < 0.0] = 0.0  # CLIP WEIGHTS
         return P  # RETURN CLIPPED WEIGHTS
+
 
 class SMALL_NORM(object):
     """SMALL NORM CONSTRAINT"""
@@ -78,12 +81,13 @@ class SMALL_NORM(object):
         ----------
         P : ARRAY
             WEIGHTS
-        
+
         RETURNS
         -------
         RETURN CLIPPED WEIGHTS
         """
         return np.clip(P, -5, 5)  # CLIP WEIGHTS
+
 
 class UNIT_NORM(CONSTRAINT):
     """UNIT NORM CONSTRAINT"""

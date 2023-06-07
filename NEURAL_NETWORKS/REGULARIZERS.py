@@ -6,7 +6,7 @@ class REGULARIZER(object):
 
     def __init__(self, C=0.01):
         """INITIALIZE A REGULARIZER.
-        
+
         PARAMETERS
         ----------
         C : FLOAT

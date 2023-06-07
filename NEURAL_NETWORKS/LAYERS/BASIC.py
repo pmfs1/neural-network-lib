@@ -5,9 +5,10 @@ from NEURAL_NETWORKS.PARAMETERS import *
 
 np.random.seed(9999)  # SET SEED FOR REPRODUCIBILITY OF RESULTS
 
+
 class LAYER(object):
     """BASE CLASS FOR ALL LAYERS.
-    
+
     METHODS:
     --------
     SETUP(X_SHAPE)
@@ -18,7 +19,7 @@ class LAYER(object):
         BACKWARD PROPAGATION.
     SHAPE(X_SHAPE)
         RETURNS SHAPE OF THE CURRENT LAYER.
-    
+
     ATTRIBUTES:
     -----------
     LAST_INPUT: NUMPY ARRAY
@@ -27,12 +28,12 @@ class LAYER(object):
 
     def SETUP(self, X_SHAPE):
         """ALLOCATES INITIAL WEIGHTS.
-        
+
         PARAMETERS:
         -----------
         X_SHAPE: TUPLE
             SHAPE OF THE INPUT.
-        
+
         RETURNS:
         --------
         NONE
@@ -46,7 +47,7 @@ class LAYER(object):
         ----------
         X: NUMPY ARRAY
             INPUT TO THE LAYER.
-        
+
         RETURNS:
         --------
         FORWARD_PASS: NUMPY ARRAY
@@ -61,7 +62,7 @@ class LAYER(object):
         ----------
         DELTA: NUMPY ARRAY
             DELTA FROM THE NEXT LAYER.
-        
+
         RETURNS:
         --------
         BACKWARD_PASS: NUMPY ARRAY
@@ -76,13 +77,14 @@ class LAYER(object):
         -----------
         X_SHAPE: TUPLE
             SHAPE OF THE INPUT.
-        
+
         RETURNS:
         --------
         SHAPE: TUPLE
             SHAPE OF THE CURRENT LAYER.
         """
         raise NotImplementedError()  # RAISE NOT IMPLEMENTED ERROR
+
 
 class PARAM_MIXIN(object):
     """MIXIN CLASS FOR LAYERS WITH PARAMETERS.
@@ -97,6 +99,7 @@ class PARAM_MIXIN(object):
     def PARAMETERS(self):
         """PARAMETERS OF THE LAYER."""
         raise NotImplementedError()  # RAISE NOT IMPLEMENTED ERROR
+
 
 class PHASE_MIXIN(object):
     """MIXIN CLASS FOR LAYERS WITH PHASES.
@@ -118,7 +121,7 @@ class PHASE_MIXIN(object):
     @property
     def IS_TRAINING(self):
         """PHASE OF THE LAYER.
-        
+
         RETURNS:
         --------
         IS_TRAINING: BOOL
@@ -129,7 +132,7 @@ class PHASE_MIXIN(object):
     @IS_TRAINING.setter
     def IS_TRAINING(self, IS_TRAIN=True):
         """SET PHASE OF THE LAYER.
-        
+
         PARAMETERS:
         -----------
         IS_TRAIN: BOOL
@@ -159,6 +162,7 @@ class PHASE_MIXIN(object):
         """
         self.__TRAIN__ = not IS_TEST  # SET PHASE
 
+
 class DENSE(LAYER, PARAM_MIXIN):
     """DENSE LAYER.
 
@@ -185,7 +189,7 @@ class DENSE(LAYER, PARAM_MIXIN):
 
     def __init__(self, OUTPUT_DIM, PARAMETERS=PARAMETER()):
         """INITIALIZE DENSE LAYER.
-        
+
         PARAMETERS:
         -----------
         OUTPUT_DIM: INT
@@ -205,12 +209,13 @@ class DENSE(LAYER, PARAM_MIXIN):
         ----------
         X_SHAPE: TUPLE
             SHAPE OF THE INPUT.
-        
+
         RETURNS:
         --------
         NONE
         """
-        self.__PARAMETERS__.SETUP_WEIGHTS((X_SHAPE[1], self.OUTPUT_DIM))  # INITIALIZE WEIGHTS
+        self.__PARAMETERS__.SETUP_WEIGHTS(
+            (X_SHAPE[1], self.OUTPUT_DIM))  # INITIALIZE WEIGHTS
 
     def FORWARD_PASS(self, X):
         """FORWARD PROPAGATION.
@@ -219,7 +224,7 @@ class DENSE(LAYER, PARAM_MIXIN):
         ----------
         X: NUMPY ARRAY
             INPUT TO THE LAYER.
-        
+
         RETURNS:
         --------
         FORWARD_PASS: NUMPY ARRAY
@@ -235,7 +240,7 @@ class DENSE(LAYER, PARAM_MIXIN):
         ----------
         X: NUMPY ARRAY
             INPUT TO THE LAYER.
-        
+
         RETURNS:
         --------
         SET_WEIGHT: NUMPY ARRAY
@@ -251,7 +256,7 @@ class DENSE(LAYER, PARAM_MIXIN):
         ----------
         DELTA: NUMPY ARRAY
             DELTA FROM THE NEXT LAYER.
-        
+
         RETURNS:
         --------
         BACKWARD_PASS: NUMPY ARRAY
@@ -271,13 +276,14 @@ class DENSE(LAYER, PARAM_MIXIN):
         -----------
         X_SHAPE: TUPLE
             SHAPE OF THE INPUT.
-        
+
         RETURNS:
         --------
         SHAPE: TUPLE
             SHAPE OF THE CURRENT LAYER.
         """
         return X_SHAPE[0], self.OUTPUT_DIM  # RETURN SHAPE
+
 
 class ACTIVATION(LAYER):
     """ACTIVATION LAYER.
@@ -317,7 +323,7 @@ class ACTIVATION(LAYER):
         -----------
         X: NUMPY ARRAY
             INPUT TO THE LAYER.
-        
+
         RETURNS:
         --------
         FORWARD_PASS: NUMPY ARRAY
@@ -333,7 +339,7 @@ class ACTIVATION(LAYER):
         -----------
         DELTA: NUMPY ARRAY
             DELTA FROM THE NEXT LAYER.
-        
+
         RETURNS:
         --------
         BACKWARD_PASS: NUMPY ARRAY
@@ -348,13 +354,14 @@ class ACTIVATION(LAYER):
         -----------
         X_SHAPE: TUPLE
             SHAPE OF THE INPUT.
-        
+
         RETURNS:
         --------
         SHAPE: TUPLE
             SHAPE OF THE CURRENT LAYER.
         """
         return X_SHAPE  # RETURN SHAPE
+
 
 class DROP_OUT(LAYER, PHASE_MIXIN):
     """RANDOMLY SET A FRACTION OF INPUTS TO 0 AT EACH TRAINING UPDATE.
@@ -392,7 +399,7 @@ class DROP_OUT(LAYER, PHASE_MIXIN):
         -----------
         X: NUMPY ARRAY
             INPUT TO THE LAYER.
-        
+
         RETURNS:
         --------
         FORWARD_PASS: NUMPY ARRAY
@@ -400,7 +407,8 @@ class DROP_OUT(LAYER, PHASE_MIXIN):
         """
         assert self.P >= 0.0 and self.P <= 1.0, "P SHOULD BE BETWEEN 0 AND 1"  # CHECK IF P IS BETWEEN 0 AND 1
         if self.IS_TRAINING:  # CHECK IF TRAINING
-            self.__MASK__ = np.random.uniform(size=X.shape) > self.P  # SET MASK
+            self.__MASK__ = np.random.uniform(
+                size=X.shape) > self.P  # SET MASK
             return X * self.__MASK__  # RETURN OUTPUT
         else:  # CHECK IF NOT TRAINING
             return X * (1.0 - self.P)  # RETURN OUTPUT
@@ -435,14 +443,15 @@ class DROP_OUT(LAYER, PHASE_MIXIN):
         """
         return X_SHAPE  # RETURN SHAPE
 
+
 class TIME_STEP_SLICER(LAYER):
     """TAKE A SPECIFIC TIME STEP FROM 3D TENSOR.
-    
+
     ATTRIBUTES:
     -----------
     STEP: INT
         TIME STEP TO TAKE.
-    
+
     METHODS:
     --------
     FORWARD_PASS(X):
@@ -465,12 +474,12 @@ class TIME_STEP_SLICER(LAYER):
 
     def FORWARD_PASS(self, X):
         """FORWARD PROPAGATION.
-        
+
         PARAMETERS:
         -----------
         X: NUMPY ARRAY
             INPUT TO THE LAYER.
-            
+
         RETURNS:
         --------
         FORWARD_PASS: NUMPY ARRAY
@@ -508,6 +517,7 @@ class TIME_STEP_SLICER(LAYER):
         """
         return X_SHAPE[0], X_SHAPE[2]  # RETURN SHAPE
 
+
 class TIME_DISTRIBUTED_DENSE(LAYER):
     """APPLY DENSE LAYER TO EACH TIME STEP OF 3D TENSOR.
 
@@ -521,7 +531,7 @@ class TIME_DISTRIBUTED_DENSE(LAYER):
         DENSE LAYER.
     INPUT_DIM: INT
         INPUT DIMENSION OF THE DENSE LAYER.
-    
+
     METHODS:
     --------
     SETUP(X_SHAPE):
@@ -581,7 +591,7 @@ class TIME_DISTRIBUTED_DENSE(LAYER):
 
     def BACKWARD_PASS(self, DELTA):
         """BACKWARD PROPAGATION.
-        
+
         PARAMETERS:
         -----------
         DELTA: NUMPY ARRAY
@@ -595,7 +605,8 @@ class TIME_DISTRIBUTED_DENSE(LAYER):
         assert self.DENSE is not None, "SETUP MUST BE CALLED BEFORE BACKWARD PASS."  # CHECK IF SETUP IS CALLED
         N_TIME_STEPS = DELTA.shape[1]  # GET NUMBER OF TIME STEPS
         X = DELTA.reshape(-1, DELTA.shape[-1])  # RESHAPE DELTA
-        Y = self.DENSE.BACKWARD_PASS(X)  # BACKWARD PROPAGATE THROUGH DENSE LAYER
+        # BACKWARD PROPAGATE THROUGH DENSE LAYER
+        Y = self.DENSE.BACKWARD_PASS(X)
         Y = Y.reshape((-1, N_TIME_STEPS, self.INPUT_DIM))  # RESHAPE DELTA
         return Y  # RETURN DELTA
 
