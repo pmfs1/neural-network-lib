@@ -21,7 +21,7 @@ class LASSO_REGRESSION:
         self.WEIGHTS = np.zeros(X.shape[1])
         for _ in range(self.ITERATIONS):
             # CALCULATE THE PREDICTIONS OF THE LINEAR REGRESSION MODEL.
-            Y_PRED = self.TRANSFORM(X)
+            Y_PRED = self.PREDICT(X)
             # CALCULATE THE DERIVATIVE OF THE WEIGHTS.
             DERIVATIVE_WEIGHTS = np.zeros(X.shape[1])
             for J in range(X.shape[1]):
@@ -37,7 +37,7 @@ class LASSO_REGRESSION:
             # UPDATE THE BIAS OF THE LINEAR REGRESSION MODEL.
             self.BIAS -= self.LEARNING_RATE * DERIVATIVE_BIAS
 
-    # TRANSFORM(): PREDICTS THE LABELS OF THE TRAINING DATA.
-    def TRANSFORM(self, X):
+    # PREDICT(): PREDICTS THE LABELS OF THE TRAINING DATA.
+    def PREDICT(self, X):
         # RETURNS THE PREDICTIONS OF THE LINEAR REGRESSION MODEL.
         return X.dot(self.WEIGHTS) + self.BIAS

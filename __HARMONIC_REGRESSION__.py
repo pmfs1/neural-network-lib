@@ -10,51 +10,47 @@ class HARMONIC_REGRESSION:
         self.N_ITER = N_ITER
         # WEIGHTS: IT'S THE PARAMETER THAT CORRESPONDS TO THE WEIGHTS OF THE HARMONIC REGRESSION MODEL.
         self.WEIGHTS = None
+        # BIAS: IT'S THE PARAMETER THAT CORRESPONDS TO THE BIAS OF THE HARMONIC REGRESSION MODEL.
+        self.BIAS = 0
 
     # FIT(): IT'S THE FUNCTION THAT TRAINS THE HARMONIC REGRESSION MODEL.
     def FIT(self, X, Y):
-        # N: IT'S THE NUMBER OF DATA POINTS.
-        N = len(X)
-        # T: IT'S THE PERIOD OF THE FUNCTION.
-        T = 2 * np.pi / N
+        # X: IT'S THE MATRIX OF FEATURES.
+        X = np.array(X)
+        # Y: IT'S THE VECTOR OF TARGETS.
+        Y = np.array(Y)
+        # N_SAMPLES: IT'S THE NUMBER OF SAMPLES.
+        N_SAMPLES = X.shape[0]
+        # N_FEATURES: IT'S THE NUMBER OF FEATURES.
+        N_FEATURES = X.shape[1]
+        # N_HARMONICS: IT'S THE HYPERPARAMETER THAT CORRESPONDS TO THE NUMBER OF HARMONICS. THE DEFAULT VALUE IS 1. EACH HARMONIC IS A SINUSOIDAL FUNCTION WITH A FREQUENCY THAT IS AN INTEGER MULTIPLE OF THE FUNDAMENTAL FREQUENCY. THE FUNDAMENTAL FREQUENCY IS THE INVERSE OF THE PERIOD OF THE FUNCTION.
+        N_HARMONICS = self.N_HARMONICS
+        # N_ITER: IT'S THE HYPERPARAMETER THAT CORRESPONDS TO THE NUMBER OF ITERATIONS FOR THE OPTIMIZATION. THE DEFAULT VALUE IS 300.
+        N_ITER = self.N_ITER
         # W: IT'S THE PARAMETER THAT CORRESPONDS TO THE WEIGHTS OF THE HARMONIC REGRESSION MODEL.
-        W = np.random.randn(self.N_HARMONICS)
+        W = np.random.randn(N_FEATURES * N_HARMONICS)
         # B: IT'S THE PARAMETER THAT CORRESPONDS TO THE BIAS OF THE HARMONIC REGRESSION MODEL.
         B = np.random.randn()
-        # LOOP OVER THE NUMBER OF ITERATIONS.
-        for _ in range(self.N_ITER):
-            # LOOP OVER THE NUMBER OF HARMONICS.
-            for i in range(self.N_HARMONICS):
-                # LOOP OVER THE NUMBER OF DATA POINTS.
-                for j in range(N):
-                    # PREDICT THE OUTPUT VALUE.
-                    Y_PRED = B + \
-                        np.sum([W[k] * np.sin((k + 1) * (j + 1) * T)
-                               for k in range(i + 1)])
-                    # COMPUTE THE GRADIENT OF THE BIAS.
-                    B_GRAD = -2 * (Y[j] - Y_PRED)
-                    # COMPUTE THE GRADIENT OF THE WEIGHTS.
-                    W_GRAD = -2 * (Y[j] - Y_PRED) * \
-                        np.sin((i + 1) * (j + 1) * T)
-                    # UPDATE THE BIAS.
-                    B = B - 0.01 * B_GRAD
-                    # UPDATE THE WEIGHTS.
-                    W[i] = W[i] - 0.01 * W_GRAD
+        # L: IT'S THE LEARNING RATE.
+        L = 0.001
+        # FOR EACH ITERATION...
+        for _ in range(N_ITER):
+            # Y_HAT: IT'S THE PREDICTED OUTPUT VALUE.
+            Y_HAT = np.dot(X, W) + B
+            # D_W: IT'S THE DERIVATIVE OF THE LOSS FUNCTION WITH RESPECT TO THE WEIGHTS.
+            D_W = (2 / N_SAMPLES) * np.dot(X.T, Y_HAT - Y)
+            # D_B: IT'S THE DERIVATIVE OF THE LOSS FUNCTION WITH RESPECT TO THE BIAS.
+            D_B = (2 / N_SAMPLES) * np.sum(Y_HAT - Y)
+            # W: IT'S THE PARAMETER THAT CORRESPONDS TO THE WEIGHTS OF THE HARMONIC REGRESSION MODEL.
+            W = W - L * D_W
+            # B: IT'S THE PARAMETER THAT CORRESPONDS TO THE BIAS OF THE HARMONIC REGRESSION MODEL.
+            B = B - L * D_B
         # WEIGHTS: IT'S THE PARAMETER THAT CORRESPONDS TO THE WEIGHTS OF THE HARMONIC REGRESSION MODEL.
         self.WEIGHTS = W
-
-    # TRANSFORM(): IT'S THE FUNCTION THAT USES THE HARMONIC REGRESSION MODEL TO PREDICT NEW OUTPUT VALUES.
-    def TRANSFORM(self, X):
-        # Y_PRED: IT'S THE PREDICTED OUTPUT VALUE.
-        Y_PRED = []
-        # N: IT'S THE NUMBER OF DATA POINTS.
-        N = len(X)
-        # T: IT'S THE PERIOD OF THE FUNCTION.
-        T = 2 * np.pi / N
-        # LOOP OVER THE NUMBER OF DATA POINTS.
-        for i in range(N):
-            # Y_PRED: IT'S THE PREDICTED OUTPUT VALUE.
-            Y_PRED.append(np.sum(
-                [self.WEIGHTS[k] * np.sin((k + 1) * (i + 1) * T) for k in range(self.N_HARMONICS)]))
-        # RETURN THE PREDICTED OUTPUT VALUES.
-        return Y_PRED
+        # BIAS: IT'S THE PARAMETER THAT CORRESPONDS TO THE BIAS OF THE HARMONIC REGRESSION MODEL.
+        self.BIAS = B
+    
+    # PREDICT(): IT'S THE FUNCTION THAT USES THE HARMONIC REGRESSION MODEL TO MAKE PREDICTIONS.
+    def PREDICT(self, X):
+        # RETURNS THE PREDICTED OUTPUT VALUE.
+        return np.dot(X, self.WEIGHTS) + self.BIAS
