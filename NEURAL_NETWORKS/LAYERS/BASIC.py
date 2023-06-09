@@ -38,7 +38,7 @@ class LAYER(object):
         --------
         NONE
         """
-        pass
+        pass # DO NOTHING
 
     def FORWARD_PASS(self, X):
         """FORWARD PROPAGATION.
