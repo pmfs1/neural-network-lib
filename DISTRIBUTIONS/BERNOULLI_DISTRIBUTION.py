@@ -2,22 +2,24 @@
 class BERNOULLI_DISTRIBUTION:
     # PROBABILITY_MASS_FUNCTION [STATIC]: PROBABILITY MASS FUNCTION OF BERNOULLI DISTRIBUTION
     @staticmethod
-    def PROBABILITY_MASS_FUNCTION(X: float, P: float) -> float:
-        if X == 1:  # IF X IS EQUAL TO 1
+    def PROBABILITY_MASS_FUNCTION(K: int, P: float) -> float:
+        assert P >= 0 and P <= 1, "P MUST BE GREATER THAN OR EQUAL TO 0 AND LESS THAN OR EQUAL TO 1"  # ASSERT P IS GREATER THAN OR EQUAL TO 0 AND LESS THAN OR EQUAL TO 1
+        if K == 1:  # IF K IS EQUAL TO 1
             return P  # RETURN P
-        elif X == 0:  # IF X IS EQUAL TO 0
+        elif K == 0:  # IF K IS EQUAL TO 0
             return 1 - P  # RETURN 1 - P
-        else:  # ELSE
-            raise ValueError("X MUST BE EITHER 0 OR 1")  # RAISE VALUE ERROR
+        else:  # ELSE K IS NOT EQUAL TO 0 OR 1 (K IS NOT A VALID VALUE)
+            raise ValueError("K MUST BE 0 OR 1")  # RAISE VALUE ERROR
 
     # CUMULATIVE_DISTRIBUTION_FUNCTION [STATIC]: CUMULATIVE DISTRIBUTION FUNCTION OF BERNOULLI DISTRIBUTION
     @staticmethod
-    def CUMULATIVE_DISTRIBUTION_FUNCTION(X: float, P: float) -> float:
-        if X < 0:  # IF X IS LESS THAN 0
+    def CUMULATIVE_DISTRIBUTION_FUNCTION(K: int, P: float) -> float:
+        assert P >= 0 and P <= 1, "P MUST BE GREATER THAN OR EQUAL TO 0 AND LESS THAN OR EQUAL TO 1"  # ASSERT P IS GREATER THAN OR EQUAL TO 0 AND LESS THAN OR EQUAL TO 1
+        if K < 0:  # IF K IS LESS THAN 0
             return 0  # RETURN 0
-        elif X >= 0 and X < 1:  # IF X IS GREATER THAN OR EQUAL TO 0 AND LESS THAN 1
+        elif K >= 0 and K < 1:  # IF K IS GREATER THAN OR EQUAL TO 0 AND LESS THAN 1
             return 1 - P  # RETURN 1 - P
-        elif X >= 1:  # IF X IS GREATER THAN OR EQUAL TO 1
+        elif K >= 1:  # IF K IS GREATER THAN OR EQUAL TO 1
             return 1  # RETURN 1
-        else:  # ELSE
-            raise ValueError("X MUST BE A REAL NUMBER")  # RAISE VALUE ERROR
+        else:  # ELSE K IS NOT A VALID VALUE (K IS NOT AN INTEGER)
+            raise ValueError("K MUST BE AN INTEGER")  # RAISE VALUE ERROR
