@@ -1,0 +1,13 @@
+name: 'DIAGRAM'
+on: [ workflow_dispatch, push ]
+jobs:
+  DIAGRAM:
+    name: 'DIAGRAM'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'CHECKOUT'
+        uses: actions/checkout@master
+      - name: 'UPDATE'
+        uses: githubocto/repo-visualizer@main
+        with:
+          excluded_paths: "ignore,.github"
