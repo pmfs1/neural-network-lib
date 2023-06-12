@@ -21,3 +21,8 @@ jobs:
         uses: githubocto/repo-visualizer@main
         with:
           excluded_paths: "ignore,.github"
+          output_file: "DIAGRAM.svg"
+          should_push: false
+          commit_message: "[AUTO-UPDATE] UPDATED DIAGRAM"
+      - name: 'COMMIT & PUSH'
+        run: git push --force origin HEAD
