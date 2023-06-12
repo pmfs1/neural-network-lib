@@ -3,7 +3,7 @@ on: [ push, pull_request ]
 jobs:
   DEV_SKIM:
     name: 'DEV SKIM'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     permissions:
       actions: read
       contents: read
