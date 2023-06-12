@@ -429,10 +429,14 @@ disable=raw-checker-failed,
         useless-suppression,
         deprecated-pragma,
         use-symbolic-message-instead,
-        C0111,
-        C0114,
-        C0115,
-        C0116
+        invalid-name,
+        missing-docstring,
+        invalid-name,
+        missing-function-docstring,
+        missing-class-docstring,
+        missing-module-docstring,
+        missing-final-newline,
+        line-too-long
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
