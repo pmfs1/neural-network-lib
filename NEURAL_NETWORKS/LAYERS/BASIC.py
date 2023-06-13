@@ -6,7 +6,7 @@ from ..PARAMETERS import PARAMETER
 np.random.seed(9999)  # SET SEED FOR REPRODUCIBILITY OF RESULTS
 
 
-class LAYER(object):
+class LAYER():
     """BASE CLASS FOR ALL LAYERS.
 
     METHODS:
@@ -38,7 +38,7 @@ class LAYER(object):
         --------
         NONE
         """
-        pass # DO NOTHING
+        pass  # DO NOTHING
 
     def FORWARD_PASS(self, X):
         """FORWARD PROPAGATION.
@@ -86,7 +86,7 @@ class LAYER(object):
         raise NotImplementedError()  # RAISE NOT IMPLEMENTED ERROR
 
 
-class PARAM_MIXIN(object):
+class PARAM_MIXIN():
     """MIXIN CLASS FOR LAYERS WITH PARAMETERS.
 
     ATTRIBUTES:
@@ -101,7 +101,7 @@ class PARAM_MIXIN(object):
         raise NotImplementedError()  # RAISE NOT IMPLEMENTED ERROR
 
 
-class PHASE_MIXIN(object):
+class PHASE_MIXIN():
     """MIXIN CLASS FOR LAYERS WITH PHASES.
 
     ATTRIBUTES:

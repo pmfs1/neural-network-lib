@@ -119,7 +119,6 @@ sniffio==1.3.0
 soupsieve==2.4.1
 stack-data==0.6.2
 sympy==1.11.1
-tdqm==0.0.1
 tenacity==8.2.2
 terminado==0.17.1
 threadpoolctl==3.1.0

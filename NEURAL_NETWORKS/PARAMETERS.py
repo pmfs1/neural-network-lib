@@ -1,7 +1,8 @@
 import numpy as np
 from .INITIALIZATIONS import GLOROT_UNIFORM
 
-class PARAMETER(object):
+
+class PARAMETER():
     """CLASS FOR STORING PARAMETERS OF A LAYER."""
 
     def __init__(self, INIT=GLOROT_UNIFORM, SCALE=0.5, BIAS=1.0, REGULARIZERS=None, CONSTRAINTS=None):
