@@ -1,4 +1,5 @@
+blank_issues_enabled: false
 contact_links:
-    - name: 'QUESTIONS AND HELP'
-      url: https://github.com/pmfs1/turing/discussions
-      about: ***For questions and help**, please go to discussions.***
+  - name: 'QUESTIONS AND HELP'
+    url: https://github.com/pmfs1/turing/discussions
+    about: 'FOR QUESTIONS AND HELP, PLEASE USE DISCUSSIONS.'

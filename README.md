@@ -11,6 +11,3 @@
     - *This branch is not documented, so it may be hard to use.*
     - *This branch is not secure, so it may be vulnerable.*
 - ***If you want a stable version, consider using one of the tags.*** *As of this moment, or in the case that there is no valid or available tag(s), you can always use the development branch as your production; however we do not guarantee performance, we can only guarantee functionality. (Nonetheless, take into advisement that this is a special case; and that such advice does not invalidate or lessen our previous recommendations.)*
-
-*And one more thing... here we do as Alan Turing once said:*
- > 𝒯𝒽𝑜𝓈𝑒 𝓌𝒽𝑜 𝒸𝒶𝓃 𝒾𝓂𝒶𝑔𝒾𝓃𝑒 𝒶𝓃𝓎𝓉𝒽𝒾𝓃𝑔, 𝒸𝒶𝓃 𝒸𝓇𝑒𝒶𝓉𝑒 𝓉𝒽𝑒 𝒾𝓂𝓅𝑜𝓈𝓈𝒾𝒷𝓁𝑒. *— Alan Turing*
