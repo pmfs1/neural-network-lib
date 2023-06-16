@@ -1,5 +1,4 @@
 autograd==1.5
-future==0.18.3
 numpy==1.24.3
 pandas==2.0.1
 scikit-learn==1.2.2
