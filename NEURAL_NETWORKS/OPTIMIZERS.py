@@ -286,7 +286,7 @@ class ADA_DELTA(OPTIMIZER):
         -------
         NONE
         """
-        assert self.ACCUMULATOR is not None, "CALL SETUP() BEFORE UPDATE()"  # ASSERT ACCUMULATOR IS NOT NONE
+        assert self.ACCUMULATOR is not None and self.DELTA_ACCUMULATOR is not None, "CALL SETUP() BEFORE UPDATE()"  # ASSERT ACCUMULATOR AND DELTA_ACCUMULATOR ARE NOT NONE
         # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
         for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS):
             for n in LAYER.PARAMETERS.KEYS():  # FOR EACH PARAMETER IN LAYER.PARAMETERS
@@ -363,8 +363,7 @@ class RMS_PROP(OPTIMIZER):
         -------
         NONE
         """
-        assert hasattr(
-            self, 'ACCUMULATOR'), "ERROR: SETUP HAS NOT BEEN CALLED"  # ENSURE SETUP HAS BEEN CALLED
+        assert self.ACCUMULATOR is not None, "CALL SETUP() BEFORE UPDATE()"  # ASSERT ACCUMULATOR IS NOT NONE
         # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
         for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS):
             for n in LAYER.PARAMETERS.KEYS():  # FOR EACH PARAMETER IN LAYER.PARAMETERS
@@ -436,8 +435,7 @@ class ADMA(OPTIMIZER):
         -------
         NONE
         """
-        assert hasattr(
-            self, "MS"), "SETUP HAS NOT BEEN CALLED"  # ASSERT SETUP HAS BEEN CALLED
+        assert self.MS is not None and self.VS is not None, "CALL SETUP() BEFORE UPDATE()"  # ASSERT MS AND VS ARE NOT NONE
         # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
         for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS):
             for n in LAYER.PARAMETERS.KEYS():  # FOR EACH PARAMETER IN LAYER.PARAMETERS
@@ -520,8 +518,7 @@ class ADA_MAX(OPTIMIZER):
         -------
         NONE
         """
-        assert hasattr(
-            self, 'MS'), "ERROR: SETUP HAS NOT BEEN CALLED"  # ENSURE SETUP HAS BEEN CALLED
+        assert self.MS is not None and self.US is not None, "CALL SETUP() BEFORE UPDATE()"  # ASSERT MS AND US ARE NOT NONE
         # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
         for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS):
             for n in LAYER.PARAMETERS.KEYS():  # FOR EACH PARAMETER IN LAYER.PARAMETERS
