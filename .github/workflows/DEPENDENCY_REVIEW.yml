@@ -1,8 +1,5 @@
 name: 'DEPENDENCY_REVIEW'
-on: 
-  pull_request:
-  schedule:
-    - cron: '0 0 * * *'
+on: [ pull_request ]
 permissions:
   contents: read
 jobs:

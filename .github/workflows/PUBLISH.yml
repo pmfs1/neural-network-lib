@@ -49,12 +49,12 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
       - name: 'PUSH'
         run: |
-          IMAGE_ID="ghcr.io/${{ github.repository }}"
+          IMAGE_ID="ghcr.io/${{ github.repository_owner }}/${{ github.repository }}"
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
           [ "$VERSION" == "develop" ] && VERSION=latest
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
-          docker tag "${{ github.repository }}" $IMAGE_ID:$VERSION
+          docker tag "${{ github.repository_owner }}/${{ github.repository }}" $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
