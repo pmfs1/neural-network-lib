@@ -17,19 +17,7 @@ class BINOMIAL_DISTRIBUTION:
     def CUMULATIVE_DISTRIBUTION_FUNCTION(K: int, N: int, P: float) -> float:
         assert P >= 0 and P <= 1, "P MUST BE GREATER THAN OR EQUAL TO 0 AND LESS THAN OR EQUAL TO 1"  # ASSERT P IS GREATER THAN OR EQUAL TO 0 AND LESS THAN OR EQUAL TO 1
         assert N >= 0, "N MUST BE GREATER THAN OR EQUAL TO 0"  # ASSERT N IS GREATER THAN OR EQUAL TO 0
-        return BINOMIAL_DISTRIBUTION.__REGULARIZED_INCOMPLETE_BETA_FUNCTION__(1 - P, N - K, 1 + K)  # RETURN REGULARIZED INCOMPLETE BETA FUNCTION (1 - P, N - K, 1 + K)
-
-    # __REGULARIZED_INCOMPLETE_BETA_FUNCTION__ [PRIVATE & STATIC]: REGULARIZED INCOMPLETE BETA FUNCTION
-    @staticmethod
-    def __REGULARIZED_INCOMPLETE_BETA_FUNCTION__(X: float, A: int, B: int) -> float:
-        return BINOMIAL_DISTRIBUTION.__INCOMPLETE_BETA_FUNCTION__(X, A, B) / BINOMIAL_DISTRIBUTION.__BETA_FUNCTION__(A, B) # RETURN INCOMPLETE BETA FUNCTION (X, A, B) / BETA FUNCTION (A, B)
-    
-    # __INCOMPLETE_BETA_FUNCTION__ [PRIVATE & STATIC]: INCOMPLETE BETA FUNCTION
-    @staticmethod
-    def __INCOMPLETE_BETA_FUNCTION__(X: float, A: int, B: int) -> float:
-        return (-1) ** A * BINOMIAL_DISTRIBUTION.__INCOMPLETE_BETA_FUNCTION__(X / (X - 1), A, 1 - A - B) # RETURN (-1) ** A * INCOMPLETE BETA FUNCTION (X / (X - 1), A, 1 - A - B) IF X IS GREATER THAN 0 AND LESS THAN 1
-
-    # __BETA_FUNCTION__ [PRIVATE & STATIC]: BETA FUNCTION
-    @staticmethod
-    def __BETA_FUNCTION__(M: int, N: int) -> float:
-        return (math.factorial(M - 1) * math.factorial(N - 1)) / math.factorial(M + N - 1) # RETURN (M - 1)! * (N - 1)! / (M + N - 1)!
+        if K >= 0 and K <= N:  # IF K IS GREATER THAN OR EQUAL TO 0 AND LESS THAN OR EQUAL TO N
+            return sum([(math.factorial(N) / (math.factorial(i) * math.factorial(N - i))) * (P**i) * ((1 - P)**(N - i)) for i in range(math.floor(K))])  # RETURN SUM OF PROBABILITY MASS FUNCTION FROM 0 TO K
+        else:  # ELSE K IS NOT GREATER THAN OR EQUAL TO 0 AND LESS THAN OR EQUAL TO N (K IS NOT A VALID VALUE)
+            raise ValueError("K MUST BE GREATER THAN OR EQUAL TO 0 AND LESS THAN OR EQUAL TO N")  # RAISE VALUE ERROR
