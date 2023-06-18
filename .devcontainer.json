@@ -63,7 +63,8 @@
 				"GitHub.copilot-labs",
 				"GitHub.copilot-nightly",
 				"GitHub.copilot-chat",
-				"ms-python.pylint"
+				"ms-python.pylint",
+				"ms-azuretools.vscode-docker"
 			]
 		}
 	}
