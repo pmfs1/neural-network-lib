@@ -1,8 +1,5 @@
 name: 'PUBLISH'
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 0 * * *'
+on: [ push ]
 jobs:
   PUBLISH_MODULES:
     name: 'PUBLISH_MODULES'
