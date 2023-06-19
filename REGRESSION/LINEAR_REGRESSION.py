@@ -15,6 +15,7 @@ class LINEAR_REGRESSION:
     -------
     FIT(X, Y): FITS THE LINEAR REGRESSION MODEL TO THE TRAINING DATA.
     PREDICT(X): RETURNS THE PREDICTIONS OF THE LINEAR REGRESSION MODEL FOR THE INPUT DATA X.
+    PLOT(X, Y): PLOTS THE LINEAR REGRESSION MODEL.
     """
     # INITIALIZES THE LINEAR REGRESSION MODEL
     def __init__(self, LEARNING_RATE=0.001, EPOCHS=1000):
@@ -102,3 +103,37 @@ class LINEAR_REGRESSION:
         assert self.WEIGHTS is not None and self.BIAS is not None, "RUN FIT() FIRST" # ASSERTS THAT FIT() IS RUN BEFORE
         # RETURNS THE PREDICTIONS OF THE LINEAR REGRESSION MODEL
         return np.dot(X, self.WEIGHTS) + self.BIAS
+
+    # PLOT(): PLOTS THE LINEAR REGRESSION MODEL
+    def PLOT(self, X, Y):
+        """PLOTS THE LINEAR REGRESSION MODEL.
+
+        PARAMETERS
+        ----------
+        X: NUMPY ARRAY SHAPE (N_SAMPLES, N_FEATURES)
+            IT'S THE INPUT DATA.
+        Y: NUMPY ARRAY SHAPE (N_SAMPLES, 1)
+            IT'S THE TARGET DATA.
+
+        RETURNS
+        -------
+        NONE
+        """
+        import matplotlib.pyplot as plt # IMPORTS MATPLOTLIB
+        # CREATES THE FIGURE
+        FIGURE = plt.figure(figsize=(10, 10))
+        # CREATES THE AXES
+        AXES = FIGURE.add_subplot(111)
+        # PLOTS THE DATA
+        AXES.scatter(X, Y)
+        # PLOTS THE LINEAR REGRESSION MODEL
+        AXES.plot(X, self.PREDICT(X), color="red")
+        # SETS THE TITLE
+        AXES.set_title("LINEAR REGRESSION")
+        # SETS THE X LABEL
+        AXES.set_xlabel("X")
+        # SETS THE Y LABEL
+        AXES.set_ylabel("Y")
+        plt.legend(['REAL DATA', 'PREDICTIONS']) # SETS THE LEGEND
+        # SHOWS THE PLOT
+        plt.show()
