@@ -9,7 +9,7 @@ jobs:
       packages: write
     strategy:
       matrix:
-        MODULES: [ "clustering", "distributions", "neural_networks", "optimization", "regression" ]
+        MODULES: [ "clustering", "distributions", "neural_networks", "regression" ]
     steps:
       - name: 'CHECKOUT'
         uses: actions/checkout@v3
