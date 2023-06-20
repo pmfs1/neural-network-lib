@@ -1,0 +1,91 @@
+name: 'BUILD_RUN_TEST_PUBLISH'
+on:
+  push:
+    branches:
+      - develop
+permissions:
+  contents: read
+jobs:
+  BUILD_RUN_TEST_PUBLISH:
+    name: 'BUILD_RUN_TEST_PUBLISH'
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+      packages: write
+    strategy:
+      matrix: 
+        LANGUAGE: [ "python" ]
+    steps:
+    - name: 'CHECKOUT'
+      uses: actions/checkout@v3
+    - name: 'SET-UP PYTHON'
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.11"
+    - name: 'SET-UP DEPENDENCIES'
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pylint
+        if [ -f REQUIREMENTS.txt ]; then pip install -r REQUIREMENTS.txt; fi
+    - name: 'INITIALIZE'
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.LANGUAGE }}
+        queries: security-extended,security-and-quality
+    - name: 'BUILD (FOR TEST PURPOSES)'
+      uses: github/codeql-action/autobuild@v2
+    - name: 'ANALYZE (SECURITY)'
+      uses: github/codeql-action/analyze@v2
+      with:
+        category: "/language:${{matrix.language}}"
+    - name: 'ANALYZE (QUALITY)'
+      run: | 
+          pylint --disable=invalid-name,missing-docstring,missing-function-docstring,missing-class-docstring,missing-module-docstring,missing-final-newline,line-too-long,too-many-nested-blocks,too-many-instance-attributes,too-many-arguments,trailing-whitespace,unnecessary-pass,too-many-locals,too-few-public-methods,similarities --fail-under=9.5 $(git ls-files '*.py')
+          flake8 --extend-ignore=E501,E302,E261,W292,E302,W293,W291,W293,E231 $(git ls-files '*.py')
+    - name: 'AUTHENTICATE'
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+    - name: 'PUBLISH'
+      run: |
+        docker build . --file Dockerfile --tag "${{ github.repository }}" --label "runnumber=${GITHUB_RUN_ID}"
+        IMAGE_ID="ghcr.io/${{ github.repository }}"
+        IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+        VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+        [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+        [ "$VERSION" == "develop" ] && VERSION=latest
+        echo IMAGE_ID=$IMAGE_ID
+        echo VERSION=$VERSION
+        docker tag "${{ github.repository }}" $IMAGE_ID:$VERSION
+        docker push $IMAGE_ID:$VERSION
+  PUBLISH_MODULES:
+    name: 'PUBLISH_MODULES'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    needs: [ BUILD_RUN_TEST_PUBLISH ]
+    strategy:
+      matrix: 
+        MODULES: [ "clustering", "neural_networks", "regression" ]
+    steps:
+      - name: 'CHECKOUT'
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: |
+            ${{ matrix.MODULES }}            
+      - name: 'AUTHENTICATE'
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+      - name: 'PUBLISH'
+        run: |
+          docker build . --file Dockerfile --tag "${{ github.repository }}/${{ matrix.MODULES }}" --label "runnumber=${GITHUB_RUN_ID}"
+          IMAGE_ID="ghcr.io/${{ github.repository }}/${{ matrix.MODULES }}"
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          [ "$VERSION" == "develop" ] && VERSION=latest
+          echo IMAGE_ID=$IMAGE_ID
+          echo VERSION=$VERSION
+          docker tag "${{ github.repository }}/${{ matrix.MODULES }}" $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
