@@ -17,7 +17,7 @@
         "editor.defaultFormatter": "ms-python.autopep8",
         "editor.formatOnSave": true
     },
-    "python.formatting.provider": "autopep8",
+    "python.formatting.provider": "none",
     "python.analysis.autoImportCompletions": true,
     "python.analysis.completeFunctionParens": true,
     "python.analysis.diagnosticMode": "workspace",
@@ -36,5 +36,13 @@
     "python.testing.unittestEnabled": false,
     "editor.wordWrap": "on",
     "git.allowForcePush": true,
-    "git.alwaysSignOff": true
+    "git.alwaysSignOff": true,
+    "python.analysis.autoImportCompletions": true,
+	"python.analysis.diagnosticMode": "workspace",
+	"python.analysis.completeFunctionParens": true,
+	"python.analysis.inlayHints.variableTypes": false,
+	"python.analysis.inlayHints.pytestParameters": false,
+	"python.analysis.inlayHints.functionReturnTypes": false,
+	"python.analysis.inlayHints.callArgumentNames": false,
+	"python.globalModuleInstallation": true
 }

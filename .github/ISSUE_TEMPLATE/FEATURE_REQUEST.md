@@ -2,7 +2,7 @@
 name: FEATURE REQUEST
 about: SUGGEST AN IDEA AND/OR REQUEST A FEATURE
 title: "[FEATURE]"
-labels: FEATURE REQUEST/NEW FEATURE
+labels: FEATURE
 assignees: pmfs1
 
 ---

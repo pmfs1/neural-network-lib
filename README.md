@@ -8,16 +8,16 @@
         - *The neural networks module is the only complete module, so it's the only that is full commented. It is also the only one with docstrings.*
     - ****Also, the organization of the files and folders may change at any time;*** the modules may be split into submodules or merged into one module. They're in constant change. If by any chance you have a suggestion about it, I'm all ears.*
 
-- *On more thing, as you undoubtedly already have noticed ***we provide a package for each module of the library.*** This is because we want to give you the freedom to use only the modules you need. ***However, if you want to use the whole library, you can use the package `turing` which contains all the modules.*** (This is the recommended way to use the library.)*
-    - *If a file is not within a folder (that are not yet categorized) will not be included in a module; and therefore, only be available in the complete package.*
+<!-- - *On more thing, as you undoubtedly already have noticed ***we provide a package for each module of the library.*** This is because we want to give you the freedom to use only the modules you need. ***However, if you want to use the whole library, you can use the package `turing` which contains all the modules.*** (This is the recommended way to use the library.)*
+    - *If a file is not within a folder (that are not yet categorized) will not be included in a module; and therefore, only be available in the complete package.* -->
 
 - *Finally, ***we are not crowding this implementation with multiple models.*** We are keeping it as simple as possible. (We are not trying to reinvent the wheel.)*
-    >    - *As an example, regarding the regression module, we are only going to implement and expose the most common regression algorithms:*
+    <!-- >    - *As an example, regarding the regression module, we are only going to implement and expose the most common regression algorithms:*
     >        - *Linear Regression;*
     >        - *Locally Weighted Linear Regression;*
     >        - *Normal Equation (The closed form solution of Linear Regression);*
     >        - *Polynomial Regression;*
     >        - *Logistic Regression;*
-    >        - *Isotonic Regression.*
+    >        - *Isotonic Regression.* -->
     - *All this to say, that ***that doesn't mean we are not going to implement other algorithms; we are just not going to expose them, unless they are requested.****
          - ****If by any chance there's something you'd like us to implement*** (or maybe it's already implemented and you'd like us to expose it), ***please let us know*** by creating a feature request issue. (***We are always open to suggestions.***)*
