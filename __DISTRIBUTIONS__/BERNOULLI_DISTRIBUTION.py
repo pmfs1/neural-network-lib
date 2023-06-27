@@ -17,9 +17,7 @@ class BERNOULLI_DISTRIBUTION:
         assert P >= 0 and P <= 1, "P MUST BE GREATER THAN OR EQUAL TO 0 AND LESS THAN OR EQUAL TO 1"  # ASSERT P IS GREATER THAN OR EQUAL TO 0 AND LESS THAN OR EQUAL TO 1
         if K < 0:  # IF K IS LESS THAN 0
             return 0  # RETURN 0
-        elif K >= 0 and K < 1:  # IF K IS GREATER THAN OR EQUAL TO 0 AND LESS THAN 1
+        elif K < 1:  # IF K IS GREATER THAN OR EQUAL TO 0 AND LESS THAN 1
             return 1 - P  # RETURN 1 - P
-        elif K >= 1:  # IF K IS GREATER THAN OR EQUAL TO 1
+        else:  # IF K IS GREATER THAN OR EQUAL TO 1
             return 1  # RETURN 1
-        else:  # ELSE K IS NOT A VALID VALUE (K IS NOT AN INTEGER)
-            raise ValueError("K MUST BE AN INTEGER")  # RAISE VALUE ERROR
