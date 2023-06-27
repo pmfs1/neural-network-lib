@@ -3,7 +3,7 @@ import numpy as np
 from .BATCH_ITERATOR import BATCH_ITERATOR
 
 
-class OPTIMIZER():
+class OPTIMIZER:
     """BASE CLASS FOR OPTIMIZERS"""
 
     def OPTIMIZE(self, NETWORK):
@@ -298,7 +298,8 @@ class ADA_DELTA(OPTIMIZER):
                 LAYER.PARAMETERS.STEP(
                     n, -STEP * self.LEARNING_RATE)  # UPDATE PARAMETER
                 self.DELTA_ACCUMULATOR[i][n] = self.RHO * \
-                    self.DELTA_ACCUMULATOR[i][n] + (1.0 - self.RHO) * STEP ** 2
+                    self.DELTA_ACCUMULATOR[i][n] + \
+                    (1.0 - self.RHO) * STEP ** 2  # UPDATE DELTA_ACCUMULATOR
 
     def SETUP(self, NETWORK):
         """SETUP OPTIMIZER

@@ -128,7 +128,7 @@ class CONVOLUTION(LAYER, PARAM_MIXIN):
         NUMPY ARRAY
             DELTA FOR THE PREVIOUS LAYER
         """
-        assert self.LAST_INPUT is not None and self.COL is not None and self.COL_W is not None, "FORWARD PASS MUST BE CALLED BEFORE BACKWARD PASS" # CHECK IF FORWARD PASS WAS CALLED
+        assert self.LAST_INPUT is not None and self.COL is not None and self.COL_W is not None, "FORWARD PASS MUST BE CALLED BEFORE BACKWARD PASS"  # CHECK IF FORWARD PASS WAS CALLED
         DELTA = DELTA.transpose(0, 2, 3, 1).reshape(-1,
                                                     self.N_FILTERS)  # RESHAPE DELTA
         D_W = np.dot(self.COL.T, DELTA).transpose((1, 0)).reshape(
@@ -157,7 +157,7 @@ class CONVOLUTION(LAYER, PARAM_MIXIN):
             self.HEIGHT, self.WIDTH, self.FILTER_SHAPE, self.STRIDE, self.PADDING)  # GET SHAPE OF THE OUTPUT
         # RETURN SHAPE OF THE OUTPUT
         return X_SHAPE[0], self.N_FILTERS, HEIGHT, WIDTH
-    
+
     @property
     def PARAMETERS(self):
         """RETURNS PARAMETERS OF THE LAYER.
@@ -167,7 +167,7 @@ class CONVOLUTION(LAYER, PARAM_MIXIN):
         PARAMETERS
             PARAMETERS OF THE LAYER
         """
-        return self.__PARAMETERS__ # RETURN PARAMETERS
+        return self.__PARAMETERS__  # RETURN PARAMETERS
 
 
 class MAX_POOLING(LAYER):
@@ -250,7 +250,7 @@ class MAX_POOLING(LAYER):
         NUMPY ARRAY
             DELTA FOR THE PREVIOUS LAYER
         """
-        assert self.LAST_INPUT is not None and self.ARG_MAX is not None, "FORWARD PASS MUST BE CALLED BEFORE BACKWARD PASS" # CHECK IF FORWARD PASS WAS CALLED
+        assert self.LAST_INPUT is not None and self.ARG_MAX is not None, "FORWARD PASS MUST BE CALLED BEFORE BACKWARD PASS"  # CHECK IF FORWARD PASS WAS CALLED
         DELTA = DELTA.transpose(0, 2, 3, 1)  # RESHAPE DELTA
         POOL_SIZE = self.POOL_SHAPE[0] * self.POOL_SHAPE[1]  # GET POOL SIZE
         Y_MAX = np.zeros((DELTA.size, POOL_SIZE))  # CREATE ARRAY FOR DELTA
@@ -316,7 +316,7 @@ class FLATTEN(LAYER):
         -------
         NONE
         """
-        self.LAST_INPUT_SHAPE = None # INITIALIZE LAST INPUT SHAPE
+        self.LAST_INPUT_SHAPE = None  # INITIALIZE LAST INPUT SHAPE
 
     def FORWARD_PASS(self, X):
         """RETURNS OUTPUT OF THE LAYER.

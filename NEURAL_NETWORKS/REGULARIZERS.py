@@ -2,7 +2,7 @@ import numpy as np
 from autograd import elementwise_grad
 
 
-class REGULARIZER():
+class REGULARIZER:
     """BASE CLASS FOR REGULARIZERS"""
 
     def __init__(self, C=0.01):

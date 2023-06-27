@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def SQUARED_ERROR(ACTUAL, PREDICTED):
     """RETURN SQUARED ERROR.
 

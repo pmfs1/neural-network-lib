@@ -1,6 +1,7 @@
 import numpy as np
 
-class CONSTRAINT():
+
+class CONSTRAINT:
     """BASE CLASS FOR CONSTRAINTS"""
 
     def CLIP(self, P):
@@ -18,7 +19,7 @@ class CONSTRAINT():
         return P  # RETURN UNCHANGED WEIGHTS
 
 
-class MAX_NORM():
+class MAX_NORM:
     """MAX NORM CONSTRAINT"""
 
     def __init__(self, M=2, AXIS=0):
@@ -52,7 +53,7 @@ class MAX_NORM():
         return P  # RETURN CLIPPED WEIGHTS
 
 
-class NON_NEG():
+class NON_NEG:
     """NON NEGATIVITY CONSTRAINT"""
 
     def CLIP(self, P):
@@ -71,7 +72,7 @@ class NON_NEG():
         return P  # RETURN CLIPPED WEIGHTS
 
 
-class SMALL_NORM():
+class SMALL_NORM:
     """SMALL NORM CONSTRAINT"""
 
     def CLIP(self, P):
