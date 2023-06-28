@@ -3,9 +3,7 @@
     > ***If you require a stable version, consider using one of the tags.*** *As of this moment, or in the case that there is no valid or available tag(s), you can always use the development branch as your production; however we do not guarantee performance, we can only guarantee functionality and security. (Nonetheless, take into advisement that this is a special case; and that such advice does not invalidate or lessen our previous recommendations.)*
     > - ****A release will only be made when the one or more of the module(s) is(are) complete***, stable, optimized, tested, documented, and secure. (This is the only way to guarantee that the library (or such particular module(s)) is(are) production ready.)*
     - ****Every file or folder that's surrounded by double underscores is either under construction or not completed ('cause it needs review).*** After all, this is a development branch.*
-    - ****Everything is commented;*** nonetheless some comments may be wrong as changes are always comming here.*
-        - *If you find any error or have a suggestion or question, please let me know.*
-        - *The neural networks module is the only complete module, so it's the only that is full commented. It is also the only one with docstrings.*
+    - ****Everything is commented;*** nonetheless some comments may be wrong as changes are always comming here. (If you find any error or have a suggestion or question, please let me know through the proper channels.)*
     - ****Also, the organization of the files and folders may change at any time;*** the modules may be split into submodules or merged into one module. They're in constant change. If by any chance you have a suggestion about it, I'm all ears.*
 
 <!-- - *On more thing, as you undoubtedly already have noticed ***we provide a package for each module of the library.*** This is because we want to give you the freedom to use only the modules you need. ***However, if you want to use the whole library, you can use the package `turing` which contains all the modules.*** (This is the recommended way to use the library.)*
