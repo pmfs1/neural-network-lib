@@ -35,17 +35,6 @@ class ISOTONIC_REGRESSION:
             IT'S THE MINIMUM VALUE OF X.
         X_MAX : FLOAT (DEFAULT: NP.INF)
             IT'S THE MAXIMUM VALUE OF X.
-
-        ATTRIBUTES
-        ----------
-        X_MIN : FLOAT (DEFAULT: -NP.INF)
-            IT'S THE MINIMUM VALUE OF X.
-        X_MAX : FLOAT (DEFAULT: NP.INF)
-            IT'S THE MAXIMUM VALUE OF X.
-        W : NUMPY ARRAY (DEFAULT: NONE)
-            IT'S THE PARAMETER THAT CORRESPONDS TO THE WEIGHTS OF THE ISOTONIC REGRESSION MODEL.
-        J : LIST (DEFAULT: NONE)
-            IT'S THE LIST OF THE INDICES OF THE WEIGHTS.
         """
         self.X_MIN = X_MIN if X_MIN is not None else - \
             np.inf  # X_MIN: IT'S THE MINIMUM VALUE OF X
