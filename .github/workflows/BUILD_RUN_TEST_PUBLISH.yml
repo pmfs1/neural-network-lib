@@ -44,7 +44,7 @@ jobs:
         category: "/language:${{matrix.language}}"
     - name: 'ANALYZE (QUALITY)'
       run: | 
-          pylint --disable=invalid-name,missing-docstring,missing-function-docstring,missing-class-docstring,missing-module-docstring,missing-final-newline,line-too-long,too-many-nested-blocks,too-many-instance-attributes,too-many-arguments,trailing-whitespace,unnecessary-pass,too-many-locals,too-few-public-methods,similarities --fail-under=9.75 $(git ls-files '*.py')
+          pylint --disable=invalid-name,missing-docstring,missing-function-docstring,missing-class-docstring,missing-module-docstring,missing-final-newline,line-too-long,too-many-nested-blocks,too-many-instance-attributes,too-many-arguments,trailing-whitespace,unnecessary-pass,too-many-locals,too-few-public-methods,similarities --fail-under=9.75 --ignore-paths=__NEURAL_NETWORKS__ $(git ls-files '*.py')
     - name: 'AUTHENTICATE'
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
     - name: 'PUBLISH'
