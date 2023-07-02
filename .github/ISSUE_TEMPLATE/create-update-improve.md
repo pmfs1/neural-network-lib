@@ -1,8 +1,8 @@
 ---
-name: FEATURE REQUEST
-about: SUGGEST AN IDEA AND/OR REQUEST A FEATURE
-title: "[FEATURE]"
-labels: FEATURE
+name: CREATE/UPDATE/IMPROVE
+about: REQUEST A FEATURE, SHARE AN IDEA, OR MAKE A SUGGESTION
+title: "[CREATE/UPDATE/IMPROVE]"
+labels: CREATE/UPDATE/IMPROVE
 assignees: pmfs1
 
 ---
@@ -16,4 +16,4 @@ assignees: pmfs1
 ***Additional Context:***
 *If you feel the need to add any additional context about the feature(s), do it here. This can also be a place to leave notes you might find important. You can also leave screenshots or examples here.*
 
-*(If you link a development branch to this issue, use the prefix `dev-` to uniquely identity it to this category.)*
+*(If you link a development branch to this issue, use the prefix `build-` to uniquely identity it to this category.)*

@@ -1,8 +1,8 @@
 ---
-name: BUG REPORT
-about: CREATE A REPORT TO HELP US IMPROVE
-title: 'BUG:'
-labels: BUG
+name: FIX/REVIEW
+about: REQUEST A FIX OR REVIEW; REPORT A BUG
+title: "[FIX/REVIEW]"
+labels: FIX/REVIEW
 assignees: pmfs1
 
 ---
