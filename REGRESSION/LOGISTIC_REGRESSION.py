@@ -20,6 +20,7 @@ class LOGISTIC_REGRESSION:
     [PRIVATE] __GRADIENTS__(X, Y, PREDICTION): CALCULATES THE DERIVATIVE OF THE LOSS FUNCTION W.R.T. THE PARAMETERS: WEIGHTS AND BIAS.
     [PRIVATE] __NORMALIZE__(X): NORMALIZES THE INPUTS.
     [PRIVATE & STATIC] __SIGMOID__(X): CALCULATES THE SIGMOID FUNCTION.
+    PLOT(X, Y): PLOTS THE INPUT DATA AND THE PREDICTIONS OF THE POLYNOMIAL REGRESSION MODEL.
     """
     # INITIALIZES THE LOGISTIC REGRESSION MODEL
     def __init__(self, LEARNING_RATE=0.001, BATCH_SIZE=32, EPOCHS=1000):
@@ -214,3 +215,33 @@ class LOGISTIC_REGRESSION:
         RETURN SIGMOID ACTIVATION
         """
         return 1.0 / (1.0 + np.exp(-Z))  # RETURN SIGMOID ACTIVATION: 1 / (1 + e^(-Z))
+    
+    # PLOT(X, Y): PLOTS THE INPUT DATA AND THE PREDICTIONS OF THE POLYNOMIAL REGRESSION MODEL.
+    def PLOT(self, X, Y):
+        """PLOTS THE INPUT DATA AND THE PREDICTIONS OF THE POLYNOMIAL REGRESSION MODEL.
+
+        PARAMETERS
+        ----------
+        X: NUMPY ARRAY
+            IT'S THE INPUT DATA.
+        Y: NUMPY ARRAY
+            IT'S THE TARGET VALUES.
+
+        RETURNS
+        -------
+        NONE
+        """
+        import matplotlib.pyplot as plt # IMPORTS MATPLOTLIB
+        plt.scatter(X, Y, color='blue')  # PLOTS THE INPUT DATA
+        plt.scatter(X, self.PREDICT(X), color='red') # PLOTS THE PREDICTIONS
+        plt.xlabel('X') # SETS THE X-LABEL
+        plt.ylabel('Y') # SETS THE Y-LABEL
+        plt.legend(['REAL DATA', 'PREDICTIONS']) # SETS THE LEGEND
+        plt.title('LOGISTIC REGRESSION') # SETS THE TITLE
+        if X.shape[1] == 2: # IF THERE ARE TWO FEATURES, ADD THE DECISION BOUNDARY TO THE PLOT
+            X1, X2 = np.meshgrid(np.linspace(X[:, 0].min(), X[:, 0].max(), 100), np.linspace(X[:, 1].min(), X[:, 1].max(), 100)) # CREATES A GRID OF POINTS
+            GRID = np.c_[X1.ravel(), X2.ravel()] # CREATES A GRID OF POINTS
+            PREDICTIONS = self.PREDICT(GRID) # PREDICTS THE TARGET VALUES OF THE GRID
+            PREDICTIONS = PREDICTIONS.reshape(X1.shape) # RESHAPES THE PREDICTIONS
+            plt.contourf(X1, X2, PREDICTIONS, cmap='bwr', alpha=0.2) # PLOTS THE DECISION BOUNDARY
+        plt.show() # DISPLAYS THE PLOT
