@@ -25,4 +25,4 @@ jobs:
           should_push: false
           commit_message: "[AUTO-UPDATE] UPDATED DIAGRAM"
       - name: 'COMMIT & PUSH'
-        run: git push --force origin HEAD
+        run: git add ./DIAGRAM.svg && git commit -s -S -m "[AUTO-UPDATE] UPDATED DIAGRAM" && git push --force origin HEAD
