@@ -1,5 +1,5 @@
-import numpy as np
 from collections import Counter
+import numpy as np
 from .DECISION_TREE import DECISION_TREE
 
 # RANDOM_FOREST: CLASS THAT IMPLEMENTS RANDOM FOREST MODEL

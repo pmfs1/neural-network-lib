@@ -1,5 +1,5 @@
-import numpy as np
 from collections import Counter
+import numpy as np
 
 # DECISION_TREE.NODE: CLASS THAT IMPLEMENTS A NODE OF A DECISION TREE
 class NODE:
