@@ -1,5 +1,5 @@
 {
-    "python.defaultInterpreterPath": "/home/codespace/.python/current/bin/python3",
+    "python.defaultInterpreterPath": "/home/codespace/.python/current/bin/python",
     "python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
     "python.formatting.blackPath": "/usr/local/py-utils/bin/black",
     "python.linting.flake8Path": "/usr/local/py-utils/bin/flake8",
