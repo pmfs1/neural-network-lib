@@ -49,8 +49,8 @@ class LOGISTIC_REGRESSION:
             LOSS.append(self.__LOSS_FUNCTION__(
                 Y, SIGMOID(np.dot(_X, self.WEIGHTS) + self.BIAS)))
 
-    # TRANSFORM(): PREDICTS THE TARGET VALUE OF THE INPUTS
-    def TRANSFORM(self, X):
+    # PREDICT(): PREDICTS THE TARGET VALUE OF THE INPUTS
+    def PREDICT(self, X):
         _X = self.__NORMALIZE__(X)  # NORMALIZE THE INPUTS
         # PREDICTION: PREDICTED TARGET VALUES
         PREDICTION = SIGMOID(np.dot(_X, self.WEIGHTS) + self.BIAS)

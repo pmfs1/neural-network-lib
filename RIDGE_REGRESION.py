@@ -22,7 +22,7 @@ class RIDGE_REGRESSION:
         # ITERATE THROUGH THE NUMBER OF ITERATIONS.
         for _ in range(self.ITERATIONS):
             # CALCULATE THE PREDICTIONS OF THE LINEAR REGRESSION MODEL.
-            Y_PRED = self.TRANSFORM(X)
+            Y_PRED = self.PREDICT(X)
             # CALCULATE THE DERIVATIVE OF THE WEIGHTS.
             DERIVATIVE_WEIGHTS = (-(2 * (X.T).dot(Y - Y_PRED)) +
                                   (2 * self.L2_PENALITY * self.WEIGHTS)) / X.shape[0]
@@ -33,7 +33,7 @@ class RIDGE_REGRESSION:
             # UPDATE THE BIAS.
             self.BIAS = self.BIAS - self.LEARNING_RATE * DERIVATIVE_BIAS
 
-    # TRANSFORM(): PREDICTS THE LABELS OF THE TRAINING DATA.
-    def TRANSFORM(self, X):
+    # PREDICT(): PREDICTS THE LABELS OF THE TRAINING DATA.
+    def PREDICT(self, X):
         # RETURNS THE PREDICTIONS OF THE LINEAR REGRESSION MODEL.
         return X.dot(self.WEIGHTS) + self.BIAS

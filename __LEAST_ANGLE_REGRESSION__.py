@@ -8,23 +8,33 @@ class LEAST_ANGLE_REGRESSION:
         self.N_ITER = N_ITER
         # WEIGHTS: IT'S THE PARAMETER THAT CORRESPONDS TO THE WEIGHTS OF THE LEAST ANGLE REGRESSION MODEL.
         self.WEIGHTS = None
+        # BIAS: IT'S THE PARAMETER THAT CORRESPONDS TO THE BIAS OF THE LEAST ANGLE REGRESSION MODEL.
+        self.BIAS = 0
 
     # FIT(): IT'S THE FUNCTION THAT TRAINS THE LEAST ANGLE REGRESSION MODEL.
     def FIT(self, X, Y):
+        # N: IT'S THE NUMBER OF DATA POINTS.
+        N = len(X)
         # W: IT'S THE PARAMETER THAT CORRESPONDS TO THE WEIGHTS OF THE LEAST ANGLE REGRESSION MODEL.
-        W = np.zeros(X.shape[1])
+        W = np.random.randn(N)
         # LOOP OVER THE NUMBER OF ITERATIONS.
         for _ in range(self.N_ITER):
-            # PREDICT THE OUTPUT VALUE.
-            Y_PRED = np.dot(X, W)
-            # COMPUTE THE GRADIENT.
-            GRAD = -2 * np.dot(X.T, (Y - Y_PRED))
-            # UPDATE THE WEIGHT.
-            W = W - 0.01 * GRAD
+            # LOOP OVER THE NUMBER OF DATA POINTS.
+            for i in range(N):
+                # PREDICT THE OUTPUT VALUE.
+                Y_PRED = self.BIAS + np.sum(W * X)
+                # COMPUTE THE GRADIENT OF THE BIAS.
+                BIAS_GRAD = -2 * (Y[i] - Y_PRED)
+                # COMPUTE THE GRADIENT OF THE WEIGHTS.
+                WEIGHTS_GRAD = -2 * (Y[i] - Y_PRED) * X[i]
+                # UPDATE THE BIAS.
+                self.BIAS = self.BIAS - 0.01 * BIAS_GRAD
+                # UPDATE THE WEIGHTS.
+                W[i] = W[i] - 0.01 * WEIGHTS_GRAD
         # WEIGHTS: IT'S THE PARAMETER THAT CORRESPONDS TO THE WEIGHTS OF THE LEAST ANGLE REGRESSION MODEL.
         self.WEIGHTS = W
-
-    # TRANSFORM(): IT'S THE FUNCTION THAT USES THE LEAST ANGLE REGRESSION MODEL IN ORDER TO PREDICT NEW OUTPUT VALUES.
-    def TRANSFORM(self, X):
+    
+    # PREDICT(): IT'S THE FUNCTION THAT USES THE LEAST ANGLE REGRESSION MODEL IN ORDER TO PREDICT NEW OUTPUT VALUES.
+    def PREDICT(self, X):
         # RETURN THE PREDICTED OUTPUT VALUE.
-        return np.dot(X, self.WEIGHTS)
+        return np.dot(X, self.WEIGHTS) + self.BIAS
