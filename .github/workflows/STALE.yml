@@ -1,0 +1,31 @@
+name: 'STALE'
+on:
+  schedule:
+  - cron: '29 21 * * *'
+jobs:
+  STALE:
+    name: 'STALE'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+    - name: 'CHECK'
+      uses: actions/stale@v5
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        stale-issue-message: "*This issue has been automatically marked as stale.* ***If this issue is still affecting you, please leave any comment, and we'll keep it open.*** *We are sorry that we haven't been able to prioritize it yet. If you have any new additional information, please include it with your comment!*"
+        stale-pr-message: "*This pull request has been automatically marked as stale.* ***If this pull request is still relevant, please leave any comment, and we'll keep it open.*** *We are sorry that we haven't been able to prioritize reviewing it yet. Your contribution is very much appreciated.*"	
+        close-issue-message: "*Closing this issue after a prolonged period of inactivity. If this issue is still present in the latest release, please create a new issue with up-to-date information. Thank you for your contribution!*"
+        close-pr-message: "*Closing this pull request after a prolonged period of inactivity. If this issue is still present in the latest release, please ask for this pull request to be reopened. Thank you for your contribution!*"
+        stale-issue-label: 'STALE'
+        stale-pr-label: 'STALE'
+        remove-stale-when-updated: true
+        remove-issue-stale-when-updated: true
+        remove-pr-stale-when-updated: true
+        days-before-stale:	60
+        days-before-issue-stale: 15
+        days-before-pr-stale: 3
+        days-before-close: 7
+        days-before-issue-close: 20
+        days-before-pr-close: 5
