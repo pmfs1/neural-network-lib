@@ -1,8 +1,14 @@
 name: "DEFENDER_FOR_DEVOPS"
 on: [ push, pull_request ]
+permissions:
+  contents: read
 jobs:
   DEFENDER_FOR_DEVOPS:
     name: 'DEFENDER FOR DEVOPS'
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
     runs-on: windows-latest
     steps:
     - name: 'CHECKOUT'
