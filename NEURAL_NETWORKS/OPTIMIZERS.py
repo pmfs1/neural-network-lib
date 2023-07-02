@@ -1,11 +1,9 @@
 from collections import defaultdict
-
 import numpy as np
-from tqdm import tqdm
-
 from .BATCH_ITERATOR import BATCH_ITERATOR
 
-class OPTIMIZER(object):
+
+class OPTIMIZER():
     """BASE CLASS FOR OPTIMIZERS"""
 
     def OPTIMIZE(self, NETWORK):
@@ -101,6 +99,7 @@ class OPTIMIZER(object):
         """
         raise NotImplementedError  # RAISE NOT IMPLEMENTED ERROR
 
+
 class STOCHASTIC_GRADIENT_DESCENT(OPTIMIZER):
     """STOCHASTIC GRADIENT DESCENT OPTIMIZER"""
 
@@ -178,6 +177,7 @@ class STOCHASTIC_GRADIENT_DESCENT(OPTIMIZER):
                 LAYER.PARAMETERS.STEP(n, UPDATE)  # UPDATE PARAMETER
         self.ITERATION += 1  # INCREMENT ITERATION
 
+
 class ADA_GRAD(OPTIMIZER):
     """ADA_GRAD OPTIMIZER"""
 
@@ -197,11 +197,11 @@ class ADA_GRAD(OPTIMIZER):
         """
         self.EPSILON = EPSILON  # SET EPSILON
         self.LEARNING_RATE = LEARNING_RATE  # SET LEARNING RATE
-        self.ACCUMULATOR = None # SET ACCUMULATOR TO NONE
-        self.DELTA_ACCUMULATOR = None # SET DELTA_ACCUMULATOR TO NONE
-        self.MS = None # SET MS TO NONE
-        self.VS = None # SET VS TO NONE
-        self.US = None # SET US TO NONE
+        self.ACCUMULATOR = None  # SET ACCUMULATOR TO NONE
+        self.DELTA_ACCUMULATOR = None  # SET DELTA_ACCUMULATOR TO NONE
+        self.MS = None  # SET MS TO NONE
+        self.VS = None  # SET VS TO NONE
+        self.US = None  # SET US TO NONE
 
     def UPDATE(self, NETWORK):
         """UPDATE PARAMETERS
@@ -245,6 +245,7 @@ class ADA_GRAD(OPTIMIZER):
                 self.ACCUMULATOR[i][n] = np.zeros_like(
                     LAYER.PARAMETERS[n])  # SET ACCUMULATOR TO ZERO
 
+
 class ADA_DELTA(OPTIMIZER):
     """ADA_DELTA OPTIMIZER"""
 
@@ -267,11 +268,11 @@ class ADA_DELTA(OPTIMIZER):
         self.RHO = RHO  # SET RHO
         self.EPSILON = EPSILON  # SET EPSILON
         self.LEARNING_RATE = LEARNING_RATE  # SET LEARNING RATE
-        self.ACCUMULATOR = None # SET ACCUMULATOR TO NONE
-        self.DELTA_ACCUMULATOR = None # SET DELTA_ACCUMULATOR TO NONE
-        self.MS = None # SET MS TO NONE
-        self.VS = None # SET VS TO NONE
-        self.US = None # SET US TO NONE
+        self.ACCUMULATOR = None  # SET ACCUMULATOR TO NONE
+        self.DELTA_ACCUMULATOR = None  # SET DELTA_ACCUMULATOR TO NONE
+        self.MS = None  # SET MS TO NONE
+        self.VS = None  # SET VS TO NONE
+        self.US = None  # SET US TO NONE
 
     def UPDATE(self, NETWORK):
         """UPDATE PARAMETERS
@@ -322,6 +323,7 @@ class ADA_DELTA(OPTIMIZER):
                 self.DELTA_ACCUMULATOR[i][n] = np.zeros_like(
                     LAYER.PARAMETERS[n])  # SET DELTA_ACCUMULATOR TO ZERO
 
+
 class RMS_PROP(OPTIMIZER):
     """RMS_PROP OPTIMIZER"""
 
@@ -345,9 +347,9 @@ class RMS_PROP(OPTIMIZER):
         self.RHO = RHO  # SET RHO
         self.LEARNING_RATE = LEARNING_RATE  # SET LEARNING RATE
         self.ACCUMULATOR = None  # SET ACCUMULATOR TO NONE
-        self.MS = None # SET MS TO NONE
-        self.VS = None # SET VS TO NONE
-        self.US = None # SET US TO NONE
+        self.MS = None  # SET MS TO NONE
+        self.VS = None  # SET VS TO NONE
+        self.US = None  # SET US TO NONE
 
     def UPDATE(self, NETWORK):
         """UPDATE PARAMETERS
@@ -393,6 +395,7 @@ class RMS_PROP(OPTIMIZER):
                 self.ACCUMULATOR[i][n] = np.zeros_like(
                     LAYER.PARAMETERS[n])  # SET ACCUMULATOR TO ZERO
 
+
 class ADMA(OPTIMIZER):
     def __init__(self, LEARNING_RATE=0.001, FIRST_BETA=0.9, SECOND_BETA=0.999, EPSILON=1e-8):
         """INITIALIZE ADAM OPTIMIZER
@@ -418,8 +421,8 @@ class ADMA(OPTIMIZER):
         self.LEARNING_RATE = LEARNING_RATE  # SET LEARNING RATE
         self.ITERATIONs = 0  # SET ITERATION TO 0
         self.T = 1  # SET T TO 1
-        self.MS = None # SET MS TO NONE
-        self.VS = None # SET VS TO NONE
+        self.MS = None  # SET MS TO NONE
+        self.VS = None  # SET VS TO NONE
 
     def UPDATE(self, NETWORK):
         """UPDATE PARAMETERS
@@ -475,6 +478,7 @@ class ADMA(OPTIMIZER):
                 self.VS[i][n] = np.zeros_like(
                     LAYER.PARAMETERS[n])  # SET VS TO ZERO
 
+
 class ADA_MAX(OPTIMIZER):
     """ADA_MAX OPTIMIZER"""
 
@@ -501,8 +505,8 @@ class ADA_MAX(OPTIMIZER):
         self.FIRST_BETA = FIRST_BETA  # SET FIRST BETA
         self.LEARNING_RATE = LEARNING_RATE  # SET LEARNING RATE
         self.T = 1  # SET T TO 1
-        self.MS = None # SET MS TO NONE
-        self.US = None # SET US TO NONE
+        self.MS = None  # SET MS TO NONE
+        self.US = None  # SET US TO NONE
 
     def UPDATE(self, NETWORK):
         """UPDATE PARAMETERS
