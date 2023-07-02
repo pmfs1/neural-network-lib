@@ -40,7 +40,8 @@
 				"ms-python.vscode-pylance",
 				"ms-python.pylint",
 				"VisualStudioExptTeam.intellicode-api-usage-examples",
-				"VisualStudioExptTeam.vscodeintellicode"
+				"VisualStudioExptTeam.vscodeintellicode",
+				"ms-python.autopep8"
 			]
 		}
 	}
