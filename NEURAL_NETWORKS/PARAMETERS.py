@@ -1,5 +1,5 @@
 import numpy as np
-from NEURAL_NETWORKS.INITIALIZATIONS import *
+from .INITIALIZATIONS import GLOROT_UNIFORM
 
 class PARAMETER(object):
     """CLASS FOR STORING PARAMETERS OF A LAYER."""

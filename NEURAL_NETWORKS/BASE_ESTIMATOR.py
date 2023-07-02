@@ -6,6 +6,33 @@ class BASE_ESTIMATOR:
     # FIT_REQUIRED DEFINES WHETHER THE ESTIMATOR REQUIRES A FIT METHOD OR NOT. BY DEFAULT, IT IS SET TO TRUE.
     FIT_REQUIRED = True
 
+    def __init__(self):
+        """INITIALIZES THE BASE ESTIMATOR CLASS
+        
+        PARAMETERS
+        ----------
+        NONE
+        
+        ATTRIBUTES
+        ----------
+        N_SAMPLES : INT
+            NUMBER OF SAMPLES.
+        N_FEATURES : INT
+            NUMBER OF FEATURES.
+        X : NUMPY NDARRAY
+            FEATURE DATASET.
+        Y : NUMPY NDARRAY
+            TARGET VALUES.    
+        """
+        # N_SAMPLES: IT'S THE NUMBER OF SAMPLES.
+        self.N_SAMPLES = None
+        # N_FEATURES: IT'S THE NUMBER OF FEATURES.
+        self.N_FEATURES = None
+        # X: IT'S THE FEATURE DATASET.
+        self.X = None
+        # Y: IT'S THE TARGET VALUES.
+        self.Y = None
+
     def __SETUP_INPUT__(self, X, Y=None):
         """ENSURE INPUTS TO AN ESTIMATOR ARE IN THE EXPECTED FORMAT.
 

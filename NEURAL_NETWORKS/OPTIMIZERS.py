@@ -5,7 +5,7 @@ from collections import defaultdict
 import numpy as np
 from tqdm import tqdm
 
-from NEURAL_NETWORKS.BATCH_ITERATOR import BATCH_ITERATOR
+from .BATCH_ITERATOR import BATCH_ITERATOR
 
 class OPTIMIZER(object):
     """BASE CLASS FOR OPTIMIZERS"""
@@ -214,6 +214,11 @@ class ADA_GRAD(OPTIMIZER):
         """
         self.EPSILON = EPSILON  # SET EPSILON
         self.LEARNING_RATE = LEARNING_RATE  # SET LEARNING RATE
+        self.ACCUMULATOR = None # SET ACCUMULATOR TO NONE
+        self.DELTA_ACCUMULATOR = None # SET DELTA_ACCUMULATOR TO NONE
+        self.MS = None # SET MS TO NONE
+        self.VS = None # SET VS TO NONE
+        self.US = None # SET US TO NONE
 
     def UPDATE(self, NETWORK):
         """UPDATE PARAMETERS
@@ -279,6 +284,11 @@ class ADA_DELTA(OPTIMIZER):
         self.RHO = RHO  # SET RHO
         self.EPSILON = EPSILON  # SET EPSILON
         self.LEARNING_RATE = LEARNING_RATE  # SET LEARNING RATE
+        self.ACCUMULATOR = None # SET ACCUMULATOR TO NONE
+        self.DELTA_ACCUMULATOR = None # SET DELTA_ACCUMULATOR TO NONE
+        self.MS = None # SET MS TO NONE
+        self.VS = None # SET VS TO NONE
+        self.US = None # SET US TO NONE
 
     def UPDATE(self, NETWORK):
         """UPDATE PARAMETERS
@@ -351,6 +361,10 @@ class RMS_PROP(OPTIMIZER):
         self.EPSILON = EPSILON  # SET EPSILON
         self.RHO = RHO  # SET RHO
         self.LEARNING_RATE = LEARNING_RATE  # SET LEARNING RATE
+        self.ACCUMULATOR = None  # SET ACCUMULATOR TO NONE
+        self.MS = None # SET MS TO NONE
+        self.VS = None # SET VS TO NONE
+        self.US = None # SET US TO NONE
 
     def UPDATE(self, NETWORK):
         """UPDATE PARAMETERS
@@ -421,6 +435,8 @@ class ADMA(OPTIMIZER):
         self.LEARNING_RATE = LEARNING_RATE  # SET LEARNING RATE
         self.ITERATIONs = 0  # SET ITERATION TO 0
         self.T = 1  # SET T TO 1
+        self.MS = None # SET MS TO NONE
+        self.VS = None # SET VS TO NONE
 
     def UPDATE(self, NETWORK):
         """UPDATE PARAMETERS
@@ -502,6 +518,8 @@ class ADA_MAX(OPTIMIZER):
         self.FIRST_BETA = FIRST_BETA  # SET FIRST BETA
         self.LEARNING_RATE = LEARNING_RATE  # SET LEARNING RATE
         self.T = 1  # SET T TO 1
+        self.MS = None # SET MS TO NONE
+        self.US = None # SET US TO NONE
 
     def UPDATE(self, NETWORK):
         """UPDATE PARAMETERS

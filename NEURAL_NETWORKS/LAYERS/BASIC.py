@@ -1,7 +1,7 @@
 from autograd import elementwise_grad
 import numpy as np
 
-from NEURAL_NETWORKS.PARAMETERS import *
+from ..PARAMETERS import PARAMETER
 
 np.random.seed(9999)  # SET SEED FOR REPRODUCIBILITY OF RESULTS
 
@@ -284,6 +284,17 @@ class DENSE(LAYER, PARAM_MIXIN):
         """
         return X_SHAPE[0], self.OUTPUT_DIM  # RETURN SHAPE
 
+    @property
+    def PARAMETERS(self):
+        """PARAMETERS OF THE LAYER.
+
+        RETURNS:
+        --------
+        PARAMETERS: PARAMETERS
+            PARAMETERS OF THE LAYER.
+        """
+        return self.__PARAMETERS__  # RETURN PARAMETERS
+
 
 class ACTIVATION(LAYER):
     """ACTIVATION LAYER.
@@ -305,16 +316,16 @@ class ACTIVATION(LAYER):
         RETURNS SHAPE OF THE CURRENT LAYER.
     """
 
-    def __init__(self, ACTIVATION):
+    def __init__(self, ACTIVATION_FUNCTION):
         """INITIALIZE ACTIVATION LAYER.
 
         PARAMETERS:
         -----------
-        ACTIVATION: FUNCTION
+        ACTIVATION_FUNCTION: FUNCTION
             ACTIVATION FUNCTION.
         """
         self.LAST_INPUT = None  # INITIALIZE LAST INPUT
-        self.ACTIVATION = ACTIVATION  # SET ACTIVATION FUNCTION
+        self.ACTIVATION_FUNCTION = ACTIVATION_FUNCTION  # SET ACTIVATION FUNCTION
 
     def FORWARD_PASS(self, X):
         """FORWARD PROPAGATION.
@@ -330,7 +341,7 @@ class ACTIVATION(LAYER):
             OUTPUT OF THE LAYER.
         """
         self.LAST_INPUT = X  # SET LAST INPUT
-        return self.ACTIVATION(X)  # RETURN OUTPUT
+        return self.ACTIVATION_FUNCTION(X)  # RETURN OUTPUT
 
     def BACKWARD_PASS(self, DELTA):
         """BACKWARD PROPAGATION.
@@ -345,7 +356,7 @@ class ACTIVATION(LAYER):
         BACKWARD_PASS: NUMPY ARRAY
             DELTA TO THE PREVIOUS LAYER.
         """
-        return elementwise_grad(ACTIVATION, self.LAST_INPUT) * DELTA  # RETURN DELTA
+        return elementwise_grad(self.ACTIVATION_FUNCTION, self.LAST_INPUT) * DELTA  # RETURN DELTA
 
     def SHAPE(self, X_SHAPE):
         """RETURNS SHAPE OF THE CURRENT LAYER.

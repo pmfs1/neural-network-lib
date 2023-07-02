@@ -7,6 +7,10 @@ class K_NEAREST_NEIGHBOURS:
     def __init__(self, K=3):
         # K: IT'S THE HYPERPARAMETER THAT CORRESPONDS TO THE NUMBER OF NEAREST NEIGHBOURS.
         self.K = K
+        # X: IT'S THE DATASET.
+        self.X = None
+        # Y: IT'S THE ARRAY THAT CONTAINS THE CLASS LABELS OF THE DATASET.
+        self.Y = None
 
     # FIT(): METHOD THAT TRAINS THE K NEAREST NEIGHBOURS MODEL
     def FIT(self, X, Y):
