@@ -172,3 +172,37 @@ def BINARY_CROSSENTROPY(ACTUAL, PREDICTED):
     """
     PREDICTED = np.clip(PREDICTED, 1e-15, 1 - 1e-15)  # CLIP PREDICTED VALUES
     return np.mean(-np.sum(ACTUAL * np.log(PREDICTED) + (1 - ACTUAL) * np.log(1 - PREDICTED)))  # RETURN BINARY CROSS ENTROPY
+
+def R2_SCORE(ACTUAL, PREDICTED):
+    """RETURN R2 SCORE.
+    
+    PARAMETERS:
+    ----------
+    ACTUAL: NUMPY ARRAY
+        ACTUAL VALUES.
+    PREDICTED: NUMPY ARRAY
+        PREDICTED VALUES.
+    
+    RETURNS:
+    --------
+    R2_SCORE: FLOAT
+        R2 SCORE.
+    """
+    return 1 - (np.sum((np.array(PREDICTED) - np.array(ACTUAL)) ** 2) / np.sum((np.array(ACTUAL) - np.mean(np.array(ACTUAL))) ** 2)) # RETURN R2 SCORE
+    
+def ACCURACY(ACTUAL, PREDICTED):
+    """RETURN ACCURACY.
+    
+    PARAMETERS:
+    ----------
+    ACTUAL: NUMPY ARRAY
+        ACTUAL VALUES.
+    PREDICTED: NUMPY ARRAY
+        PREDICTED VALUES.
+    
+    RETURNS:
+    --------
+    ACCURACY: FLOAT
+        ACCURACY.
+    """
+    return np.sum(ACTUAL == PREDICTED) / len(ACTUAL) # RETURN ACCURACY

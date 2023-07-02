@@ -114,3 +114,17 @@ def LEAKY_RELU(Z, A=0.01):
     RETURN LEAKY RELU ACTIVATION
     """
     return np.maximum(Z * A, Z)  # RETURN LEAKY RELU ACTIVATION
+
+def STEP_FUNCTION(Z):
+    """STEP FUNCTION
+    
+    PARAMETERS
+    ----------
+    Z : ARRAY
+        LINEAR TRANSFORMATION
+        
+    RETURNS
+    -------
+    RETURN STEP ACTIVATION
+    """
+    return 1.0 if (Z > 0) else 0.0
