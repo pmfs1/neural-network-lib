@@ -4,11 +4,7 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    labels:
-      - "DEPENDENCY UPDATE"
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
       interval: "daily"
-    labels:
-      - "DEPENDENCY UPDATE"
