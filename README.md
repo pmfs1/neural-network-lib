@@ -13,3 +13,5 @@
     - ****Also, the organization of the files and folders may change at any time;*** the modules may be split into submodules or merged into one module. They're in constant change. If by any chance you have a suggestion about it, I'm all ears.*
 
 > ***If you require a stable version, consider using one of the tags.*** *As of this moment, or in the case that there is no valid or available tag(s), you can always use the development branch as your production; however we do not guarantee performance, we can only guarantee functionality and security. (Nonetheless, take into advisement that this is a special case; and that such advice does not invalidate or lessen our previous recommendations.)*
+
+- *On more thing, as you undoubtedly already have noticed ***we provide a package for each module of the library.*** This is because we want to give you the freedom to use only the modules you need. ***However, if you want to use the whole library, you can use the package `turing` which contains all the modules.*** (This is the recommended way to use the library.)*
