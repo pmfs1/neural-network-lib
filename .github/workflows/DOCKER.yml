@@ -1,0 +1,15 @@
+name: 'DOCKER'
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+jobs:
+  BUILD:
+    name: 'BUILD'
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'CHECKOUT'
+      uses: actions/checkout@v3
+    - name: 'BUILD'
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
