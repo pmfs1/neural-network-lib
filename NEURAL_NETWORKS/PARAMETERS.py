@@ -1,4 +1,5 @@
-from neural_network.initializations import *
+import numpy as np
+from NEURAL_NETWORKS.INITIALIZATIONS import *
 
 class PARAMETER(object):
     """CLASS FOR STORING PARAMETERS OF A LAYER."""

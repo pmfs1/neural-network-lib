@@ -1,9 +1,10 @@
 from autograd import elementwise_grad
+import numpy as np
 
-from neural_network.activations import *
-from neural_network.initializations import *
-from neural_network.layers import LAYER, PARAM_MIXIN
-from neural_network.parameters import PARAMETER
+from NEURAL_NETWORKS.ACTIVATIONS import *
+from NEURAL_NETWORKS.INITIALIZATIONS import *
+from NEURAL_NETWORKS.layers import LAYER, PARAM_MIXIN
+from NEURAL_NETWORKS.PARAMETERS import PARAMETER
 
 class LSTM(LAYER, PARAM_MIXIN):
     """LONG SHORT-TERM MEMORY LAYER

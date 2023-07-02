@@ -1,7 +1,7 @@
 import numpy as np
 
-from neural_network.layers import LAYER, PARAM_MIXIN
-from neural_network.parameters import PARAMETER
+from NEURAL_NETWORKS.layers import LAYER, PARAM_MIXIN
+from NEURAL_NETWORKS.PARAMETERS import PARAMETER
 
 class CONVOLUTION(LAYER, PARAM_MIXIN):
     """2D CONVOLUTION LAYER.
