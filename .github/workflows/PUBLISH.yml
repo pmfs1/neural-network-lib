@@ -1,7 +1,8 @@
 name: 'PUBLISH'
 on:
-  push:
-    branches: [ 'develop' ]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
 env:
   IMAGE_NAME: ${{ github.repository }}
 jobs:
