@@ -6,7 +6,7 @@ from ..PARAMETERS import PARAMETER
 np.random.seed(9999)  # SET SEED FOR REPRODUCIBILITY OF RESULTS
 
 
-class LAYER():
+class LAYER:
     """BASE CLASS FOR ALL LAYERS.
 
     METHODS:
@@ -86,7 +86,7 @@ class LAYER():
         raise NotImplementedError()  # RAISE NOT IMPLEMENTED ERROR
 
 
-class PARAM_MIXIN():
+class PARAM_MIXIN:
     """MIXIN CLASS FOR LAYERS WITH PARAMETERS.
 
     ATTRIBUTES:
@@ -101,7 +101,7 @@ class PARAM_MIXIN():
         raise NotImplementedError()  # RAISE NOT IMPLEMENTED ERROR
 
 
-class PHASE_MIXIN():
+class PHASE_MIXIN:
     """MIXIN CLASS FOR LAYERS WITH PHASES.
 
     ATTRIBUTES:

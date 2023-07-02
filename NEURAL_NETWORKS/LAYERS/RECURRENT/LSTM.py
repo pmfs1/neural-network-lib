@@ -268,7 +268,8 @@ class LSTM(LAYER, PARAM_MIXIN):
         if self.RETURN_SEQUENCES:  # IF RETURN SEQUENCES
             return X_SHAPE[0], X_SHAPE[1], self.HIDDEN_DIM  # RETURN 3D TENSOR
         else:  # IF NOT RETURN SEQUENCES
-            return X_SHAPE[0], self.HIDDEN_DIM, 1 # RETURN A 2D TENSOR (MAKES SURE IT IS 3D)
+            # RETURN A 2D TENSOR (MAKES SURE IT IS 3D)
+            return X_SHAPE[0], self.HIDDEN_DIM, 1
 
     @property
     def PARAMETERS(self):
@@ -279,4 +280,4 @@ class LSTM(LAYER, PARAM_MIXIN):
         LIST
             LIST OF PARAMETERS
         """
-        return self.__PARAMETERS__ # RETURN PARAMETERS
+        return self.__PARAMETERS__  # RETURN PARAMETERS

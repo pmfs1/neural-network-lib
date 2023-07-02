@@ -180,7 +180,8 @@ class RNN(LAYER, PARAM_MIXIN):
             # RETURN OUTPUT SHAPE
             return X_SHAPE[0], X_SHAPE[1], self.HIDDEN_DIM
         else:  # RETURN OUTPUT SHAPE
-            return X_SHAPE[0], self.HIDDEN_DIM, 1 # RETURN A 2D TENSOR (MAKES SURE IT IS 3D)
+            # RETURN A 2D TENSOR (MAKES SURE IT IS 3D)
+            return X_SHAPE[0], self.HIDDEN_DIM, 1
 
     @property
     def PARAMETERS(self):

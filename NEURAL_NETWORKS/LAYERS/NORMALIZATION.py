@@ -228,10 +228,10 @@ class BATCH_NORMALIZATION(LAYER, PARAM_MIXIN, PHASE_MIXIN):
     @property
     def PARAMETERS(self):
         """RETURNS THE PARAMETERS OF THE LAYER
-        
+
         RETURNS
         -------
         PARAMETERS : LIST
             LIST OF PARAMETERS
         """
-        return self.__PARAMETERS__ # RETURN PARAMETERS
+        return self.__PARAMETERS__  # RETURN PARAMETERS
