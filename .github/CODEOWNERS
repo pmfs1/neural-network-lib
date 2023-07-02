@@ -1,4 +1,2 @@
 # DEFAULT OWNERS':
-*       @pmfs1
-# DEFAULT REVIEWER FOR PYTHON FILES':
-*.py    @Guigs02
+    *   @pmfs1  @Guigs02

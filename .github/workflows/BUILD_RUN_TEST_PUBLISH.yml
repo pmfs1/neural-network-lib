@@ -1,7 +1,5 @@
 name: 'BUILD_RUN_TEST_PUBLISH'
 on: [ push, pull_request, release ]
-permissions:
-  contents: read
 jobs:
   BUILD_RUN_TEST_PUBLISH:
     name: 'BUILD_RUN_TEST_PUBLISH'
@@ -15,11 +13,8 @@ jobs:
     strategy:
       matrix: 
         LANGUAGE: [ "python" ]
+      fail-fast: true
     steps:
-    - name: 'PERMISSIONS CONFIG'
-      uses: GitHubSecurityLab/actions-permissions/monitor@v1
-      with:
-        config: ${{ vars.PERMISSIONS_CONFIG }}
     - name: 'CHECKOUT'
       uses: actions/checkout@v3
     - name: 'SET-UP PYTHON'
@@ -45,11 +40,10 @@ jobs:
     - name: 'ANALYZE (QUALITY)'
       run: | 
           pylint --disable=invalid-name,missing-docstring,missing-function-docstring,missing-class-docstring,missing-module-docstring,missing-final-newline,line-too-long,too-many-nested-blocks,too-many-instance-attributes,too-many-arguments,trailing-whitespace,unnecessary-pass,too-many-locals,too-few-public-methods,similarities --fail-under=9.75 --ignore-paths=__NEURAL_NETWORKS__ $(git ls-files '*.py')
-    - name: 'AUTHENTICATE'
-      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
     - name: 'PUBLISH'
       if: github.event_name == 'release'
       run: |
+        echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
         docker build . --file Dockerfile --tag "${{ github.repository }}" --label "runnumber=${GITHUB_RUN_ID}"
         IMAGE_ID="ghcr.io/${{ github.repository }}"
         IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')

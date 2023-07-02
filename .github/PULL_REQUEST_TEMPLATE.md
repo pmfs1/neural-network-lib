@@ -1,7 +1,5 @@
-***Description:***
-*Please include a summary of the changes and the related issue. Please also include relevant motivation and context. List any dependencies that are required for this change. (If there's any other piece of information you find relevant to disclose, now it's the time do to so.)*
- - ***What's the type of change?*** *Is it a bug fix (a non-breaking change which fixes an issue), a new feature (a non-breaking change which adds functionality), a breaking change (fix or feature that would cause existing functionality to not work as expected), or a documentation update?*
- - ***How have you tested this?*** *Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration; or any other pertinent information.*
+***Description:*** *(Please include a summary of the changes and the related issue. Please also include relevant motivation and context. List any dependencies that are required for this change. (If there's any other piece of information you find relevant to disclose, now it's the time do to so.))*
+ - ***What's the type of change?*** *(Is it a bug fix (a non-breaking change which fixes an issue), a new feature (a non-breaking change which adds functionality), a breaking change (fix or feature that would cause existing functionality to not work as expected), or a documentation update?)*
+ - ***How have you tested this?*** *(Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Also list any relevant details for your test configuration; or any other pertinent information.)*
 
-***Additional Context:***
-*If you feel the need to add any additional context about the problem/solution/feature, do it here. This can also be a place to leave notes you might find important.*
+***Additional Context:*** *(If you feel the need to add any additional context about the problem/solution/feature, do it here. This can also be a place to leave notes you might find important.)*
