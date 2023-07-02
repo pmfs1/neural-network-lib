@@ -6,6 +6,7 @@ from NEURAL_NETWORKS.INITIALIZATIONS import *
 from NEURAL_NETWORKS.layers import LAYER, PARAM_MIXIN
 from NEURAL_NETWORKS.PARAMETERS import PARAMETER
 
+
 class RNN(LAYER, PARAM_MIXIN):
     """VANILLA RNN LAYER
 
@@ -36,7 +37,7 @@ class RNN(LAYER, PARAM_MIXIN):
 
     def __init__(self, HIDDEN_DIM, ACTIVATION=TANH, INNER_INIT=ORTHOGONAL, PARAMETERS=PARAMETER(), RETURN_SEQUENCES=True):
         """INITIALIZE VANILLA RNN LAYER
-        
+
         PARAMETERS
         ----------
         HIDDEN_DIM : INT
@@ -49,7 +50,7 @@ class RNN(LAYER, PARAM_MIXIN):
             PARAMETER OBJECT
         RETURN_SEQUENCES : BOOL
             IF TRUE, RETURNS ALL OUTPUTS, ELSE RETURNS LAST OUTPUT
-        
+
         RETURNS
         -------
         NONE
@@ -71,17 +72,21 @@ class RNN(LAYER, PARAM_MIXIN):
         ----------
         X_SHAPE : TUPLE
             INPUT SHAPE
-        
+
         RETURNS
         -------
         NONE
         """
         self.INPUT_DIM = X_SHAPE[2]  # INPUT DIMENSION
-        self.__PARAMETERS__["W"] = self.__PARAMETERS__.INIT((self.INPUT_DIM, self.HIDDEN_DIM))  # INITIALIZE WEIGHTS
-        self.__PARAMETERS__["b"] = np.full((self.HIDDEN_DIM,), self.__PARAMETERS__.INITIAL_BIAS)  # INITIALIZE BIAS
-        self.__PARAMETERS__["U"] = self.INNER_INIT((self.HIDDEN_DIM, self.HIDDEN_DIM))  # INNER WEIGHT INITIALIZATION
+        self.__PARAMETERS__["W"] = self.__PARAMETERS__.INIT(
+            (self.INPUT_DIM, self.HIDDEN_DIM))  # INITIALIZE WEIGHTS
+        self.__PARAMETERS__["b"] = np.full(
+            (self.HIDDEN_DIM,), self.__PARAMETERS__.INITIAL_BIAS)  # INITIALIZE BIAS
+        self.__PARAMETERS__["U"] = self.INNER_INIT(
+            (self.HIDDEN_DIM, self.HIDDEN_DIM))  # INNER WEIGHT INITIALIZATION
         self.__PARAMETERS__.INIT_GRAD()  # INITIALIZE GRADIENTS
-        self.H_PREV = np.zeros((X_SHAPE[0], self.HIDDEN_DIM))  # INITIALIZE PREVIOUS HIDDEN STATE
+        # INITIALIZE PREVIOUS HIDDEN STATE
+        self.H_PREV = np.zeros((X_SHAPE[0], self.HIDDEN_DIM))
 
     def FORWARD_PASS(self, X):
         """FORWARD PROPAGATION
@@ -99,13 +104,17 @@ class RNN(LAYER, PARAM_MIXIN):
         assert self.H_PREV is not None, "SETUP() MUST BE CALLED BEFORE FORWARD_PASS()"
         self.LAST_INPUT = X  # SAVE LAST INPUT
         N_SAMPLES, N_TIMESTEPS, INPUT_SHAPE = X.shape  # GET INPUT SHAPE
-        STATES = np.zeros((N_SAMPLES, N_TIMESTEPS + 1, self.HIDDEN_DIM))  # INITIALIZE STATES
-        STATES[:, -1, :] = self.H_PREV.copy()  # SET LAST STATE TO PREVIOUS HIDDEN STATE
+        # INITIALIZE STATES
+        STATES = np.zeros((N_SAMPLES, N_TIMESTEPS + 1, self.HIDDEN_DIM))
+        # SET LAST STATE TO PREVIOUS HIDDEN STATE
+        STATES[:, -1, :] = self.H_PREV.copy()
         p = self.__PARAMETERS__  # GET PARAMETERS
         for STEP in range(N_TIMESTEPS):  # FORWARD PROPAGATION
-            STATES[:, STEP, :] = np.tanh(np.dot(X[:, STEP, :], p["W"]) + np.dot(STATES[:, STEP - 1, :], p["U"]) + p["b"])  # HIDDEN STATE
+            STATES[:, STEP, :] = np.tanh(np.dot(
+                X[:, STEP, :], p["W"]) + np.dot(STATES[:, STEP - 1, :], p["U"]) + p["b"])  # HIDDEN STATE
         self.STATES = STATES  # SAVE STATES
-        self.H_PREV = STATES[:, N_TIMESTEPS - 1, :].copy()  # SAVE PREVIOUS HIDDEN STATE
+        # SAVE PREVIOUS HIDDEN STATE
+        self.H_PREV = STATES[:, N_TIMESTEPS - 1, :].copy()
         if self.RETURN_SEQUENCES:  # RETURN OUTPUT
             return STATES[:, 0:-1, :]  # RETURN ALL OUTPUTS
         else:  # RETURN LAST OUTPUT
@@ -118,7 +127,7 @@ class RNN(LAYER, PARAM_MIXIN):
         ----------
         DELTA : NUMPY ARRAY
             DELTA ARRAY
-        
+
         RETURNS
         -------
         NUMPY ARRAY
@@ -132,15 +141,22 @@ class RNN(LAYER, PARAM_MIXIN):
             DELTA = DELTA[:, np.newaxis, :]  # CONVERT TO 3D
         N_SAMPLES, N_TIMESTEPS, INPUT_SHAPE = DELTA.shape  # GET DELTA SHAPE
         P = self.__PARAMETERS__  # GET PARAMETERS
-        GRAD = { KEY: np.zeros_like(P[KEY]) for KEY in P.KEYS() }  # INITIALIZE GRADIENTS
-        DH_NEXT = np.zeros((N_SAMPLES, INPUT_SHAPE))  # INITIALIZE NEXT HIDDEN STATE GRADIENT
-        OUTPUT = np.zeros((N_SAMPLES, N_TIMESTEPS, self.INPUT_DIM))  # INITIALIZE OUTPUT GRADIENT
+        GRAD = {KEY: np.zeros_like(P[KEY])
+                for KEY in P.KEYS()}  # INITIALIZE GRADIENTS
+        # INITIALIZE NEXT HIDDEN STATE GRADIENT
+        DH_NEXT = np.zeros((N_SAMPLES, INPUT_SHAPE))
+        # INITIALIZE OUTPUT GRADIENT
+        OUTPUT = np.zeros((N_SAMPLES, N_TIMESTEPS, self.INPUT_DIM))
         for STEP in reversed(range(N_TIMESTEPS)):  # BACKWARD PROPAGATION
-            DHI = elementwise_grad(self.ACTIVATION, self.STATES[:, STEP, :]) * (DELTA[:, STEP, :] + DH_NEXT)  # HIDDEN STATE GRADIENT
-            GRAD["W"] += np.dot(self.LAST_INPUT[:, STEP, :].T, DHI)  # UPDATE GRADIENTS
+            DHI = elementwise_grad(self.ACTIVATION, self.STATES[:, STEP, :]) * (
+                DELTA[:, STEP, :] + DH_NEXT)  # HIDDEN STATE GRADIENT
+            # UPDATE GRADIENTS
+            GRAD["W"] += np.dot(self.LAST_INPUT[:, STEP, :].T, DHI)
             GRAD["b"] += DELTA[:, STEP, :].sum(axis=0)  # UPDATE GRADIENTS
-            GRAD["U"] += np.dot(self.STATES[:, STEP - 1, :].T, DHI)  # UPDATE GRADIENTS
-            DH_NEXT = np.dot(DHI, P["U"].T)  # UPDATE NEXT HIDDEN STATE GRADIENT
+            # UPDATE GRADIENTS
+            GRAD["U"] += np.dot(self.STATES[:, STEP - 1, :].T, DHI)
+            # UPDATE NEXT HIDDEN STATE GRADIENT
+            DH_NEXT = np.dot(DHI, P["U"].T)
             D = np.dot(DELTA[:, STEP, :], P["U"].T)  # OUTPUT GRADIENT
             OUTPUT[:, STEP, :] = np.dot(D, P["W"].T)  # UPDATE OUTPUT GRADIENT
         for KEY in GRAD.keys():  # UPDATE PARAMETERS
@@ -161,6 +177,7 @@ class RNN(LAYER, PARAM_MIXIN):
             OUTPUT SHAPE
         """
         if self.RETURN_SEQUENCES:  # RETURN OUTPUT SHAPE
-            return X_SHAPE[0], X_SHAPE[1], self.HIDDEN_DIM  # RETURN OUTPUT SHAPE
+            # RETURN OUTPUT SHAPE
+            return X_SHAPE[0], X_SHAPE[1], self.HIDDEN_DIM
         else:  # RETURN OUTPUT SHAPE
             return X_SHAPE[0], self.HIDDEN_DIM  # RETURN OUTPUT SHAPE

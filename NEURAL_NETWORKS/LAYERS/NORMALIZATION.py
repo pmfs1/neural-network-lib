@@ -3,6 +3,7 @@ import numpy as np
 from NEURAL_NETWORKS.layers import LAYER, PARAM_MIXIN, PHASE_MIXIN
 from NEURAL_NETWORKS.PARAMETERS import PARAMETER
 
+
 class BATCH_NORMALIZATION(LAYER, PARAM_MIXIN, PHASE_MIXIN):
     """BATCH NORMALIZATION LAYER
 
@@ -31,7 +32,7 @@ class BATCH_NORMALIZATION(LAYER, PARAM_MIXIN, PHASE_MIXIN):
 
     def __init__(self, MOMENTUM=0.9, EPS=1e-5, PARAMETERS=PARAMETER()):
         """INITIALIZE BATCH NORMALIZATION LAYER
-        
+
         PARAMETERS
         ----------
         MOMENTUM : FLOAT
@@ -44,7 +45,7 @@ class BATCH_NORMALIZATION(LAYER, PARAM_MIXIN, PHASE_MIXIN):
             EXPONENTIAL MOVING AVERAGE OF THE MEAN
         EMA_VAR : FLOAT
             EXPONENTIAL MOVING AVERAGE OF THE VARIANCE
-        
+
         RETURNS
         -------
         NONE
@@ -68,7 +69,8 @@ class BATCH_NORMALIZATION(LAYER, PARAM_MIXIN, PHASE_MIXIN):
         -------
         NONE
         """
-        self.__PARAMETERS__.SETUP_WEIGHTS((1, X_SHAPE[1]))  # INITIALIZE WEIGHTS
+        self.__PARAMETERS__.SETUP_WEIGHTS(
+            (1, X_SHAPE[1]))  # INITIALIZE WEIGHTS
 
     def __FORWARD_PASS__(self, X):
         """PERFORMS A FORWARD PASS THROUGH THE LAYER
@@ -77,7 +79,7 @@ class BATCH_NORMALIZATION(LAYER, PARAM_MIXIN, PHASE_MIXIN):
         ----------
         X : NUMPY ARRAY
             INPUT TO THE LAYER
-        
+
         RETURNS
         -------
         OUT : NUMPY ARRAY
@@ -86,7 +88,8 @@ class BATCH_NORMALIZATION(LAYER, PARAM_MIXIN, PHASE_MIXIN):
         GAMMA = self.__PARAMETERS__["W"]  # GET GAMMA
         BETA = self.__PARAMETERS__["b"]  # GET BETA
         if self.IS_TESTING:  # IF TESTING
-            assert self.EMA_MEAN is not None and self.EMA_VAR is not None, "EMA_MEAN AND EMA_VAR MUST BE SET FOR TESTING"  # ENSURE EMA_MEAN AND EMA_VAR ARE SET
+            # ENSURE EMA_MEAN AND EMA_VAR ARE SET
+            assert self.EMA_MEAN is not None and self.EMA_VAR is not None, "EMA_MEAN AND EMA_VAR MUST BE SET FOR TESTING"
             MU = self.EMA_MEAN  # GET MEAN
             XMU = X - MU  # GET X - MEAN
             VAR = self.EMA_VAR  # GET VARIANCE
@@ -109,9 +112,12 @@ class BATCH_NORMALIZATION(LAYER, PARAM_MIXIN, PHASE_MIXIN):
             self.EMA_MEAN = MU  # SET EMA_MEAN
             self.EMA_VAR = VAR  # SET EMA_VAR
         else:  # IF EMA_MEAN AND EMA_VAR ARE SET
-            self.EMA_MEAN = self.MOMENTUM * self.EMA_MEAN + (1 - self.MOMENTUM) * MU  # UPDATE EMA_MEAN
-            self.EMA_VAR = self.MOMENTUM * self.EMA_VAR + (1 - self.MOMENTUM) * VAR  # UPDATE EMA_VAR
-        self.CACHE = (XHAT, GAMMA, XMU, IVAR, SQRTVAR, VAR)  # STORE VARIABLES IN CACHE
+            self.EMA_MEAN = self.MOMENTUM * self.EMA_MEAN + \
+                (1 - self.MOMENTUM) * MU  # UPDATE EMA_MEAN
+            self.EMA_VAR = self.MOMENTUM * self.EMA_VAR + \
+                (1 - self.MOMENTUM) * VAR  # UPDATE EMA_VAR
+        self.CACHE = (XHAT, GAMMA, XMU, IVAR, SQRTVAR,
+                      VAR)  # STORE VARIABLES IN CACHE
         return OUT  # RETURN OUTPUT
 
     def FORWARD_PASS(self, X):
@@ -121,7 +127,7 @@ class BATCH_NORMALIZATION(LAYER, PARAM_MIXIN, PHASE_MIXIN):
         ----------
         X : NUMPY ARRAY
             INPUT TO THE LAYER
-        
+
         RETURNS
         -------
         OUT : NUMPY ARRAY
@@ -133,9 +139,11 @@ class BATCH_NORMALIZATION(LAYER, PARAM_MIXIN, PHASE_MIXIN):
             N, C, H, W = X.shape  # GET NUMBER OF SAMPLES, CHANNELS, HEIGHT, AND WIDTH
             X_FLAT = X.transpose(0, 2, 3, 1).reshape(-1, C)  # RESHAPE INPUT
             OUT_FLAT = self.__FORWARD_PASS__(X_FLAT)  # PERFORM FORWARD PASS
-            return OUT_FLAT.reshape(N, H, W, C).transpose(0, 3, 1, 2)  # RESHAPE OUTPUT
+            # RESHAPE OUTPUT
+            return OUT_FLAT.reshape(N, H, W, C).transpose(0, 3, 1, 2)
         else:  # IF INPUT IS NEITHER A REGULAR LAYER OR A CONVOLUTION LAYER
-            raise NotImplementedError("INPUT SHAPE NOT SUPPORTED")  # RAISE ERROR
+            raise NotImplementedError(
+                "INPUT SHAPE NOT SUPPORTED")  # RAISE ERROR
 
     def __BACKWARD_PASS__(self, DELTA):
         """PERFORMS A BACKWARD PASS THROUGH THE LAYER
@@ -144,7 +152,7 @@ class BATCH_NORMALIZATION(LAYER, PARAM_MIXIN, PHASE_MIXIN):
         ----------
         DELTA : NUMPY ARRAY
             DELTA FROM THE NEXT LAYER
-        
+
         RETURNS
         -------
         DELTA : NUMPY ARRAY
@@ -156,17 +164,22 @@ class BATCH_NORMALIZATION(LAYER, PARAM_MIXIN, PHASE_MIXIN):
         D_GAMMAX = DELTA  # GET DERIVATIVE OF GAMMA * NORMALIZED INPUT
         D_GAMMA = np.sum(D_GAMMAX * XHAT, axis=0)  # GET DERIVATIVE OF GAMMA
         D_XHAT = D_GAMMAX * GAMMA  # GET DERIVATIVE OF NORMALIZED INPUT
-        D_IVAR = np.sum(D_XHAT * XMU, axis=0)  # GET DERIVATIVE OF INVERSE SQRT(VARIANCE + EPSILON)
+        # GET DERIVATIVE OF INVERSE SQRT(VARIANCE + EPSILON)
+        D_IVAR = np.sum(D_XHAT * XMU, axis=0)
         D_XMU_1 = D_XHAT * IVAR  # GET DERIVATIVE OF X - MEAN
-        D_SQRTVAR = -1.0 / (SQRTVAR ** 2) * D_IVAR  # GET DERIVATIVE OF SQRT(VARIANCE + EPSILON)
-        D_VAR = 0.5 * 1.0 / np.sqrt(VAR + self.EPS) * D_SQRTVAR  # GET DERIVATIVE OF VARIANCE
-        DSQ = 1.0 / N * np.ones((N, D)) * D_VAR  # GET DERIVATIVE OF (X - MEAN) ** 2
+        # GET DERIVATIVE OF SQRT(VARIANCE + EPSILON)
+        D_SQRTVAR = -1.0 / (SQRTVAR ** 2) * D_IVAR
+        # GET DERIVATIVE OF VARIANCE
+        D_VAR = 0.5 * 1.0 / np.sqrt(VAR + self.EPS) * D_SQRTVAR
+        # GET DERIVATIVE OF (X - MEAN) ** 2
+        DSQ = 1.0 / N * np.ones((N, D)) * D_VAR
         D_XMU_2 = 2 * XMU * DSQ  # GET DERIVATIVE OF X - MEAN
         DX_1 = D_XMU_1 + D_XMU_2  # GET DERIVATIVE OF INPUT
         D_MU = -1 * np.sum(D_XMU_1 + D_XMU_2, axis=0)  # GET DERIVATIVE OF MEAN
         DX_2 = 1.0 / N * np.ones((N, D)) * D_MU  # GET DERIVATIVE OF INPUT
         DX = DX_1 + DX_2  # GET DERIVATIVE OF INPUT
-        self.__PARAMETERS__.UPDATE_GRAD("W", D_GAMMA)  # UPDATE GRADIENT OF GAMMA
+        self.__PARAMETERS__.UPDATE_GRAD(
+            "W", D_GAMMA)  # UPDATE GRADIENT OF GAMMA
         self.__PARAMETERS__.UPDATE_GRAD("b", D_BETA)  # UPDATE GRADIENT OF BETA
         return DX  # RETURN DELTA TO THE PREVIOUS LAYER
 
@@ -177,7 +190,7 @@ class BATCH_NORMALIZATION(LAYER, PARAM_MIXIN, PHASE_MIXIN):
         ----------
         X : NUMPY ARRAY
             INPUT TO THE LAYER
-        
+
         RETURNS 
         -------
         DELTA : NUMPY ARRAY
@@ -189,9 +202,11 @@ class BATCH_NORMALIZATION(LAYER, PARAM_MIXIN, PHASE_MIXIN):
             N, C, H, W = X.shape  # GET NUMBER OF SAMPLES, CHANNELS, HEIGHT, AND WIDTH
             X_FLAT = X.transpose(0, 2, 3, 1).reshape(-1, C)  # RESHAPE INPUT
             OUT_FLAT = self.__BACKWARD_PASS__(X_FLAT)  # PERFORM BACKWARD PASS
-            return OUT_FLAT.reshape(N, H, W, C).transpose(0, 3, 1, 2)  # RESHAPE OUTPUT
+            # RESHAPE OUTPUT
+            return OUT_FLAT.reshape(N, H, W, C).transpose(0, 3, 1, 2)
         else:  # IF INPUT IS NEITHER A REGULAR LAYER OR A CONVOLUTION LAYER
-            raise NotImplementedError("INPUT SHAPE NOT SUPPORTED")  # RAISE ERROR
+            raise NotImplementedError(
+                "INPUT SHAPE NOT SUPPORTED")  # RAISE ERROR
 
     def SHAPE(self, X_SHAPE):
         """RETURNS THE SHAPE OF THE OUTPUT GIVEN AN INPUT SHAPE
