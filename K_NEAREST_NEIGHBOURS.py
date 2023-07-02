@@ -1,5 +1,5 @@
-import numpy as np
 from collections import Counter
+import numpy as np
 
 # K_NEAREST_NEIGHBOURS: CLASS THAT IMPLEMENTS K NEAREST NEIGHBOURS MODEL
 

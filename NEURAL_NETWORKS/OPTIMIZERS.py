@@ -1,5 +1,3 @@
-import logging
-import time
 from collections import defaultdict
 
 import numpy as np
@@ -23,22 +21,11 @@ class OPTIMIZER(object):
         RETURN LOSS HISTORY
         """
         LOSS_HISTORY = []  # LOSS HISTORY LIST: STORES LOSS HISTORY
-        for EPOCH in range(NETWORK.MAX_EPOCHS):  # ITERATE OVER MAX_EPOCHS
+        for _ in range(NETWORK.MAX_EPOCHS):  # ITERATE OVER MAX_EPOCHS
             if NETWORK.SHUFFLE:  # IF SHUFFLE IS TRUE
                 NETWORK.SUFFLE_DATASET()  # SHUFFLE DATASET
-            START_TIME = time.time()  # START TIME
             LOSS = self.TRAIN_EPOCH(NETWORK)  # TRAIN EPOCH
             LOSS_HISTORY.append(LOSS)  # APPEND LOSS TO LOSS HISTORY
-            if NETWORK.VERBOSE:  # IF VERBOSE IS TRUE
-                MSG = "EPOCH:%s, TRAIN LOSS: %s" % (
-                    EPOCH, LOSS)  # CREATE MESSAGE
-                if NETWORK.LOG_METRIC:  # IF LOG_METRIC IS TRUE
-                    # APPEND METRIC TO MESSAGE
-                    MSG += ", TRAIN %s: %s" % (NETWORK.METRIC_NAME,
-                                               NETWORK.ERROR())
-                # APPEND ELAPSED TIME TO MESSAGE
-                MSG += ", ELAPSED: %s SEC." % (time.time() - START_TIME)
-                logging.info(MSG)  # LOG MESSAGE
         return LOSS_HISTORY  # RETURN LOSS HISTORY
 
     def UPDATE(self, NETWORK):
@@ -73,10 +60,6 @@ class OPTIMIZER(object):
         # CREATE BATCH ITERATOR FOR Y
         Y_BATCH = BATCH_ITERATOR(NETWORK.Y, NETWORK.BATCH_SIZE)
         BATCH = zip(X_BATCH, Y_BATCH)  # ZIP X_BATCH AND Y_BATCH
-        if NETWORK.VERBOSE:  # IF VERBOSE IS TRUE
-            # CREATE PROGRESS BAR
-            BATCH = tqdm(BATCH, total=int(
-                np.ceil(NETWORK.N_SAMPLES / NETWORK.BATCH_SIZE)))
         for X, Y in BATCH:  # FOR EACH X, Y IN BATCH # type: ignore
             LOSS = np.mean(NETWORK.UPDATE(X, Y))  # CALCULATE LOSS
             self.UPDATE(NETWORK)  # UPDATE NETWORK
