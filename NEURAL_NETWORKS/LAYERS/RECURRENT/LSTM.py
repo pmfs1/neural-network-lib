@@ -279,4 +279,4 @@ class LSTM(LAYER, PARAM_MIXIN):
         LIST
             LIST OF PARAMETERS
         """
-        return self.__PARAMETERS__.PARAMETERS # RETURN PARAMETERS
+        return self.__PARAMETERS__ # RETURN PARAMETERS
