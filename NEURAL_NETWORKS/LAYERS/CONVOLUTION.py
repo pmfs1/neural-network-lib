@@ -128,6 +128,7 @@ class CONVOLUTION(LAYER, PARAM_MIXIN):
         NUMPY ARRAY
             DELTA FOR THE PREVIOUS LAYER
         """
+        assert self.LAST_INPUT is not None and self.COL is not None and self.COL_W is not None, "FORWARD PASS MUST BE CALLED BEFORE BACKWARD PASS" # CHECK IF FORWARD PASS WAS CALLED
         DELTA = DELTA.transpose(0, 2, 3, 1).reshape(-1,
                                                     self.N_FILTERS)  # RESHAPE DELTA
         D_W = np.dot(self.COL.T, DELTA).transpose((1, 0)).reshape(
@@ -249,6 +250,7 @@ class MAX_POOLING(LAYER):
         NUMPY ARRAY
             DELTA FOR THE PREVIOUS LAYER
         """
+        assert self.LAST_INPUT is not None and self.ARG_MAX is not None, "FORWARD PASS MUST BE CALLED BEFORE BACKWARD PASS" # CHECK IF FORWARD PASS WAS CALLED
         DELTA = DELTA.transpose(0, 2, 3, 1)  # RESHAPE DELTA
         POOL_SIZE = self.POOL_SHAPE[0] * self.POOL_SHAPE[1]  # GET POOL SIZE
         Y_MAX = np.zeros((DELTA.size, POOL_SIZE))  # CREATE ARRAY FOR DELTA
