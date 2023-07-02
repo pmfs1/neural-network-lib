@@ -51,7 +51,7 @@ class BASE_ESTIMATOR:
         """
         self.__SETUP_INPUT__(X, Y)  # CALL THE __SETUP_INPUT__ FUNCTION WITH ARGUMENTS X AND Y
 
-    def PREDICT(self, X=None):
+    def TRANSFORM(self, X=None):
         """PREDICT TARGET VALUES FOR A DATASET.
 
         PARAMETERS
