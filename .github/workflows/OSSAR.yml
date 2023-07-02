@@ -1,0 +1,26 @@
+name: 'OSSAR'
+on: [ push, pull_request ]
+permissions:
+  contents: read
+jobs:
+  OSSAR:
+    name: 'OSSAR'
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+    runs-on: windows-latest
+    steps:
+    - name: 'CHECKOUT'
+      uses: actions/checkout@v3
+    - name: 'SET-UP REQUIRED DOTNET PLATFORM'
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '3.1.x'
+    - name: 'RUN'
+      uses: github/ossar-action@v1
+      id: ossar
+    - name: 'UPLOAD RESULTS'
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: ${{ steps.ossar.outputs.sarifFile }}
