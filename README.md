@@ -12,4 +12,4 @@
     - *This branch is not secure, so it may be vulnerable.*
 - ***If you want a stable version, consider using one of the tags.***
 
-![Visualization of the codebase](./diagram.svg)
+![DIAGRAM](./DIAGRAM.svg)
