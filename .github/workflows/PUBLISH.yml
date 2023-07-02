@@ -4,8 +4,8 @@ on:
   schedule:
     - cron: '0 0 * * *'
 jobs:
-  PUBLISH:
-    name: 'PUBLISH'
+  PUBLISH_MODULES:
+    name: 'PUBLISH_MODULES'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -33,4 +33,28 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
           docker tag "${{ github.repository }}/${{ matrix.MODULES }}" $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
+  PUBLISH:
+    name: 'PUBLISH'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: 'CHECKOUT'
+        uses: actions/checkout@v3
+      - name: 'BUILD'
+        run: docker build . --file Dockerfile --tag "${{ github.repository }}" --label "runnumber=${GITHUB_RUN_ID}"
+      - name: 'AUTHENTICATE'
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+      - name: 'PUSH'
+        run: |
+          IMAGE_ID="ghcr.io/${{ github.repository }}"
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          [ "$VERSION" == "develop" ] && VERSION=latest
+          echo IMAGE_ID=$IMAGE_ID
+          echo VERSION=$VERSION
+          docker tag "${{ github.repository }}" $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
