@@ -36,5 +36,6 @@ class LINEAR_REGRESSION:
 
     # PREDICT(): RETURNS THE PREDICTIONS OF THE LINEAR REGRESSION MODEL
     def PREDICT(self, X):
+        assert self.WEIGHTS is not None and self.BIAS is not None, "RUN FIT() FIRST" # ASSERTS THAT FIT() IS RUN BEFORE
         # RETURNS THE PREDICTIONS OF THE LINEAR REGRESSION MODEL
         return np.dot(X, self.WEIGHTS) + self.BIAS

@@ -19,3 +19,5 @@ class RADEMACHER_DISTRIBUTION:
             return 1 / 2  # RETURN 1 / 2
         elif K >= 1:  # IF K IS GREATER THAN OR EQUAL TO 1
             return 1  # RETURN 1
+        else: # ELSE
+            raise ValueError("K IS NOT A VALID VALUE")  # RAISE A VALUE ERROR

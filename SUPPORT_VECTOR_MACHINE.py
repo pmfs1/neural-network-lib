@@ -40,5 +40,6 @@ class SUPPORT_VECTOR_MACHINE:
 
     # PREDICT(): METHOD THAT PREDICTS THE DATASET
     def PREDICT(self, X):
+        assert self.WEIGHTS is not None and self.BIAS is not None, "RUN FIT() FIRST"  # ASSERTS THAT FIT() IS RUN BEFORE
         # RETURNS THE PREDICTED DATASET: X * WEIGHTS - BIAS
         return np.sign(np.dot(X, self.WEIGHTS) - self.BIAS)

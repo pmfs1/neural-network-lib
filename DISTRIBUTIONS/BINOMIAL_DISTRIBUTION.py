@@ -1,4 +1,4 @@
-import numpy as np
+import math
 
 # BINOMIAL_DISTRIBUTION [STATIC]: IMPLEMENTATION OF BINOMIAL DISTRIBUTION. THE BINOMIAL DISTRIBUTION, WHICH DESCRIBES THE NUMBER OF SUCCESSES IN A SERIES OF INDEPENDENT YES/NO EXPERIMENTS ALL WITH THE SAME PROBABILITY OF SUCCESS.
 class BINOMIAL_DISTRIBUTION:
@@ -8,7 +8,7 @@ class BINOMIAL_DISTRIBUTION:
         assert P >= 0 and P <= 1, "P MUST BE GREATER THAN OR EQUAL TO 0 AND LESS THAN OR EQUAL TO 1"  # ASSERT P IS GREATER THAN OR EQUAL TO 0 AND LESS THAN OR EQUAL TO 1
         assert N >= 0, "N MUST BE GREATER THAN OR EQUAL TO 0"  # ASSERT N IS GREATER THAN OR EQUAL TO 0
         if K >= 0 and K <= N:  # IF K IS GREATER THAN OR EQUAL TO 0 AND LESS THAN OR EQUAL TO N
-            return (np.math.factorial(N) / (np.math.factorial(K) * np.math.factorial(N - K))) * (P ** K) * ((1 - P) ** (N - K))  # RETURN (N CHOOSE K) * P ** K * (1 - P) ** (N - K)
+            return (math.factorial(N) / (math.factorial(K) * math.factorial(N - K))) * (P ** K) * ((1 - P) ** (N - K))  # RETURN (N CHOOSE K) * P ** K * (1 - P) ** (N - K)
         else:  # ELSE K IS NOT GREATER THAN OR EQUAL TO 0 AND LESS THAN OR EQUAL TO N (K IS NOT A VALID VALUE)
             raise ValueError("K MUST BE GREATER THAN OR EQUAL TO 0 AND LESS THAN OR EQUAL TO N")  # RAISE VALUE ERROR
 
@@ -32,4 +32,4 @@ class BINOMIAL_DISTRIBUTION:
     # __BETA_FUNCTION__ [PRIVATE & STATIC]: BETA FUNCTION
     @staticmethod
     def __BETA_FUNCTION__(M: int, N: int) -> float:
-        return (np.math.factorial(M - 1) * np.math.factorial(N - 1)) / np.math.factorial(M + N - 1) # RETURN (M - 1)! * (N - 1)! / (M + N - 1)!
+        return (math.factorial(M - 1) * math.factorial(N - 1)) / math.factorial(M + N - 1) # RETURN (M - 1)! * (N - 1)! / (M + N - 1)!
