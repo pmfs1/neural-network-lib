@@ -1,12 +1,15 @@
 import logging
 import time
 from collections import defaultdict
+
 import numpy as np
 from tqdm import tqdm
+
 from neural_network.batch_iterator import BATCH_ITERATOR
 
 class OPTIMIZER(object):
     """BASE CLASS FOR OPTIMIZERS"""
+
     def OPTIMIZE(self, NETWORK):
         """OPTIMIZATION PROCESS
         
@@ -19,20 +22,20 @@ class OPTIMIZER(object):
         -------
         RETURN LOSS HISTORY
         """
-        LOSS_HISTORY = [] # LOSS HISTORY LIST: STORES LOSS HISTORY
-        for EPOCH in range(NETWORK.MAX_EPOCHS): # ITERATE OVER MAX_EPOCHS
-            if NETWORK.SHUFFLE: # IF SHUFFLE IS TRUE
-                NETWORK.SUFFLE_DATASET() # SHUFFLE DATASET
-            START_TIME = time.time() # START TIME
-            LOSS = self.TRAIN_EPOCH(NETWORK) # TRAIN EPOCH
-            LOSS_HISTORY.append(LOSS) # APPEND LOSS TO LOSS HISTORY
-            if NETWORK.VERBOSE: # IF VERBOSE IS TRUE
-                MSG = "EPOCH:%s, TRAIN LOSS: %s" % (EPOCH, LOSS) # CREATE MESSAGE
-                if NETWORK.LOG_METRIC: # IF LOG_METRIC IS TRUE
-                    MSG += ", TRAIN %s: %s" % (NETWORK.METRIC_NAME, NETWORK.ERROR()) # APPEND METRIC TO MESSAGE
-                MSG += ", ELAPSED: %s SEC." % (time.time() - START_TIME) # APPEND ELAPSED TIME TO MESSAGE
-                logging.info(MSG) # LOG MESSAGE
-        return LOSS_HISTORY # RETURN LOSS HISTORY
+        LOSS_HISTORY = []  # LOSS HISTORY LIST: STORES LOSS HISTORY
+        for EPOCH in range(NETWORK.MAX_EPOCHS):  # ITERATE OVER MAX_EPOCHS
+            if NETWORK.SHUFFLE:  # IF SHUFFLE IS TRUE
+                NETWORK.SUFFLE_DATASET()  # SHUFFLE DATASET
+            START_TIME = time.time()  # START TIME
+            LOSS = self.TRAIN_EPOCH(NETWORK)  # TRAIN EPOCH
+            LOSS_HISTORY.append(LOSS)  # APPEND LOSS TO LOSS HISTORY
+            if NETWORK.VERBOSE:  # IF VERBOSE IS TRUE
+                MSG = "EPOCH:%s, TRAIN LOSS: %s" % (EPOCH, LOSS)  # CREATE MESSAGE
+                if NETWORK.LOG_METRIC:  # IF LOG_METRIC IS TRUE
+                    MSG += ", TRAIN %s: %s" % (NETWORK.METRIC_NAME, NETWORK.ERROR())  # APPEND METRIC TO MESSAGE
+                MSG += ", ELAPSED: %s SEC." % (time.time() - START_TIME)  # APPEND ELAPSED TIME TO MESSAGE
+                logging.info(MSG)  # LOG MESSAGE
+        return LOSS_HISTORY  # RETURN LOSS HISTORY
 
     def UPDATE(self, NETWORK):
         """UPDATE PARAMETERS
@@ -46,7 +49,7 @@ class OPTIMIZER(object):
         -------
         NONE
         """
-        raise NotImplementedError # RAISE NOT IMPLEMENTED ERROR
+        raise NotImplementedError  # RAISE NOT IMPLEMENTED ERROR
 
     def TRAIN_EPOCH(self, NETWORK):
         """TRAIN EPOCH
@@ -60,18 +63,18 @@ class OPTIMIZER(object):
         -------
         RETURN EPOCH LOSS
         """
-        LOSSES = [] # LOSS LIST: STORES LOSS
-        X_BATCH = BATCH_ITERATOR(NETWORK.X, NETWORK.BATCH_SIZE) # CREATE BATCH ITERATOR FOR X
-        Y_BATCH = BATCH_ITERATOR(NETWORK.Y, NETWORK.BATCH_SIZE) # CREATE BATCH ITERATOR FOR Y
-        BATCH = zip(X_BATCH, Y_BATCH) # ZIP X_BATCH AND Y_BATCH
-        if NETWORK.VERBOSE: # IF VERBOSE IS TRUE
-            BATCH = tqdm(BATCH, total=int(np.ceil(NETWORK.N_SAMPLES / NETWORK.BATCH_SIZE))) # CREATE PROGRESS BAR
-        for X, Y in BATCH: # FOR EACH X, Y IN BATCH # type: ignore
-            LOSS = np.mean(NETWORK.UPDATE(X, Y)) # CALCULATE LOSS
-            self.UPDATE(NETWORK) # UPDATE NETWORK
-            LOSSES.append(LOSS) # APPEND LOSS TO LOSSES
-        EPOCH_LOSS = np.mean(LOSSES) # CALCULATE EPOCH LOSS
-        return EPOCH_LOSS # RETURN EPOCH LOSS
+        LOSSES = []  # LOSS LIST: STORES LOSS
+        X_BATCH = BATCH_ITERATOR(NETWORK.X, NETWORK.BATCH_SIZE)  # CREATE BATCH ITERATOR FOR X
+        Y_BATCH = BATCH_ITERATOR(NETWORK.Y, NETWORK.BATCH_SIZE)  # CREATE BATCH ITERATOR FOR Y
+        BATCH = zip(X_BATCH, Y_BATCH)  # ZIP X_BATCH AND Y_BATCH
+        if NETWORK.VERBOSE:  # IF VERBOSE IS TRUE
+            BATCH = tqdm(BATCH, total=int(np.ceil(NETWORK.N_SAMPLES / NETWORK.BATCH_SIZE)))  # CREATE PROGRESS BAR
+        for X, Y in BATCH:  # FOR EACH X, Y IN BATCH # type: ignore
+            LOSS = np.mean(NETWORK.UPDATE(X, Y))  # CALCULATE LOSS
+            self.UPDATE(NETWORK)  # UPDATE NETWORK
+            LOSSES.append(LOSS)  # APPEND LOSS TO LOSSES
+        EPOCH_LOSS = np.mean(LOSSES)  # CALCULATE EPOCH LOSS
+        return EPOCH_LOSS  # RETURN EPOCH LOSS
 
     def TRAIN_BATCH(self, NETWORK, X, Y):
         """TRAIN BATCH
@@ -89,9 +92,9 @@ class OPTIMIZER(object):
         -------
         RETURN BATCH LOSS
         """
-        LOSS = np.mean(NETWORK.UPDATE(X, Y)) # CALCULATE LOSS
-        self.UPDATE(NETWORK) # UPDATE NETWORK
-        return LOSS # RETURN LOSS
+        LOSS = np.mean(NETWORK.UPDATE(X, Y))  # CALCULATE LOSS
+        self.UPDATE(NETWORK)  # UPDATE NETWORK
+        return LOSS  # RETURN LOSS
 
     def SETUP(self, NETWORK):
         """SETUP OPTIMIZER
@@ -105,10 +108,11 @@ class OPTIMIZER(object):
         -------
         NONE
         """
-        raise NotImplementedError # RAISE NOT IMPLEMENTED ERROR
+        raise NotImplementedError  # RAISE NOT IMPLEMENTED ERROR
 
 class STOCHASTIC_GRADIENT_DESCENT(OPTIMIZER):
     """STOCHASTIC GRADIENT DESCENT OPTIMIZER"""
+
     def __init__(self, LEARNING_RATE=0.01, MOMENTUM=0.9, DECAY=0.0, NESTEROV=False):
         """INITIALIZE SGD OPTIMIZER
         
@@ -127,12 +131,12 @@ class STOCHASTIC_GRADIENT_DESCENT(OPTIMIZER):
         -------
         NONE
         """
-        self.NESTEROV = NESTEROV # SET NESTEROV
-        self.DECAY = DECAY # SET DECAY
-        self.MOMENTUM = MOMENTUM # SET MOMENTUM
-        self.LEARNING_RATE = LEARNING_RATE # SET LEARNING RATE
-        self.ITERATION = 0 # SET ITERATION TO 0
-        self.VELOCITY = None # SET VELOCITY TO NONE
+        self.NESTEROV = NESTEROV  # SET NESTEROV
+        self.DECAY = DECAY  # SET DECAY
+        self.MOMENTUM = MOMENTUM  # SET MOMENTUM
+        self.LEARNING_RATE = LEARNING_RATE  # SET LEARNING RATE
+        self.ITERATION = 0  # SET ITERATION TO 0
+        self.VELOCITY = None  # SET VELOCITY TO NONE
 
     def SETUP(self, NETWORK):
         """SETUP OPTIMIZER
@@ -146,10 +150,10 @@ class STOCHASTIC_GRADIENT_DESCENT(OPTIMIZER):
         -------
         NONE
         """
-        self.VELOCITY = defaultdict(dict) # SET VELOCITY TO DEFAULTDICT
-        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS): # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
-            for n in LAYER.PARAMETERS.KEYS(): # FOR EACH PARAMETER IN LAYER.PARAMETERS
-                self.VELOCITY[i][n] = np.zeros_like(LAYER.PARAMETERS[n]) # SET VELOCITY TO ZERO
+        self.VELOCITY = defaultdict(dict)  # SET VELOCITY TO DEFAULTDICT
+        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS):  # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
+            for n in LAYER.PARAMETERS.KEYS():  # FOR EACH PARAMETER IN LAYER.PARAMETERS
+                self.VELOCITY[i][n] = np.zeros_like(LAYER.PARAMETERS[n])  # SET VELOCITY TO ZERO
 
     def UPDATE(self, NETWORK):
         """UPDATE PARAMETERS
@@ -163,20 +167,21 @@ class STOCHASTIC_GRADIENT_DESCENT(OPTIMIZER):
         -------
         NONE
         """
-        assert self.VELOCITY is not None, "CALL SETUP() BEFORE UPDATE()" # ASSERT VELOCITY IS NOT NONE
-        LEARNING_RATE = self.LEARNING_RATE * (1.0 / (1.0 + self.DECAY * self.ITERATION)) # CALCULATE LEARNING RATE
-        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS): # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
-            for n in LAYER.PARAMETERS.KEYS(): # FOR EACH PARAMETER IN LAYER.PARAMETERS
-                GRAD = LAYER.PARAMETERS.GRAD[n] # GET GRADIENT
-                UPDATE = self.MOMENTUM * self.VELOCITY[i][n] - LEARNING_RATE * GRAD # CALCULATE UPDATE
-                self.VELOCITY[i][n] = UPDATE # UPDATE VELOCITY
-                if self.NESTEROV: # IF NESTEROV IS TRUE
-                    UPDATE = self.MOMENTUM * self.VELOCITY[i][n] - LEARNING_RATE * GRAD # CALCULATE UPDATE
-                LAYER.PARAMETERS.STEP(n, UPDATE) # UPDATE PARAMETER
-        self.ITERATION += 1 # INCREMENT ITERATION
+        assert self.VELOCITY is not None, "CALL SETUP() BEFORE UPDATE()"  # ASSERT VELOCITY IS NOT NONE
+        LEARNING_RATE = self.LEARNING_RATE * (1.0 / (1.0 + self.DECAY * self.ITERATION))  # CALCULATE LEARNING RATE
+        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS):  # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
+            for n in LAYER.PARAMETERS.KEYS():  # FOR EACH PARAMETER IN LAYER.PARAMETERS
+                GRAD = LAYER.PARAMETERS.GRAD[n]  # GET GRADIENT
+                UPDATE = self.MOMENTUM * self.VELOCITY[i][n] - LEARNING_RATE * GRAD  # CALCULATE UPDATE
+                self.VELOCITY[i][n] = UPDATE  # UPDATE VELOCITY
+                if self.NESTEROV:  # IF NESTEROV IS TRUE
+                    UPDATE = self.MOMENTUM * self.VELOCITY[i][n] - LEARNING_RATE * GRAD  # CALCULATE UPDATE
+                LAYER.PARAMETERS.STEP(n, UPDATE)  # UPDATE PARAMETER
+        self.ITERATION += 1  # INCREMENT ITERATION
 
 class ADA_GRAD(OPTIMIZER):
     """ADA_GRAD OPTIMIZER"""
+
     def __init__(self, LEARNING_RATE=0.01, EPSILON=1e-8):
         """INITIALIZE ADA_GRAD OPTIMIZER
 
@@ -191,8 +196,8 @@ class ADA_GRAD(OPTIMIZER):
         -------
         NONE
         """
-        self.EPSILON = EPSILON # SET EPSILON
-        self.LEARNING_RATE = LEARNING_RATE # SET LEARNING RATE
+        self.EPSILON = EPSILON  # SET EPSILON
+        self.LEARNING_RATE = LEARNING_RATE  # SET LEARNING RATE
 
     def UPDATE(self, NETWORK):
         """UPDATE PARAMETERS
@@ -206,13 +211,13 @@ class ADA_GRAD(OPTIMIZER):
         -------
         NONE
         """
-        assert self.ACCUMULATOR is not None, "CALL SETUP() BEFORE UPDATE()" # ASSERT ACCUMULATOR IS NOT NONE
-        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS): # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
-            for n in LAYER.PARAMETERS.KEYS(): # FOR EACH PARAMETER IN LAYER.PARAMETERS
-                GRAD = LAYER.PARAMETERS.GRAD[n] # GET GRADIENT
-                self.ACCUMULATOR[i][n] += GRAD ** 2 # UPDATE ACCUMULATOR
-                STEP = self.LEARNING_RATE * GRAD / (np.sqrt(self.ACCUMULATOR[i][n]) + self.EPSILON) # CALCULATE STEP
-                LAYER.PARAMETERS.STEP(n, -STEP) # UPDATE PARAMETER
+        assert self.ACCUMULATOR is not None, "CALL SETUP() BEFORE UPDATE()"  # ASSERT ACCUMULATOR IS NOT NONE
+        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS):  # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
+            for n in LAYER.PARAMETERS.KEYS():  # FOR EACH PARAMETER IN LAYER.PARAMETERS
+                GRAD = LAYER.PARAMETERS.GRAD[n]  # GET GRADIENT
+                self.ACCUMULATOR[i][n] += GRAD ** 2  # UPDATE ACCUMULATOR
+                STEP = self.LEARNING_RATE * GRAD / (np.sqrt(self.ACCUMULATOR[i][n]) + self.EPSILON)  # CALCULATE STEP
+                LAYER.PARAMETERS.STEP(n, -STEP)  # UPDATE PARAMETER
 
     def SETUP(self, NETWORK):
         """SETUP OPTIMIZER
@@ -226,13 +231,14 @@ class ADA_GRAD(OPTIMIZER):
         -------
         NONE
         """
-        self.ACCUMULATOR = defaultdict(dict) # SET ACCUMULATOR TO DEFAULTDICT
-        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS): # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
-            for n in LAYER.PARAMETERS.KEYS(): # FOR EACH PARAMETER IN LAYER.PARAMETERS
-                self.ACCUMULATOR[i][n] = np.zeros_like(LAYER.PARAMETERS[n]) # SET ACCUMULATOR TO ZERO
+        self.ACCUMULATOR = defaultdict(dict)  # SET ACCUMULATOR TO DEFAULTDICT
+        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS):  # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
+            for n in LAYER.PARAMETERS.KEYS():  # FOR EACH PARAMETER IN LAYER.PARAMETERS
+                self.ACCUMULATOR[i][n] = np.zeros_like(LAYER.PARAMETERS[n])  # SET ACCUMULATOR TO ZERO
 
 class ADA_DELTA(OPTIMIZER):
     """ADA_DELTA OPTIMIZER"""
+
     def __init__(self, LEARNING_RATE=1.0, RHO=0.95, EPSILON=1e-8):
         """INITIALIZE ADA_DELTA OPTIMIZER
 
@@ -249,9 +255,9 @@ class ADA_DELTA(OPTIMIZER):
         -------
         NONE
         """
-        self.RHO = RHO # SET RHO
-        self.EPSILON = EPSILON # SET EPSILON
-        self.LEARNING_RATE = LEARNING_RATE # SET LEARNING RATE
+        self.RHO = RHO  # SET RHO
+        self.EPSILON = EPSILON  # SET EPSILON
+        self.LEARNING_RATE = LEARNING_RATE  # SET LEARNING RATE
 
     def UPDATE(self, NETWORK):
         """UPDATE PARAMETERS
@@ -265,13 +271,13 @@ class ADA_DELTA(OPTIMIZER):
         -------
         NONE
         """
-        assert self.ACCUMULATOR is not None, "CALL SETUP() BEFORE UPDATE()" # ASSERT ACCUMULATOR IS NOT NONE
-        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS): # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
-            for n in LAYER.PARAMETERS.KEYS(): # FOR EACH PARAMETER IN LAYER.PARAMETERS
-                GRAD = LAYER.PARAMETERS.GRAD[n] # GET GRADIENT
-                self.ACCUMULATOR[i][n] = self.RHO * self.ACCUMULATOR[i][n] + (1.0 - self.RHO) * GRAD ** 2 # UPDATE ACCUMULATOR
-                STEP = GRAD * np.sqrt(self.DELTA_ACCUMULATOR[i][n] + self.EPSILON) / np.sqrt(self.ACCUMULATOR[i][n] + self.EPSILON) # CALCULATE STEP
-                LAYER.PARAMETERS.STEP(n, -STEP * self.LEARNING_RATE) # UPDATE PARAMETER
+        assert self.ACCUMULATOR is not None, "CALL SETUP() BEFORE UPDATE()"  # ASSERT ACCUMULATOR IS NOT NONE
+        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS):  # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
+            for n in LAYER.PARAMETERS.KEYS():  # FOR EACH PARAMETER IN LAYER.PARAMETERS
+                GRAD = LAYER.PARAMETERS.GRAD[n]  # GET GRADIENT
+                self.ACCUMULATOR[i][n] = self.RHO * self.ACCUMULATOR[i][n] + (1.0 - self.RHO) * GRAD ** 2  # UPDATE ACCUMULATOR
+                STEP = GRAD * np.sqrt(self.DELTA_ACCUMULATOR[i][n] + self.EPSILON) / np.sqrt(self.ACCUMULATOR[i][n] + self.EPSILON)  # CALCULATE STEP
+                LAYER.PARAMETERS.STEP(n, -STEP * self.LEARNING_RATE)  # UPDATE PARAMETER
                 self.DELTA_ACCUMULATOR[i][n] = self.RHO * self.DELTA_ACCUMULATOR[i][n] + (1.0 - self.RHO) * STEP ** 2
 
     def SETUP(self, NETWORK):
@@ -286,15 +292,16 @@ class ADA_DELTA(OPTIMIZER):
         -------
         NONE
         """
-        self.ACCUMULATOR = defaultdict(dict) # SET ACCUMULATOR TO DEFAULTDICT
-        self.DELTA_ACCUMULATOR = defaultdict(dict) # SET DELTA_ACCUMULATOR TO DEFAULTDICT
-        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS): # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
-            for n in LAYER.PARAMETERS.KEYS(): # FOR EACH PARAMETER IN LAYER.PARAMETERS
-                self.ACCUMULATOR[i][n] = np.zeros_like(LAYER.PARAMETERS[n]) # SET ACCUMULATOR TO ZERO
-                self.DELTA_ACCUMULATOR[i][n] = np.zeros_like(LAYER.PARAMETERS[n]) # SET DELTA_ACCUMULATOR TO ZERO
+        self.ACCUMULATOR = defaultdict(dict)  # SET ACCUMULATOR TO DEFAULTDICT
+        self.DELTA_ACCUMULATOR = defaultdict(dict)  # SET DELTA_ACCUMULATOR TO DEFAULTDICT
+        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS):  # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
+            for n in LAYER.PARAMETERS.KEYS():  # FOR EACH PARAMETER IN LAYER.PARAMETERS
+                self.ACCUMULATOR[i][n] = np.zeros_like(LAYER.PARAMETERS[n])  # SET ACCUMULATOR TO ZERO
+                self.DELTA_ACCUMULATOR[i][n] = np.zeros_like(LAYER.PARAMETERS[n])  # SET DELTA_ACCUMULATOR TO ZERO
 
 class RMS_PROP(OPTIMIZER):
     """RMS_PROP OPTIMIZER"""
+
     def __init__(self, LEARNING_RATE=0.001, RHO=0.9, EPSILON=1e-8):
         """INITIALIZE RMS_PROP OPTIMIZER
 
@@ -311,9 +318,9 @@ class RMS_PROP(OPTIMIZER):
         -------
         NONE
         """
-        self.EPSILON = EPSILON # SET EPSILON
-        self.RHO = RHO # SET RHO
-        self.LEARNING_RATE = LEARNING_RATE # SET LEARNING RATE
+        self.EPSILON = EPSILON  # SET EPSILON
+        self.RHO = RHO  # SET RHO
+        self.LEARNING_RATE = LEARNING_RATE  # SET LEARNING RATE
 
     def UPDATE(self, NETWORK):
         """UPDATE PARAMETERS
@@ -327,13 +334,13 @@ class RMS_PROP(OPTIMIZER):
         -------
         NONE
         """
-        assert hasattr(self, 'ACCUMULATOR'), "ERROR: SETUP HAS NOT BEEN CALLED" # ENSURE SETUP HAS BEEN CALLED
-        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS): # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
-            for n in LAYER.PARAMETERS.KEYS(): # FOR EACH PARAMETER IN LAYER.PARAMETERS
-                GRAD = LAYER.PARAMETERS.GRAD[n] # GET GRADIENT
-                self.ACCUMULATOR[i][n] = (self.RHO * self.ACCUMULATOR[i][n]) + (1.0 - self.RHO) * (GRAD ** 2) # UPDATE ACCUMULATOR
-                STEP = self.LEARNING_RATE * GRAD / (np.sqrt(self.ACCUMULATOR[i][n]) + self.EPSILON) # CALCULATE STEP
-                LAYER.PARAMETERS.STEP(n, -STEP) # UPDATE PARAMETER
+        assert hasattr(self, 'ACCUMULATOR'), "ERROR: SETUP HAS NOT BEEN CALLED"  # ENSURE SETUP HAS BEEN CALLED
+        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS):  # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
+            for n in LAYER.PARAMETERS.KEYS():  # FOR EACH PARAMETER IN LAYER.PARAMETERS
+                GRAD = LAYER.PARAMETERS.GRAD[n]  # GET GRADIENT
+                self.ACCUMULATOR[i][n] = (self.RHO * self.ACCUMULATOR[i][n]) + (1.0 - self.RHO) * (GRAD ** 2)  # UPDATE ACCUMULATOR
+                STEP = self.LEARNING_RATE * GRAD / (np.sqrt(self.ACCUMULATOR[i][n]) + self.EPSILON)  # CALCULATE STEP
+                LAYER.PARAMETERS.STEP(n, -STEP)  # UPDATE PARAMETER
 
     def SETUP(self, NETWORK):
         """SETUP OPTIMIZER
@@ -347,10 +354,10 @@ class RMS_PROP(OPTIMIZER):
         -------
         NONE
         """
-        self.ACCUMULATOR = defaultdict(dict) # SET ACCUMULATOR TO DEFAULTDICT
-        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS): # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
-            for n in LAYER.PARAMETERS.KEYS(): # FOR EACH PARAMETER IN LAYER.PARAMETERS
-                self.ACCUMULATOR[i][n] = np.zeros_like(LAYER.PARAMETERS[n]) # SET ACCUMULATOR TO ZERO
+        self.ACCUMULATOR = defaultdict(dict)  # SET ACCUMULATOR TO DEFAULTDICT
+        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS):  # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
+            for n in LAYER.PARAMETERS.KEYS():  # FOR EACH PARAMETER IN LAYER.PARAMETERS
+                self.ACCUMULATOR[i][n] = np.zeros_like(LAYER.PARAMETERS[n])  # SET ACCUMULATOR TO ZERO
 
 class ADMA(OPTIMIZER):
     def __init__(self, LEARNING_RATE=0.001, FIRST_BETA=0.9, SECOND_BETA=0.999, EPSILON=1e-8):
@@ -371,12 +378,12 @@ class ADMA(OPTIMIZER):
         -------
         NONE
         """
-        self.EPSILON = EPSILON # SET EPSILON
-        self.SECOND_BETA = SECOND_BETA # SET SECOND BETA
-        self.FIRST_BETA = FIRST_BETA # SET FIRST BETA
-        self.LEARNING_RATE = LEARNING_RATE # SET LEARNING RATE
-        self.ITERATIONs = 0 # SET ITERATION TO 0
-        self.T = 1 # SET T TO 1
+        self.EPSILON = EPSILON  # SET EPSILON
+        self.SECOND_BETA = SECOND_BETA  # SET SECOND BETA
+        self.FIRST_BETA = FIRST_BETA  # SET FIRST BETA
+        self.LEARNING_RATE = LEARNING_RATE  # SET LEARNING RATE
+        self.ITERATIONs = 0  # SET ITERATION TO 0
+        self.T = 1  # SET T TO 1
 
     def UPDATE(self, NETWORK):
         """UPDATE PARAMETERS
@@ -390,16 +397,16 @@ class ADMA(OPTIMIZER):
         -------
         NONE
         """
-        assert hasattr(self, "MS"), "SETUP HAS NOT BEEN CALLED" # ASSERT SETUP HAS BEEN CALLED
-        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS): # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
-            for n in LAYER.PARAMETERS.KEYS(): # FOR EACH PARAMETER IN LAYER.PARAMETERS
-                GRAD = LAYER.PARAMETERS.GRAD[n] # GET GRADIENT
-                self.MS[i][n] = (self.FIRST_BETA * self.MS[i][n]) + (1.0 - self.FIRST_BETA) * GRAD # UPDATE FIRST MOMENT ESTIMATE
-                self.VS[i][n] = (self.SECOND_BETA * self.VS[i][n]) + (1.0 - self.SECOND_BETA) * GRAD ** 2 # UPDATE SECOND MOMENT ESTIMATE
-                LEARNING_RATE = self.LEARNING_RATE * np.sqrt(1.0 - self.SECOND_BETA ** self.T) / (1.0 - self.FIRST_BETA ** self.T) # CALCULATE LEARNING RATE
-                STEP = LEARNING_RATE * self.MS[i][n] / (np.sqrt(self.VS[i][n]) + self.EPSILON) # CALCULATE STEP
-                LAYER.PARAMETERS.STEP(n, -STEP) # UPDATE PARAMETER
-        self.T += 1 # INCREMENT T
+        assert hasattr(self, "MS"), "SETUP HAS NOT BEEN CALLED"  # ASSERT SETUP HAS BEEN CALLED
+        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS):  # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
+            for n in LAYER.PARAMETERS.KEYS():  # FOR EACH PARAMETER IN LAYER.PARAMETERS
+                GRAD = LAYER.PARAMETERS.GRAD[n]  # GET GRADIENT
+                self.MS[i][n] = (self.FIRST_BETA * self.MS[i][n]) + (1.0 - self.FIRST_BETA) * GRAD  # UPDATE FIRST MOMENT ESTIMATE
+                self.VS[i][n] = (self.SECOND_BETA * self.VS[i][n]) + (1.0 - self.SECOND_BETA) * GRAD ** 2  # UPDATE SECOND MOMENT ESTIMATE
+                LEARNING_RATE = self.LEARNING_RATE * np.sqrt(1.0 - self.SECOND_BETA ** self.T) / (1.0 - self.FIRST_BETA ** self.T)  # CALCULATE LEARNING RATE
+                STEP = LEARNING_RATE * self.MS[i][n] / (np.sqrt(self.VS[i][n]) + self.EPSILON)  # CALCULATE STEP
+                LAYER.PARAMETERS.STEP(n, -STEP)  # UPDATE PARAMETER
+        self.T += 1  # INCREMENT T
 
     def SETUP(self, NETWORK):
         """SETUP OPTIMIZER
@@ -413,15 +420,16 @@ class ADMA(OPTIMIZER):
         -------
         NONE
         """
-        self.MS = defaultdict(dict) # SET MS TO DEFAULTDICT
-        self.VS = defaultdict(dict) # SET VS TO DEFAULTDICT
-        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS): # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
-            for n in LAYER.PARAMETERS.KEYS(): # FOR EACH PARAMETER IN LAYER.PARAMETERS
-                self.MS[i][n] = np.zeros_like(LAYER.PARAMETERS[n]) # SET MS TO ZERO
-                self.VS[i][n] = np.zeros_like(LAYER.PARAMETERS[n]) # SET VS TO ZERO
+        self.MS = defaultdict(dict)  # SET MS TO DEFAULTDICT
+        self.VS = defaultdict(dict)  # SET VS TO DEFAULTDICT
+        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS):  # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
+            for n in LAYER.PARAMETERS.KEYS():  # FOR EACH PARAMETER IN LAYER.PARAMETERS
+                self.MS[i][n] = np.zeros_like(LAYER.PARAMETERS[n])  # SET MS TO ZERO
+                self.VS[i][n] = np.zeros_like(LAYER.PARAMETERS[n])  # SET VS TO ZERO
 
 class ADA_MAX(OPTIMIZER):
     """ADA_MAX OPTIMIZER"""
+
     def __init__(self, LEARNING_RATE=0.002, FIRST_BETA=0.9, SECOND_BETA=0.999, EPSILON=1e-8):
         """INITIALIZE ADA_MAX OPTIMIZER
 
@@ -440,11 +448,11 @@ class ADA_MAX(OPTIMIZER):
         -------
         NONE
         """
-        self.EPSILON = EPSILON # SET EPSILON
-        self.SECOND_BETA = SECOND_BETA # SET SECOND BETA
-        self.FIRST_BETA = FIRST_BETA # SET FIRST BETA
-        self.LEARNING_RATE = LEARNING_RATE # SET LEARNING RATE
-        self.T = 1 # SET T TO 1
+        self.EPSILON = EPSILON  # SET EPSILON
+        self.SECOND_BETA = SECOND_BETA  # SET SECOND BETA
+        self.FIRST_BETA = FIRST_BETA  # SET FIRST BETA
+        self.LEARNING_RATE = LEARNING_RATE  # SET LEARNING RATE
+        self.T = 1  # SET T TO 1
 
     def UPDATE(self, NETWORK):
         """UPDATE PARAMETERS
@@ -458,15 +466,15 @@ class ADA_MAX(OPTIMIZER):
         -------
         NONE
         """
-        assert hasattr(self, 'MS'), "ERROR: SETUP HAS NOT BEEN CALLED" # ENSURE SETUP HAS BEEN CALLED
-        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS): # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
-            for n in LAYER.PARAMETERS.KEYS(): # FOR EACH PARAMETER IN LAYER.PARAMETERS
-                GRAD = LAYER.PARAMETERS.GRAD[n] # GET GRADIENT
-                self.MS[i][n] = self.FIRST_BETA * self.MS[i][n] + (1.0 - self.FIRST_BETA) * GRAD # UPDATE FIRST MOMENT ESTIMATE
-                self.US[i][n] = np.maximum(self.SECOND_BETA * self.US[i][n], np.abs(GRAD)) # UPDATE SECOND MOMENT ESTIMATE
-                STEP = self.LEARNING_RATE / (1 - self.FIRST_BETA ** self.T) * self.MS[i][n] / (self.US[i][n] + self.EPSILON) # CALCULATE STEP
-                LAYER.PARAMETERS.STEP(n, -STEP) # UPDATE PARAMETER
-        self.T += 1 # INCREMENT T
+        assert hasattr(self, 'MS'), "ERROR: SETUP HAS NOT BEEN CALLED"  # ENSURE SETUP HAS BEEN CALLED
+        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS):  # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
+            for n in LAYER.PARAMETERS.KEYS():  # FOR EACH PARAMETER IN LAYER.PARAMETERS
+                GRAD = LAYER.PARAMETERS.GRAD[n]  # GET GRADIENT
+                self.MS[i][n] = self.FIRST_BETA * self.MS[i][n] + (1.0 - self.FIRST_BETA) * GRAD  # UPDATE FIRST MOMENT ESTIMATE
+                self.US[i][n] = np.maximum(self.SECOND_BETA * self.US[i][n], np.abs(GRAD))  # UPDATE SECOND MOMENT ESTIMATE
+                STEP = self.LEARNING_RATE / (1 - self.FIRST_BETA ** self.T) * self.MS[i][n] / (self.US[i][n] + self.EPSILON)  # CALCULATE STEP
+                LAYER.PARAMETERS.STEP(n, -STEP)  # UPDATE PARAMETER
+        self.T += 1  # INCREMENT T
 
     def SETUP(self, NETWORK):
         """SETUP OPTIMIZER
@@ -480,9 +488,9 @@ class ADA_MAX(OPTIMIZER):
         -------
         NONE
         """
-        self.MS = defaultdict(dict) # SET MS TO DEFAULTDICT
-        self.US = defaultdict(dict) # SET US TO DEFAULTDICT
-        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS): # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
-            for n in LAYER.PARAMETERS.KEYS(): # FOR EACH PARAMETER IN LAYER.PARAMETERS
-                self.MS[i][n] = np.zeros_like(LAYER.PARAMETERS[n]) # SET MS TO ZERO
-                self.US[i][n] = np.zeros_like(LAYER.PARAMETERS[n]) # SET US TO ZERO
+        self.MS = defaultdict(dict)  # SET MS TO DEFAULTDICT
+        self.US = defaultdict(dict)  # SET US TO DEFAULTDICT
+        for i, LAYER in enumerate(NETWORK.PARAMETRIC_LAYERS):  # FOR EACH LAYER IN NETWORK.PARAMETRIC_LAYERS
+            for n in LAYER.PARAMETERS.KEYS():  # FOR EACH PARAMETER IN LAYER.PARAMETERS
+                self.MS[i][n] = np.zeros_like(LAYER.PARAMETERS[n])  # SET MS TO ZERO
+                self.US[i][n] = np.zeros_like(LAYER.PARAMETERS[n])  # SET US TO ZERO

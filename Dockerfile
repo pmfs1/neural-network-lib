@@ -1,3 +1,3 @@
 FROM ubuntu:devel
-RUN apt-get update -y && apt-get install -y locales sudo python3.11-full python3-pip && python3 -m pip install tqdm matplotlib numpy scikit-learn scipy autopep8 --break-system-packages && rm -rf /var/lib/apt/lists/* \ && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 && sudo apt-get full-upgrade -y && sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.11 1
+RUN apt-get update -y && apt-get install -y locales sudo python3.11-full python3-pip && python3 -m pip install tqdm matplotlib numpy scikit-learn scipy autopep8 autograd --break-system-packages && rm -rf /var/lib/apt/lists/* \ && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 && sudo apt-get full-upgrade -y && sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.11 1
 ENV LANG en_US.utf8

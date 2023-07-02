@@ -12,7 +12,7 @@ def SIGMOID(Z):
     -------
     RETURN SIGMOID ACTIVATION
     """
-    return 1.0 / (1.0 + np.exp(-Z)) # RETURN SIGMOID ACTIVATION
+    return 1.0 / (1.0 + np.exp(-Z))  # RETURN SIGMOID ACTIVATION
 
 def SOFTMAX(Z):
     """SOFTMAX ACTIVATION FUNCTION
@@ -26,8 +26,8 @@ def SOFTMAX(Z):
     -------
     RETURN SOFTMAX ACTIVATION
     """
-    E = np.exp(Z - np.amax(Z, axis=1, keepdims=True)) # COMPUTE EXPONENTIALS
-    return E / np.sum(E, axis=1, keepdims=True) # RETURN SOFTMAX ACTIVATION
+    E = np.exp(Z - np.amax(Z, axis=1, keepdims=True))  # COMPUTE EXPONENTIALS
+    return E / np.sum(E, axis=1, keepdims=True)  # RETURN SOFTMAX ACTIVATION
 
 def LINEAR(Z):
     """LINEAR ACTIVATION FUNCTION
@@ -41,7 +41,7 @@ def LINEAR(Z):
     -------
     RETURN LINEAR ACTIVATION
     """
-    return Z # RETURN LINEAR ACTIVATION
+    return Z  # RETURN LINEAR ACTIVATION
 
 def SOFT_PLUS(Z):
     """SOFT PLUS ACTIVATION FUNCTION
@@ -55,7 +55,7 @@ def SOFT_PLUS(Z):
     -------
     RETURN SOFT PLUS ACTIVATION
     """
-    return np.logaddexp(0.0, Z) # RETURN SOFT PLUS ACTIVATION
+    return np.logaddexp(0.0, Z)  # RETURN SOFT PLUS ACTIVATION
 
 def SOFT_SIGN(Z):
     """SOFT SIGN ACTIVATION FUNCTION
@@ -69,7 +69,7 @@ def SOFT_SIGN(Z):
     -------
     RETURN SOFT SIGN ACTIVATION
     """
-    return Z / (1 + np.abs(Z)) # RETURN SOFT SIGN ACTIVATION
+    return Z / (1 + np.abs(Z))  # RETURN SOFT SIGN ACTIVATION
 
 def TANH(Z):
     """TANH ACTIVATION FUNCTION
@@ -83,7 +83,7 @@ def TANH(Z):
     -------
     RETURN TANH ACTIVATION
     """
-    return np.tanh(Z) # RETURN TANH ACTIVATION
+    return np.tanh(Z)  # RETURN TANH ACTIVATION
 
 def RELU(Z):
     """RELU ACTIVATION FUNCTION
@@ -97,7 +97,7 @@ def RELU(Z):
     -------
     RETURN RELU ACTIVATION
     """
-    return np.maximum(0, Z) # RETURN RELU ACTIVATION
+    return np.maximum(0, Z)  # RETURN RELU ACTIVATION
 
 def LEAKY_RELU(Z, A=0.01):
     """LEAKY RELU ACTIVATION FUNCTION
@@ -113,4 +113,4 @@ def LEAKY_RELU(Z, A=0.01):
     -------
     RETURN LEAKY RELU ACTIVATION
     """
-    return np.maximum(Z * A, Z) # RETURN LEAKY RELU ACTIVATION
+    return np.maximum(Z * A, Z)  # RETURN LEAKY RELU ACTIVATION
