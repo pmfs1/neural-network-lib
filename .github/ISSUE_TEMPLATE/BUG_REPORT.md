@@ -2,7 +2,7 @@
 name: BUG REPORT
 about: CREATE A REPORT TO HELP US IMPROVE
 title: 'BUG:'
-labels: BUG REPORT
+labels: BUG
 assignees: pmfs1
 
 ---

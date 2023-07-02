@@ -1,8 +1,5 @@
 name: 'BUILD_RUN_TEST_PUBLISH'
-on:
-  push:
-    branches:
-      - develop
+on: [ push, pull_request, release ]
 permissions:
   contents: read
 jobs:
@@ -48,6 +45,7 @@ jobs:
     - name: 'AUTHENTICATE'
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
     - name: 'PUBLISH'
+      if: github.event_name == 'release'
       run: |
         docker build . --file Dockerfile --tag "${{ github.repository }}" --label "runnumber=${GITHUB_RUN_ID}"
         IMAGE_ID="ghcr.io/${{ github.repository }}"
@@ -59,33 +57,3 @@ jobs:
         echo VERSION=$VERSION
         docker tag "${{ github.repository }}" $IMAGE_ID:$VERSION
         docker push $IMAGE_ID:$VERSION
-  PUBLISH_MODULES:
-    name: 'PUBLISH_MODULES'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    needs: [ BUILD_RUN_TEST_PUBLISH ]
-    strategy:
-      matrix: 
-        MODULES: [ "clustering", "neural_networks", "regression" ]
-    steps:
-      - name: 'CHECKOUT'
-        uses: actions/checkout@v3
-        with:
-          sparse-checkout: |
-            ${{ matrix.MODULES }}            
-      - name: 'AUTHENTICATE'
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
-      - name: 'PUBLISH'
-        run: |
-          docker build . --file Dockerfile --tag "${{ github.repository }}/${{ matrix.MODULES }}" --label "runnumber=${GITHUB_RUN_ID}"
-          IMAGE_ID="ghcr.io/${{ github.repository }}/${{ matrix.MODULES }}"
-          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-          [ "$VERSION" == "develop" ] && VERSION=latest
-          echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$VERSION
-          docker tag "${{ github.repository }}/${{ matrix.MODULES }}" $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION
