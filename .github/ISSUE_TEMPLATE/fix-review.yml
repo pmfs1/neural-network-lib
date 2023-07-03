@@ -7,70 +7,14 @@ assignees:
 body:
   - type: textarea
     attributes:
-      label: Current Behaviour
-      description: "*A clear and concise description of what the bug is, and of what you're experiencing.*"
+      label: "Current/Expected Behaviour"
+      description: "*A clear and concise description of what the bug is, and of what you're experiencing. As well, of what you expected to happen and where it went wrong.*"
       render: markdown
     validations:
       required: true
   - type: textarea
     attributes:
-      label: Expected Behavior
-      description: "*A clear and concise description of what you expected to happen and where it went wrong.*"
-      render: markdown
-    validations:
-      required: true
-  - type: dropdown
-    attributes:
-      label: Version
-      description: "*What Python version of are you running our software in?*"
-      render: markdown
-      multiple: false
-      options:
-        - Older
-        - 3.9
-        - 3.10
-        - 3.11
-    validations:
-      required: false
-  - type: dropdown
-    attributes:
-      label: Environment
-      description: "*In what operating system is the problem occurring?*"
-      multiple: true
-      render: markdown
-      options:
-        - Ubuntu 23.04 (Lunar Lobster)
-        - Ubuntu 22.10 (Kinetic Kudu)
-        - Ubuntu 22.04.2 LTS (Jammy Jellyfish)
-        - Ubuntu 20.04.6 LTS (Focal Fossa)
-        - Ubuntu 18.04.6 LTS (Bionic Beaver)
-        - Ubuntu 16.04.7 LTS (Xenial Xerus)
-        - Ubuntu 14.04.6 LTS (Trusty Tahr)
-        - Linux (Unspecified)
-        - MacOS 10.15 Catalina
-        - MacOS 11 Big Sur
-        - MacOS 12 Monterey
-        - MacOS 13 Ventura
-        - MacOS 14 Sonoma
-        - Windows 10 2004 Vibranium
-        - Windows 10 20H2
-        - Windows 10 21H1
-        - Windows 10 21H2
-        - Windows 10 22H2
-        - Windows 11 21H2 Sun Valley
-        - Windows 11 22H2 Sun Valley 2
-    validations:
-      required: false
-  - type: textarea
-    attributes:
-      label: To Reproduce
-      description: "*A list of steps to reproduce the behaviour.*"
-      render: markdown
-    validations:
-      required: false
-  - type: textarea
-    attributes:
-      label: Additional Context
+      label: "Additional Context"
       description: "*If you feel the need to add any additional context about the problem, do it here. This can also be a place to leave notes you might find important.*"
       render: markdown
     validations:
