@@ -12,33 +12,6 @@ body:
       render: markdown
     validations:
       required: true
-  - type: dropdown
-    attributes:
-      label: Environment
-      description: In what operating system is the problem occurring?
-      options:
-        - Ubuntu 23.04 (Lunar Lobster)
-        - Ubuntu 22.10 (Kinetic Kudu)
-        - Ubuntu 22.04.2 LTS (Jammy Jellyfish)
-        - Ubuntu 20.04.6 LTS (Focal Fossa)
-        - Ubuntu 18.04.6 LTS (Bionic Beaver)
-        - Ubuntu 16.04.7 LTS (Xenial Xerus)
-        - Ubuntu 14.04.6 LTS (Trusty Tahr)
-        - Linux (Unspecified)
-        - MacOS 10.15 Catalina
-        - MacOS 11 Big Sur
-        - MacOS 12 Monterey
-        - MacOS 13 Ventura
-        - MacOS 14 Sonoma
-        - Windows 10 2004 Vibranium
-        - Windows 10 20H2
-        - Windows 10 21H1
-        - Windows 10 21H2
-        - Windows 10 22H2
-        - Windows 11 21H2 Sun Valley
-        - Windows 11 22H2 Sun Valley 2
-    validations:
-      required: false
   - type: textarea
     attributes:
       label: "Additional Context"
@@ -48,4 +21,4 @@ body:
       required: true
   - type: markdown
     attributes:
-      value: "*(If you link a development branch to this issue, use the prefix `patch-` to uniquely identity it to this category.)*"
+      value: "> *(If you link a development branch to this issue, use the prefix `patch-` to uniquely identity it to this category.)*"

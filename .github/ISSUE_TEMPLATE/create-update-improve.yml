@@ -21,4 +21,4 @@ body:
       required: true
   - type: markdown
     attributes:
-      value: "*(If you link a development branch to this issue, use the prefix `build-` to uniquely identity it to this category.)*"
+      value: "> *(If you link a development branch to this issue, use the prefix `build-` to uniquely identity it to this category.)*"
