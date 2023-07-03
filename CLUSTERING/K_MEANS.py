@@ -192,7 +192,7 @@ def K_MEANS_CLUSTERING(X, K=3, MAX_ITERATIONS=100):
         return np.sqrt(np.sum((X_1 - X_2) ** 2, axis=0))
 
     np.random.seed(42)
-    N_SAMPLES, N_FEATURES = X.shape
+    N_SAMPLES, _ = X.shape
     CENTROIDS = X[np.random.choice(N_SAMPLES, K, replace=False)]
     CLUSTERS = [[] for _ in range(K)]
     for _ in range(MAX_ITERATIONS):
