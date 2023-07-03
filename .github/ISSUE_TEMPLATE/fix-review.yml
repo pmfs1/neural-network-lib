@@ -8,7 +8,7 @@ body:
   - type: textarea
     attributes:
       label: "Current/Expected Behaviour"
-      description: "*A clear and concise description of what the bug is, and of what you're experiencing. As well, of what you expected to happen and where it went wrong.*"
+      description: "*Here is where you describe what the software is doing and what it should be doing instead. This section helps the developers understand the problem and how to reproduce it. You should write this section in clear and concise language, using steps, screenshots, or videos if possible. You should also include any relevant information about your system, such as operating system, browser, or device.*"
       render: markdown
     validations:
       required: true
