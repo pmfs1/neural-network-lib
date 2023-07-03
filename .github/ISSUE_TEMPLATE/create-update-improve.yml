@@ -8,13 +8,15 @@ body:
   - type: textarea
     attributes:
       label: Description
-      description: Describe the solution you'd like; or, if that's not the case, the feature itself. (Meaning, a clear and concise description of what you want to happen, and of what the suggestion is.) Also, describe any alternatives you've considered. There's never too much information.
+      description: *Describe the solution you'd like; or, if that's not the case, the feature itself. (Meaning, a clear and concise description of what you want to happen, and of what the suggestion is.) Also, describe any alternatives you've considered. There's never too much information.*
+      render: markdown
     validations:
       required: true
   - type: textarea
     attributes:
       label: Additional Context
-      description: If you feel the need to add any additional context about the feature(s), do it here. This can also be a place to leave notes you might find important. You can also leave screenshots or examples here.
+      description: *If you feel the need to add any additional context about the feature(s), do it here. This can also be a place to leave notes you might find important. You can also leave screenshots or examples here.*
+      render: markdown
     validations:
       required: false
   - type: markdown
