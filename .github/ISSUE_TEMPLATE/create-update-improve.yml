@@ -2,7 +2,8 @@ name: CREATE/UPDATE/IMPROVE
 about: REQUEST A FEATURE, SHARE AN IDEA, OR MAKE A SUGGESTION
 title: "[CREATE/UPDATE/IMPROVE]"
 labels: [CREATE/UPDATE/IMPROVE]
-assignees: pmfs1
+assignees:
+  - pmfs1
 body:
 - type: textarea
   attributes:
