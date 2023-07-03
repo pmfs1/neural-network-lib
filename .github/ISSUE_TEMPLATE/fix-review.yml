@@ -1,5 +1,5 @@
 name: FIX/REVIEW
-about: REQUEST A FIX OR REVIEW; REPORT A BUG
+description: REQUEST A FIX OR REVIEW; REPORT A BUG
 title: "[FIX/REVIEW]"
 labels: [FIX/REVIEW]
 assignees:
@@ -23,3 +23,6 @@ body:
       description: If you feel the need to add any additional context about the problem, do it here. This can also be a place to leave notes you might find important.
     validations:
       required: false
+  - type: markdown
+    attributes:
+      value: "*(If you link a development branch to this issue, use the prefix `patch-` to uniquely identity it to this category.)*"
