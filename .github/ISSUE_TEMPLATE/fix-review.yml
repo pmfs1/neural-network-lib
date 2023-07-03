@@ -1,0 +1,34 @@
+name: FIX/REVIEW
+about: REQUEST A FIX OR REVIEW; REPORT A BUG
+title: "[FIX/REVIEW]"
+labels: FIX/REVIEW
+assignees:
+  - pmfs1
+body:
+- type: textarea
+  attributes:
+    label: "Description:"
+    description: "A clear and concise description of what the bug is."
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: "To Reproduce:"
+    description: "A list of steps to reproduce the behaviour."
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: "Expected Behaviour:"
+    description: "A clear and concise description of what you expected to happen and where it went wrong."
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: "Additional Context:"
+    description: "If you feel the need to add any additional context about the problem, do it here. This can also be a place to leave notes you might find important."
+  validations:
+    required: false
+- type: markdown
+  attributes:
+    value: "*(If you link a development branch to this issue, use the prefix `patch-` to uniquely identity it to this category.)*"
