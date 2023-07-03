@@ -12,7 +12,7 @@ body:
       render: markdown
     validations:
       required: true
-  - type: input
+  - type: textarea
     attributes:
       label: "Additional Context"
       description: "*If you feel the need to add any additional context about the feature(s), do it here. This can also be a place to leave notes you might find important.*"

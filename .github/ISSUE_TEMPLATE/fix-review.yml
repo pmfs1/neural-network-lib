@@ -16,7 +16,6 @@ body:
     attributes:
       label: Environment
       description: In what operating system is the problem occurring?
-      multiple: false
       options:
         - Ubuntu 23.04 (Lunar Lobster)
         - Ubuntu 22.10 (Kinetic Kudu)
@@ -40,7 +39,7 @@ body:
         - Windows 11 22H2 Sun Valley 2
     validations:
       required: false
-  - type: input
+  - type: textarea
     attributes:
       label: "Additional Context"
       description: "*If you feel the need to add any additional context about the feature(s), do it here. This can also be a place to leave notes you might find important.*"
