@@ -1,8 +1,8 @@
-name: 'BUILD_RUN_TEST'
+name: 'BUILD_RUN_TEST_PUBLISH'
 on: [ push, pull_request ]
 jobs:
-  BUILD_RUN_TEST:
-    name: 'BUILD_RUN_TEST'
+  BUILD_RUN_TEST_PUBLISH:
+    name: 'BUILD_RUN_TEST_PUBLISH'
     runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
     timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
     permissions:
@@ -42,3 +42,14 @@ jobs:
     - name: 'ANALYZE (QUALITY)'
       run: | 
           pylint --disable=invalid-name,missing-docstring,missing-function-docstring,missing-class-docstring,missing-module-docstring,missing-final-newline,line-too-long,too-many-nested-blocks,too-many-instance-attributes,too-many-arguments,trailing-whitespace,unnecessary-pass,too-many-locals,too-few-public-methods,similarities --fail-under 9.75 $(git ls-files '*.py')
+    - name: 'PUBLISH'
+      if: github.ref == 'refs/heads/develop'
+      run: |
+        docker build . --file Dockerfile --tag "${{ github.repository }}" --label "runnumber=${GITHUB_RUN_ID}"
+        IMAGE_ID="ghcr.io/${{ github.repository }}"
+        IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+        VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+        [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+        [ "$VERSION" == "develop" ] && VERSION=latest
+        docker tag "${{ github.repository }}" $IMAGE_ID:$VERSION
+        docker push $IMAGE_ID:$VERSION
