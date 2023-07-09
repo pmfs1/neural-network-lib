@@ -9,4 +9,4 @@
       >        - *Logistic Regression;*
       >        - *Isotonic Regression.*
       - *All this to say, that ***that doesn't mean we are not going to implement other algorithms; we are just not going to expose them, unless they are requested.****
-            - ****If by any chance there's something you'd like us to implement*** (or maybe it's already implemented and you'd like us to expose it), ***please let us know*** by creating an issue. (***We are always open to suggestions.***)*
+        - ****If by any chance there's something you'd like us to implement*** (or maybe it's already implemented and you'd like us to expose it), ***please let us know*** by creating an issue. (***We are always open to suggestions.***)*
