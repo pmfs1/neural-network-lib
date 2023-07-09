@@ -74,7 +74,7 @@ jobs:
     needs: [ TAG ]
     strategy:
       matrix: 
-        MODULES: [ "neural_networks", "regression" ]
+        MODULES: [ "neural_networks", "regression", "clustering", "problem_solving" ]
     steps:
       - name: 'CHECKOUT'
         uses: actions/checkout@v3
