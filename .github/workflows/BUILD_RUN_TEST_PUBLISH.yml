@@ -9,6 +9,7 @@ jobs:
       actions: read
       contents: read
       security-events: write
+      packages: write
     strategy:
       matrix: 
         LANGUAGE: [ "python" ]
