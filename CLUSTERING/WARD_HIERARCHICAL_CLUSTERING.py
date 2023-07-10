@@ -70,7 +70,7 @@ def WARD_HIERARCHICAL_CLUSTERING(X):
         MIN_DISTANCE = np.inf
         MERGE_I, MERGE_J = -1, -1
         for i, _ in enumerate(CLUSTERS):
-            for j, _ in enumerate(CLUSTERS, start=(i + 1)):
+            for j, _ in enumerate(CLUSTERS, start=i + 1):
                 DISTANCE = __CALCULATE_MERGE_DISTANCE__(CLUSTERS[i], CLUSTERS[j], DISTANCES)
                 if DISTANCE < MIN_DISTANCE:
                     MIN_DISTANCE = DISTANCE
