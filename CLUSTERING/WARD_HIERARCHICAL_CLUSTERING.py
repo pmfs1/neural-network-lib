@@ -61,16 +61,16 @@ def WARD_HIERARCHICAL_CLUSTERING(X):
         return TOTAL_DISTANCE / (len(CLUSTER_A) * len(CLUSTER_B))
 
     N_SAMPLES = len(X)
-    DISTANCES = np.zeros((n, n))
+    DISTANCES = np.zeros((N_SAMPLES, N_SAMPLES))
     for i in range(N_SAMPLES):
         for j in range(i + 1, N_SAMPLES):
-            DISTANCES[i, j] = DISTANCES[j, i] = __EUCLIDEAN_DISTANCE__(X[i] - X[j])
+            DISTANCES[i, j] = DISTANCES[j, i] = __EUCLIDEAN_DISTANCE__(X[i], X[j])
     CLUSTERS = [[i] for i in range(N_SAMPLES)]
     while len(CLUSTERS) > 1:
         MIN_DISTANCE = np.inf
         MERGE_I, MERGE_J = -1, -1
-        for i in range(len(CLUSTERS)):
-            for j in range(i + 1, len(CLUSTERS)):
+        for i, _ in enumerate(CLUSTERS):
+            for j, _ in enumerate(CLUSTERS, start=(i + 1)):
                 DISTANCE = __CALCULATE_MERGE_DISTANCE__(CLUSTERS[i], CLUSTERS[j], DISTANCES)
                 if DISTANCE < MIN_DISTANCE:
                     MIN_DISTANCE = DISTANCE
