@@ -2,7 +2,7 @@ import math
 import numpy as np
 from .CSP import CSP
 
-def SIMULATED_ANNEALING(CSP_PROBLEM: CSP) -> dict:
+def SIMULATED_ANNEALING(CSP_PROBLEM: CSP, TEMPERATURE = 100, COOLING_RATE = 0.99) -> dict:
 
     def __COST_FUNCTION__(STATE: dict) -> int:
         COST = 0
@@ -18,8 +18,6 @@ def SIMULATED_ANNEALING(CSP_PROBLEM: CSP) -> dict:
     for VARIABLE in CSP_PROBLEM.VARIABLES:
         CURRENT_STATE[VARIABLE] = np.random.choice(
             CSP_PROBLEM.DOMAINS[VARIABLE])
-    TEMPERATURE = 100
-    COOLING_RATE = 0.99
     while TEMPERATURE > 1:
         NEXT_STATE = {}
         for VARIABLE in CSP_PROBLEM.VARIABLES:
