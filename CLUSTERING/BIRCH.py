@@ -89,6 +89,7 @@ def BIRCH_CLUSTERING(X, BRANCHING_FACTOR, THRESHOLD=0.5):
             self.CHILDREN = []
             self.SUBCLUSTER_CENTERS = []
             self.N_SAMPLES = 0
+            self.PROTOTYPE = None
 
         def ADD_CHILD(self, CHILD):
             self.CHILDREN.append(CHILD)
@@ -158,15 +159,14 @@ def BIRCH_CLUSTERING(X, BRANCHING_FACTOR, THRESHOLD=0.5):
                     MIN_DISTANCE = DISTANCE
                     CLOSEST_CLUSTER = SUBCLUSTER_CENTER
             return CLOSEST_CLUSTER
-        else:
-            MIN_DISTANCE = float('inf')
-            CLOSEST_CHILD = None
-            for CHILD in NODE.CHILDREN:
-                DISTANCE = np.linalg.norm(POINT - CHILD.PROTOTYPE)
-                if DISTANCE < MIN_DISTANCE:
-                    MIN_DISTANCE = DISTANCE
-                    CLOSEST_CHILD = CHILD
-            return __FIND_CLOSEST_CLUSTER__(POINT, CLOSEST_CHILD)
+        MIN_DISTANCE = float('inf')
+        CLOSEST_CHILD = None
+        for CHILD in NODE.CHILDREN:
+            DISTANCE = np.linalg.norm(POINT - CHILD.PROTOTYPE)
+            if DISTANCE < MIN_DISTANCE:
+                MIN_DISTANCE = DISTANCE
+                CLOSEST_CHILD = CHILD
+        return __FIND_CLOSEST_CLUSTER__(POINT, CLOSEST_CHILD)
     
     ROOT = BIRCH_NODE()
     for POINT in X:

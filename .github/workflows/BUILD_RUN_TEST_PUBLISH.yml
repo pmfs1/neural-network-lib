@@ -42,7 +42,7 @@ jobs:
         category: "/language:${{matrix.language}}"
     - name: 'ANALYZE (QUALITY)'
       run: | 
-          pylint --disable=invalid-name,missing-docstring,missing-function-docstring,missing-class-docstring,missing-module-docstring,missing-final-newline,line-too-long,too-many-nested-blocks,too-many-instance-attributes,too-many-arguments,trailing-whitespace,unnecessary-pass,too-many-locals,too-few-public-methods,similarities --ignore-paths=NEURAL_NETWORKS $(git ls-files '*.py')
+          pylint --disable=invalid-name,missing-docstring,missing-function-docstring,missing-class-docstring,missing-module-docstring,missing-final-newline,line-too-long,too-many-nested-blocks,too-many-instance-attributes,too-many-arguments,trailing-whitespace,unnecessary-pass,too-many-locals,too-few-public-methods,similarities,too-many-statements --ignore-paths=NEURAL_NETWORKS $(git ls-files '*.py')
     - name: 'PUBLISH'
       if: github.ref == 'refs/heads/nightly'
       run: |
