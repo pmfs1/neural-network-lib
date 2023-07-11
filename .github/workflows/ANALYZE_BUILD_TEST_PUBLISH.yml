@@ -33,14 +33,14 @@ jobs:
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.LANGUAGE }}
-        config-file: ./.github/codeql/codeql-config.yml
+        config-file: ./.github/workflows/codeql-config.yml
     - name: 'BUILD (FOR TEST PURPOSES)'
       uses: github/codeql-action/autobuild@v2
     - name: 'ANALYZE (QUALITY & SECURITY)'
       uses: github/codeql-action/analyze@v2
       with:
         category: "/language:${{matrix.language}}"
-    - name: 'ANALYZE (QUALITY)'
+    - name: 'ANALYZE (FORMATTING & SYNTAX)'
       run: | 
           pylint --disable=invalid-name,missing-docstring,missing-function-docstring,missing-class-docstring,missing-module-docstring,missing-final-newline,line-too-long,too-many-nested-blocks,too-many-instance-attributes,too-many-arguments,trailing-whitespace,unnecessary-pass,too-many-locals,too-few-public-methods,similarities,too-many-statements --ignore-paths=NEURAL_NETWORKS $(git ls-files '*.py')
     # - name: 'BUILD'

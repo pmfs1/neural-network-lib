@@ -1,7 +1,7 @@
 name: 'ANALYZE (QUALITY & SECURITY)'
 queries: 
   - name: 'RUN CUSTOM QUERIES'
-    uses: ./.github/codeql/queries
+    uses: ./.github/workflows/queries
   - name: 'ANALYZE (SECURITY) (EXPERIMENTAL)'
     uses: security-experimental
   - name: 'ANALYZE (SECURITY) (EXTENDED)'
