@@ -33,7 +33,7 @@ jobs:
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.LANGUAGE }}
-        config-file: ./.github/workflows/codeql-config.yml
+        queries: security-experimental,security-extended,security-and-quality
     - name: 'BUILD (FOR TEST PURPOSES)'
       uses: github/codeql-action/autobuild@v2
     - name: 'ANALYZE (QUALITY & SECURITY)'
