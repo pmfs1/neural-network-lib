@@ -3,8 +3,8 @@ from .CSP import CSP
 def AC3(CSP_PROBLEM: CSP) -> bool:
     QUEUE = []
     for VARIABLE in CSP_PROBLEM.VARIABLES:
-        for NEIGHBOR in CSP_PROBLEM.NEIGHBORS[VARIABLE]:
-            QUEUE.append((VARIABLE, NEIGHBOR))
+        for NEIGHBOUR in CSP_PROBLEM.NEIGHBOURS[VARIABLE]:
+            QUEUE.append((VARIABLE, NEIGHBOUR))
 
     def __REVISE__(X_I: str, X_J: str) -> bool:
         REVISED = False
@@ -24,7 +24,7 @@ def AC3(CSP_PROBLEM: CSP) -> bool:
         if __REVISE__(X_I, X_J):
             if len(CSP_PROBLEM.DOMAINS[X_I]) == 0:
                 return False
-            for X_K in CSP_PROBLEM.NEIGHBORS[X_I]:
+            for X_K in CSP_PROBLEM.NEIGHBOURS[X_I]:
                 if X_K != X_J:
                     QUEUE.append((X_K, X_I))
     return True

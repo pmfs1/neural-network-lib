@@ -5,16 +5,16 @@ def DBSCAN(X, MIN_SAMPLES=5, EPSILON=0.5):
     LABELS = np.zeros(N_SAMPLES, dtype=int)
     CLUSTER_ID = 0
 
-    def __EXPAND_CLUSTER__(VISITED, DISTANCES, NEIGHBORS, CLUSTER_ID):
-        for NEIGHBOR_INDEX in NEIGHBORS:
-            if not VISITED[NEIGHBOR_INDEX]:
-                VISITED[NEIGHBOR_INDEX] = True
-                NEIGHBOR_NEIGHBORS = DISTANCES[NEIGHBOR_INDEX, 1:]
-                NUM_NEIGHBOR_NEIGHBORS = len(NEIGHBOR_NEIGHBORS)
-                if NUM_NEIGHBOR_NEIGHBORS >= MIN_SAMPLES:
-                    NEIGHBORS.extend(NEIGHBOR_NEIGHBORS)
-                if LABELS[NEIGHBOR_INDEX] == 0:
-                    LABELS[NEIGHBOR_INDEX] = CLUSTER_ID
+    def __EXPAND_CLUSTER__(VISITED, DISTANCES, NEIGHBOURS, CLUSTER_ID):
+        for NEIGHBOUR_INDEX in NEIGHBOURS:
+            if not VISITED[NEIGHBOUR_INDEX]:
+                VISITED[NEIGHBOUR_INDEX] = True
+                NEIGHBOUR_NEIGHBOURS = DISTANCES[NEIGHBOUR_INDEX, 1:]
+                NUM_NEIGHBOUR_NEIGHBOURS = len(NEIGHBOUR_NEIGHBOURS)
+                if NUM_NEIGHBOUR_NEIGHBOURS >= MIN_SAMPLES:
+                    NEIGHBOURS.extend(NEIGHBOUR_NEIGHBOURS)
+                if LABELS[NEIGHBOUR_INDEX] == 0:
+                    LABELS[NEIGHBOUR_INDEX] = CLUSTER_ID
 
     DISTANCES = PAIRWISE_DISTANCES(X)
     VISITED = np.zeros(N_SAMPLES, dtype=bool)
@@ -22,14 +22,14 @@ def DBSCAN(X, MIN_SAMPLES=5, EPSILON=0.5):
         if VISITED[i]:
             continue
         VISITED[i] = True
-        NEIGHBORS = np.where(DISTANCES[i, :] <= EPSILON)[0]
-        NUM_NEIGHBORS = len(NEIGHBORS)
-        if NUM_NEIGHBORS < MIN_SAMPLES:
+        NEIGHBOURS = np.where(DISTANCES[i, :] <= EPSILON)[0]
+        NUM_NEIGHBOURS = len(NEIGHBOURS)
+        if NUM_NEIGHBOURS < MIN_SAMPLES:
             LABELS[i] = -1
         else:
             CLUSTER_ID += 1
             LABELS[i] = CLUSTER_ID
-            __EXPAND_CLUSTER__(VISITED, DISTANCES, NEIGHBORS.tolist(), CLUSTER_ID)
+            __EXPAND_CLUSTER__(VISITED, DISTANCES, NEIGHBOURS.tolist(), CLUSTER_ID)
     return LABELS
 
 def PAIRWISE_DISTANCES(X):

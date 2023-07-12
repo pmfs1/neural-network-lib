@@ -15,9 +15,9 @@ def BACKTRACKING(CSP_PROBLEM: CSP) -> dict | bool:
         return True
 
     def __INFERENCE__(VARIABLE: str, VALUE: str) -> None:
-        for NEIGHBOR in CSP_PROBLEM.NEIGHBORS[VARIABLE]:
-            if VALUE in CSP_PROBLEM.DOMAINS[NEIGHBOR]:
-                CSP_PROBLEM.DOMAINS[NEIGHBOR].remove(VALUE)
+        for NEIGHBOUR in CSP_PROBLEM.NEIGHBOURS[VARIABLE]:
+            if VALUE in CSP_PROBLEM.DOMAINS[NEIGHBOUR]:
+                CSP_PROBLEM.DOMAINS[NEIGHBOUR].remove(VALUE)
 
     def __CONSISTENT__(ASSIGNMENT: dict, VARIABLE: str, VALUE: str) -> bool:
         for CONSTRAINT in CSP_PROBLEM.CONSTRAINTS:
