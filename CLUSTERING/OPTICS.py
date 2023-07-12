@@ -1,81 +1,64 @@
 import numpy as np
 
-def optics_clustering(data, min_samples, epsilon):
-    def calculate_distances(X):
-        return squareform(pdist(X))
+def OPTICS(X, MIN_SAMPLES, EPSILON=None):
 
-    def calculate_core_distances(distances, min_samples):
-        return np.sort(distances, axis=0)[min_samples]
+    def __CALCULATE_DISTANCES__(X):
+        return SQUAREFORM(PDIST(X))
 
-    def calculate_reachability_distances(distances, core_distances, epsilon):
-        n_points = distances.shape[0]
-        reachability_distances = np.full(n_points, np.inf)
+    def __CALCULATE_CORE_DISTANCES__(DISTANCES, MIN_SAMPLES):
+        return np.sort(DISTANCES, axis=0)[MIN_SAMPLES]
 
-        for point in range(n_points):
-            if core_distances[point] < np.inf:
-                neighborhood = np.where(distances[point] <= epsilon)[0]
-                reachability_distances[point] = np.max(
-                    np.maximum(core_distances[point], distances[point][neighborhood])
-                )
+    def __CALCULATE_REACHABILITY_DISTANCES__(DISTANCES, CORE_DISTANCES, EPSILON):
+        N_POINTS = DISTANCES.shape[0]
+        REACHABILITY_DISTANCES = np.full(N_POINTS, np.inf)
+        for POINT in range(N_POINTS):
+            if CORE_DISTANCES[POINT] < np.inf:
+                NEIGHBORHOOD = np.where(DISTANCES[POINT] <= EPSILON)[0]
+                REACHABILITY_DISTANCES[POINT] = np.max(np.maximum(CORE_DISTANCES[POINT], DISTANCES[POINT][NEIGHBORHOOD]))
+        return REACHABILITY_DISTANCES
 
-        return reachability_distances
+    def __EXTRACT_CLUSTERS__(DISTANCES, REACHABILITY_DISTANCES, EPSILON, CORE_DISTANCES):
+        N_POINTS = DISTANCES.shape[0]
+        ORDERED_POINTS = np.argsort(REACHABILITY_DISTANCES)
+        CLUSTERS = []
+        for POINT in ORDERED_POINTS:
+            if REACHABILITY_DISTANCES[POINT] > EPSILON:
+                if CORE_DISTANCES[POINT] <= EPSILON:
+                    CURRENT_CLUSTER = [POINT]
+                    IDX = np.where(ORDERED_POINTS == POINT)[0][0] + 1
+                    while IDX < N_POINTS and REACHABILITY_DISTANCES[ORDERED_POINTS[IDX]] <= EPSILON:
+                        CURRENT_CLUSTER.append(ORDERED_POINTS[IDX])
+                        IDX += 1
+                    CLUSTERS.append(CURRENT_CLUSTER)
+        return CLUSTERS
 
-    def extract_clusters(distances, reachability_distances, epsilon, core_distances):
-        n_points = distances.shape[0]
-        ordered_points = np.argsort(reachability_distances)
-        clusters = []
+    DISTANCES = __CALCULATE_DISTANCES__(X)
+    if EPSILON is None:
+        AVG_DISTANCE = np.mean(DISTANCES)
+        EPSILON = AVG_DISTANCE * 0.5
+    CORE_DISTANCES = __CALCULATE_CORE_DISTANCES__(DISTANCES, MIN_SAMPLES)
+    REACHABILITY_DISTANCES = __CALCULATE_REACHABILITY_DISTANCES__(DISTANCES, CORE_DISTANCES, EPSILON)
+    CLUSTERS = __EXTRACT_CLUSTERS__(DISTANCES, REACHABILITY_DISTANCES, EPSILON, CORE_DISTANCES)
+    return CLUSTERS
 
-        for point in ordered_points:
-            if reachability_distances[point] > epsilon:
-                if core_distances[point] <= epsilon:
-                    current_cluster = [point]
+def PDIST(X):
+    N = X.shape[0]
+    PAIRWISE_DISTANCES = np.zeros((N * (N - 1)) // 2)
+    IDX = 0
+    for i in range(N - 1):
+        for j in range(i + 1, N):
+            DISTANCE = np.sqrt(np.sum((X[i] - X[j]) ** 2))
+            PAIRWISE_DISTANCES[IDX] = DISTANCE
+            IDX += 1
+    return PAIRWISE_DISTANCES
 
-                    # Expand the cluster
-                    index = np.where(ordered_points == point)[0][0] + 1
-                    while index < n_points and reachability_distances[ordered_points[index]] <= epsilon:
-                        current_cluster.append(ordered_points[index])
-                        index += 1
-
-                    clusters.append(current_cluster)
-
-        return clusters
-
-    # Calculate distances
-    distances = calculate_distances(data)
-
-    # Calculate core distances
-    core_distances = calculate_core_distances(distances, min_samples)
-
-    # Calculate reachability distances
-    reachability_distances = calculate_reachability_distances(distances, core_distances, epsilon)
-
-    # Extract clusters
-    clusters = extract_clusters(distances, reachability_distances, epsilon, core_distances)
-
-    return clusters
-
-def pdist(X):
-    n = X.shape[0]
-    pairwise_distances = np.zeros((n * (n - 1)) // 2)
-
-    index = 0
-    for i in range(n - 1):
-        for j in range(i + 1, n):
-            distance = np.sqrt(np.sum((X[i] - X[j]) ** 2))
-            pairwise_distances[index] = distance
-            index += 1
-
-    return pairwise_distances
-
-def squareform(pairwise_distances):
-    n = int(np.sqrt(2 * len(pairwise_distances)) + 0.5)
-    square_distances = np.zeros((n, n))
-
-    index = 0
-    for i in range(n - 1):
-        for j in range(i + 1, n):
-            square_distances[i, j] = pairwise_distances[index]
-            square_distances[j, i] = pairwise_distances[index]
-            index += 1
-
-    return square_distances
+def SQUAREFORM(PAIRWISE_DISTANCES):
+    N = int(np.sqrt(2 * len(PAIRWISE_DISTANCES)) + 0.5)
+    SQUARE_DISTANCES = np.zeros((N, N))
+    IDX = 0
+    for i in range(N - 1):
+        for j in range(i + 1, N):
+            SQUARE_DISTANCES[i, j] = PAIRWISE_DISTANCES[IDX]
+            SQUARE_DISTANCES[j, i] = PAIRWISE_DISTANCES[IDX]
+            IDX += 1
+    return SQUARE_DISTANCES
