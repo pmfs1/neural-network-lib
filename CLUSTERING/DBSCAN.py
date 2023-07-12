@@ -1,7 +1,7 @@
 import numpy as np
 
 def DBSCAN(X, MIN_SAMPLES=5, EPSILON=0.5):
-    N_SAMPLES, N_FEATURES = X.shape
+    N_SAMPLES = X.shape[0]
     LABELS = np.zeros(N_SAMPLES, dtype=int)
     CLUSTER_ID = 0
 
