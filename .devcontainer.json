@@ -60,17 +60,7 @@
                 "python.analysis.inlayHints.functionReturnTypes": false,
                 "python.analysis.inlayHints.callArgumentNames": false,
                 "python.globalModuleInstallation": true
-            },
-			"extensions": [
-				"ms-python.python",
-				"ms-python.vscode-pylance",
-				"ms-python.autopep8",
-				"GitHub.copilot-labs",
-				"GitHub.copilot-nightly",
-				"GitHub.copilot-chat",
-				"ms-python.pylint",
-				"ms-azuretools.vscode-docker"
-			]
+            }
 		}
 	}
 }
