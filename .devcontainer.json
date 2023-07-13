@@ -8,9 +8,6 @@
 		"--security-opt",
 		"seccomp=unconfined"
 	],
-	"features": {
-		"ghcr.io/devcontainers/features/git:1": {}
-	},
 	"customizations": {
 		"vscode": {
 			"settings": {
