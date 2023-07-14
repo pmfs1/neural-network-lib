@@ -1,7 +1,7 @@
 {
 	"name": "PYTHON",
 	"build": {
-		"dockerfile": "Dockerfile"
+		"dockerfile": "../Dockerfile"
 	},
 	"runArgs": [
 		"--cap-add=SYS_PTRACE",
@@ -57,7 +57,15 @@
                 "python.analysis.inlayHints.functionReturnTypes": false,
                 "python.analysis.inlayHints.callArgumentNames": false,
                 "python.globalModuleInstallation": true
-            }
+			},
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"yzhang.markdown-all-in-one",
+				"GitHub.copilot",
+				"ms-azuretools.vscode-docker",
+				"ms-python.autopep8"
+			]
 		}
 	}
 }
